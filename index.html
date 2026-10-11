@@ -2,580 +2,665 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telegram Bot Tester Pro Max</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2aabee" id="metaTheme">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Bot Studio</title>
 <style>
-:root{--p:#0088cc;--pd:#006699;--pl:#e6f4fb;--ok:#059669;--err:#dc2626;--warn:#d97706;--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);--r:14px;--rs:9px}
-[data-theme=dark]{--bg:#0b1220;--card:#151e2e;--text:#e8eef7;--muted:#8b9bb4;--border:#243044;--pl:#0c2d48;--shadow:0 1px 3px rgba(0,0,0,.3),0 4px 20px rgba(0,0,0,.35)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;transition:background .25s,color .25s}
-.app{max-width:1280px;margin:0 auto;padding:18px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;box-shadow:var(--shadow)}
-.header-left{display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0088cc,#00b4ff);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 4px 14px rgba(0,136,204,.35)}
-.header h1{font-size:18px;font-weight:700;letter-spacing:-.3px}
-.header-sub{font-size:12px;color:var(--muted);margin-top:1px}
-.header-actions{display:flex;gap:6px;flex-wrap:wrap}
-.btn-icon{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 11px;cursor:pointer;font-size:12.5px;color:var(--text);display:flex;align-items:center;gap:5px;transition:all .15s;font-family:inherit}
-.btn-icon:hover{border-color:var(--p);background:var(--pl);color:var(--p)}
-.layout{display:grid;grid-template-columns:290px 1fr;gap:16px}
-@media(max-width:960px){.layout{grid-template-columns:1fr}}
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px}
-.card-h{padding:11px 15px;border-bottom:1px solid var(--border);font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:7px;background:linear-gradient(180deg,var(--pl),transparent);color:var(--p)}
-.card-b{padding:14px}
-.fg{margin-bottom:12px}.fg:last-child{margin-bottom:0}
-label{display:block;margin-bottom:4px;font-weight:500;font-size:12.5px}
-.lr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-input[type=text],input[type=number],input[type=url],input[type=password],textarea,select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;background:var(--bg);color:var(--text);font-family:inherit;transition:border-color .15s,box-shadow .15s}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(0,136,204,.12)}
-textarea{resize:vertical;min-height:78px}
-.note{font-size:11px;color:var(--muted);margin-top:3px}
-.btn{padding:8px 13px;border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
-.btn:active{transform:scale(.98)}
-.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}.btn-p:disabled{opacity:.55;cursor:not-allowed}
-.btn-s{background:var(--bg);color:var(--text);border:1px solid var(--border)}.btn-s:hover{border-color:var(--p);background:var(--pl);color:var(--p)}
-.btn-d{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}.btn-d:hover{background:#fee2e2}
-.btn-ok{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
-.btn-w{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
-.btn-block{width:100%}.btn-sm{padding:5px 9px;font-size:11.5px}
-.bg{display:flex;gap:6px;flex-wrap:wrap}
-.tabs{display:flex;gap:2px;padding:5px;background:var(--bg);border-radius:10px;margin-bottom:13px;overflow-x:auto;scrollbar-width:thin}
-.tab{padding:7px 11px;border:none;background:transparent;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .15s;font-family:inherit}
-.tab:hover{color:var(--text);background:var(--card)}
-.tab.active{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(0,136,204,.3)}
-.tc{display:none}.tc.active{display:block;animation:fadeIn .2s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.cg{display:flex;flex-wrap:wrap;gap:10px;margin-top:5px}
-.ci{display:flex;align-items:center;gap:5px;font-size:12.5px;cursor:pointer}
-.ci input{width:14px;height:14px;accent-color:var(--p)}
-.result{padding:10px 13px;border-radius:var(--rs);font-size:12.5px;display:none;margin-top:12px;word-break:break-word}
-.result.ok{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;display:block}
-.result.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;display:block}
-.result.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;display:block}
-[data-theme=dark] .result.ok{background:#064e3b;color:#6ee7b7;border-color:#065f46}
-[data-theme=dark] .result.err{background:#7f1d1d;color:#fca5a5;border-color:#991b1b}
-[data-theme=dark] .result.info{background:#1e3a5f;color:#93c5fd;border-color:#1e40af}
-.log-box{max-height:240px;overflow-y:auto;font-size:11.5px;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:6px}
-.log-item{padding:4px 7px;border-bottom:1px solid var(--border);display:flex;gap:7px;align-items:flex-start}
-.log-item:last-child{border-bottom:none}
-.log-time{color:var(--muted);white-space:nowrap;font-size:10.5px;min-width:58px}
-.log-ok{color:var(--ok)}.log-err{color:var(--err)}
-.fzone{border:2px dashed var(--border);border-radius:var(--rs);padding:16px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg)}
-.fzone:hover,.fzone.over{border-color:var(--p);background:var(--pl)}
-.fzone input{display:none}
-.fname{font-size:12px;color:var(--p);margin-top:5px;font-weight:500}
-.kb-row{display:flex;gap:5px;margin-bottom:5px;flex-wrap:wrap}
-.kb-btn{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:11.5px;display:flex;align-items:center;gap:3px}
-.kb-btn button{background:none;border:none;color:var(--err);cursor:pointer;font-size:13px}
-.char{font-size:11px;color:var(--muted)}.char.warn{color:var(--warn)}.char.over{color:var(--err)}
-.info-box{background:var(--bg);border-radius:var(--rs);padding:10px;font-size:12.5px;line-height:1.65}
-.info-box strong{color:var(--p)}
-.item{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:8px 11px;margin-bottom:5px;cursor:pointer;transition:all .12s;font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
-.item:hover{border-color:var(--p);background:var(--pl)}
-.cid{font-weight:600;color:var(--p);font-size:12.5px}
-.sec{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:13px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--border)}
-.token-w{position:relative}
-.token-t{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px}
-.prog{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:7px 0;display:none}
-.prog-f{height:100%;background:linear-gradient(90deg,var(--p),#00b4ff);border-radius:3px;width:0%;transition:width .25s}
-.badge{display:inline-block;padding:1px 7px;border-radius:8px;font-size:10.5px;font-weight:600;background:var(--pl);color:var(--p)}
-.sub-list{max-height:200px;overflow-y:auto}
-.stats{display:flex;gap:8px;margin-bottom:10px}
-.stat{flex:1;background:var(--bg);border-radius:var(--rs);padding:9px;text-align:center;border:1px solid var(--border)}
-.stat .n{font-size:18px;font-weight:700;color:var(--p)}.stat .l{font-size:10.5px;color:var(--muted)}
-.mdh{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px}
-.mdh button{padding:2px 6px;font-size:11px;border:1px solid var(--border);background:var(--bg);border-radius:4px;cursor:pointer;color:var(--text);font-family:inherit;font-weight:600}
-.mdh button:hover{border-color:var(--p);background:var(--pl);color:var(--p)}
-.hist-item{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:7px 10px;margin-bottom:5px;font-size:12px}
-.hist-item .hid{color:var(--p);font-weight:600;cursor:pointer}
-.hist-item .ht{color:var(--muted);font-size:11px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tpl-item{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:5px;font-size:12.5px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.tpl-item:hover{border-color:var(--p);background:var(--pl)}
-.preview{background:#1a2332;color:#e2e8f0;border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;margin-top:8px;display:none;border:1px solid #2d3a4f}
-.preview.show{display:block}
-.preview b{color:#fff}.preview i{color:#a5b4fc}.preview code{background:#0f172a;padding:1px 4px;border-radius:3px;font-size:12px}
-.toast{position:fixed;bottom:20px;right:20px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);font-size:13px;z-index:999;max-width:320px;animation:slideUp .25s ease;display:none}
-.toast.show{display:block}
-@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.copy-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:0 3px}
-.copy-btn:hover{color:var(--p)}
-@media(max-width:600px){.app{padding:10px}.header{padding:12px}.header h1{font-size:16px}.card-b{padding:12px}}
+:root{--bg:#f2f4f8;--card:#fff;--tx:#0e1621;--mu:#6b7a90;--bd:#e3e8ef;--br:#2aabee;--br2:#1b8fd0;--brl:#e5f4fd;--ok:#16a34a;--er:#e11d48;--wa:#f59e0b;--in:#f6f8fb;--sh:0 1px 2px rgba(14,22,33,.05),0 6px 20px rgba(14,22,33,.06);--nav:62px;--sa:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px);--bub:#e8f6ff}
+[data-t=dark]{--bg:#0b121b;--card:#142030;--tx:#e9eff7;--mu:#8ea0b8;--bd:#223247;--brl:#0f2a40;--in:#0f1a28;--sh:0 1px 2px #0006,0 6px 20px #0005;--bub:#17324a}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.45;font-size:15px;min-height:100vh;overscroll-behavior-y:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.mu{color:var(--mu);font-size:12.5px}
+.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--st)) 12px 8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#2aabee,#229ed9 55%,#6c7bff);display:grid;place-items:center;color:#fff;font-size:17px;flex:none;box-shadow:0 4px 12px rgba(42,171,238,.4)}
+.botchip{flex:1;min-width:0;display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:12px;background:var(--card);border:1px solid var(--bd);text-align:left}
+.botchip span:nth-child(2){min-width:0;flex:1;display:flex;flex-direction:column;line-height:1.2}
+.botchip b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.botchip small{font-size:11px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.botchip i{color:var(--mu);font-style:normal;font-size:11px}
+.dot{width:9px;height:9px;border-radius:50%;background:#9aa7b8;flex:none}.dot.on{background:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.18)}.dot.live{animation:pulse 1.6s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(22,163,74,0)}}
+.ib{width:38px;height:38px;border-radius:11px;background:var(--card);border:1px solid var(--bd);display:grid;place-items:center;font-size:16px;flex:none;position:relative}
+main{padding:12px 12px calc(var(--nav) + var(--sa) + 24px);max-width:720px;margin:0 auto}
+.view{display:none}.view.on{display:block;animation:up .22s ease}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
+.card h3{font-size:13px;color:var(--mu);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px}
+.card h3 .sp{flex:1}
+.hero{background:linear-gradient(135deg,#2aabee,#1b7fd0 60%,#6c63ff);color:#fff;border:0;position:relative;overflow:hidden}
+.hero:after{content:"✈";position:absolute;right:-8px;bottom:-26px;font-size:120px;opacity:.12;transform:rotate(-15deg)}
+.hero h2{font-size:18px}.hero p{opacity:.9;font-size:13px;margin:2px 0 12px}
+.hero .btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.grid{display:grid;gap:10px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.stat{background:var(--in);border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px;color:var(--br)}.stat span{font-size:11px;color:var(--mu)}
+.tile{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;border-radius:14px;background:var(--in);border:1px solid var(--bd);font-size:11.5px;font-weight:600;text-align:center;min-height:74px;justify-content:center}
+.tile i{font-style:normal;font-size:22px}.tile:active{transform:scale(.96);background:var(--brl)}
+.lrow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--bd);width:100%;text-align:left}
+.lrow:last-child{border:0}.lrow .ic{width:38px;height:38px;border-radius:12px;background:var(--brl);display:grid;place-items:center;font-size:19px;flex:none}
+.lrow b{display:block;font-size:14.5px}.lrow small{color:var(--mu);font-size:12px}.lrow .ar{margin-left:auto;color:var(--mu)}
+.fl{display:block;margin-bottom:11px;font-size:12.5px;font-weight:600;color:var(--mu)}
+.fl>input,.fl>select,.fl>textarea,.inp{display:block;width:100%;margin-top:5px;padding:12px;border:1px solid var(--bd);border-radius:12px;background:var(--in);color:var(--tx);font-size:16px;font-weight:400;outline:0}
+textarea{resize:vertical;min-height:90px}
+.fl>input:focus,.fl>select:focus,.fl>textarea:focus,.inp:focus{border-color:var(--br);box-shadow:0 0 0 3px rgba(42,171,238,.18)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 16px;min-height:44px;border-radius:12px;font-weight:600;font-size:14.5px;background:var(--in);border:1px solid var(--bd);transition:.12s}
+.btn:active{transform:scale(.97)}.btn.p{background:var(--br);border-color:var(--br);color:#fff}.btn.d{background:#fff1f3;color:var(--er);border-color:#fecdd6}[data-t=dark] .btn.d{background:#3a1520;border-color:#5b1f2e}
+.btn.ok{background:#ecfdf3;color:var(--ok);border-color:#bbf0d0}[data-t=dark] .btn.ok{background:#0f2e1d;border-color:#14532d}
+.btn.w{width:100%}.btn.sm{min-height:34px;padding:0 11px;font-size:12.5px;border-radius:10px}.btn:disabled{opacity:.55}.btn.ld:after{content:"";width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.row{display:flex;gap:8px;align-items:center}.row.wrap{flex-wrap:wrap}.row>.grow{flex:1;min-width:0}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 13px;border-radius:20px;background:var(--card);border:1px solid var(--bd);font-size:13px;font-weight:600;color:var(--mu)}
+.chip.on{background:var(--br);color:#fff;border-color:var(--br)}
+.tg{display:inline-block}.tg input{display:none}.tg span{display:inline-block;padding:8px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--in);font-size:13px}.tg input:checked+span{background:var(--brl);border-color:var(--br);color:var(--br);font-weight:600}
+.rcpt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:11px 14px}
+.rcpt .ic{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7cc8f5,#2aabee);display:grid;place-items:center;color:#fff;font-weight:700;flex:none}
+.rcpt div{flex:1;min-width:0}.rcpt small{color:var(--mu);font-size:11.5px;display:block}.rcpt b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rcpt em{font-style:normal;color:var(--br);font-weight:600;font-size:13px}
+.panel{display:none}.panel.on{display:block}
+.tb{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}.tb::-webkit-scrollbar{display:none}
+.tb button{flex:none;min-width:38px;height:36px;padding:0 10px;border-radius:10px;border:1px solid var(--bd);background:var(--in);font-weight:700;font-size:13px}
+.tb button:active{background:var(--brl)}
+.cnt{font-size:11.5px;color:var(--mu);text-align:right;margin-top:-6px;margin-bottom:8px}.cnt.w{color:var(--wa)}.cnt.e{color:var(--er)}
+.bubble{background:var(--bub);border-radius:14px 14px 14px 4px;padding:9px 12px;max-width:92%;word-break:break-word;font-size:14.5px;position:relative;display:inline-block}
+.bubble time{display:block;text-align:right;font-size:10.5px;color:var(--mu);margin-top:2px}
+.bubble code,.bubble pre{background:rgba(0,0,0,.08);border-radius:5px;padding:1px 5px;font-family:ui-monospace,Menlo,monospace;font-size:13px}.bubble pre{display:block;padding:7px 9px;white-space:pre-wrap}
+.bubble a{color:var(--br)}.bubble blockquote{border-left:3px solid var(--br);padding-left:8px;margin:3px 0}.spo{background:var(--mu);color:transparent;border-radius:4px;cursor:pointer}.spo:active{color:inherit;background:transparent}
+.pvk{display:flex;flex-direction:column;gap:4px;margin-top:5px;max-width:92%}.pvk div{display:flex;gap:4px}.pvk span{flex:1;text-align:center;background:rgba(42,171,238,.18);color:var(--br);border-radius:8px;padding:6px;font-size:13px;font-weight:600}
+.kbr{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}.kbb{display:inline-flex;align-items:center;gap:6px;background:var(--brl);color:var(--br);border-radius:10px;padding:5px 5px 5px 11px;font-size:13px;font-weight:600}
+.kbb em{font-style:normal;font-size:11px}.kbb button{width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.08);color:var(--tx);font-size:13px;line-height:1}
+.dock{position:sticky;bottom:calc(var(--nav) + var(--sa) + 8px);display:flex;gap:8px;padding:8px;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:18px;box-shadow:var(--sh);z-index:20}
+.dock .btn.p{flex:1;min-height:48px;font-size:15.5px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--bd);padding-bottom:var(--sa)}
+.nav button{flex:1;height:var(--nav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mu);font-size:10.5px;font-weight:600;position:relative}
+.nav button i{font-style:normal;font-size:21px;filter:grayscale(1);opacity:.75;transition:.15s}
+.nav button.on{color:var(--br)}.nav button.on i{filter:none;opacity:1;transform:translateY(-1px) scale(1.08)}
+.bdg{position:absolute;top:7px;left:calc(50% + 6px);min-width:17px;height:17px;border-radius:9px;background:var(--er);color:#fff;font-size:10px;display:none;place-items:center;padding:0 4px;font-style:normal}.bdg.on{display:grid}
+.sw{position:relative;width:48px;height:28px;flex:none}.sw input{display:none}.sw span{position:absolute;inset:0;background:#b5c0cf;border-radius:14px;transition:.2s}.sw span:after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}.sw input:checked+span{background:var(--ok)}.sw input:checked+span:after{transform:translateX(20px)}
+.bd{position:fixed;inset:0;background:rgba(5,12,20,.5);z-index:60;opacity:0;pointer-events:none;transition:.2s}.bd.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--bg);border-radius:22px 22px 0 0;max-height:88vh;display:flex;flex-direction:column;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);padding-bottom:var(--sa);max-width:720px;margin:0 auto}
+.sheet.on{transform:none}.sheet .grab{width:42px;height:5px;border-radius:3px;background:var(--bd);margin:9px auto 4px;flex:none}
+.sheet .sh{display:flex;align-items:center;padding:6px 16px 10px}.sheet .sh h2{flex:1;font-size:17px}
+.sheet .sb{overflow-y:auto;padding:4px 14px 18px;flex:1}
+.page{position:fixed;inset:0;z-index:65;background:var(--bg);transform:translateX(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow-y:auto;overscroll-behavior:contain}
+.page.on{transform:none}
+.ph{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--st)) 12px 8px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+.ph h2{font-size:17px;flex:1}.pb{padding:12px 12px calc(30px + var(--sa));max-width:720px;margin:0 auto}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav) + var(--sa) + 76px);transform:translate(-50%,20px);background:#0e1621;color:#fff;padding:11px 16px;border-radius:14px;font-size:13.5px;z-index:99;opacity:0;pointer-events:none;transition:.22s;max-width:90vw;box-shadow:0 8px 24px rgba(0,0,0,.35);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}.toast.ok{background:#0f7a3a}.toast.err{background:#be123c}
+.dlg{position:fixed;inset:0;z-index:100;background:rgba(5,12,20,.55);display:none;align-items:center;justify-content:center;padding:18px}.dlg.on{display:flex}
+.dbox{background:var(--card);border-radius:20px;padding:18px;width:100%;max-width:420px;max-height:86vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.dbox h3{font-size:17px;margin-bottom:6px}.dbox p{color:var(--mu);font-size:14px;margin-bottom:12px}.drow{display:flex;gap:8px;margin-top:6px}.drow .btn{flex:1}
+.ci{display:flex;align-items:center;gap:11px;padding:10px 4px;border-bottom:1px solid var(--bd);width:100%;text-align:left}.ci:last-child{border:0}
+.av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#8fd3f7,#2aabee);color:#fff;display:grid;place-items:center;font-weight:700;flex:none;font-size:16px}
+.av.g{background:linear-gradient(135deg,#ffb36b,#ff6b8b)}.ci .m{flex:1;min-width:0}.ci .m b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci .m small{color:var(--mu);font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci .r{text-align:right;font-size:11px;color:var(--mu);display:flex;flex-direction:column;align-items:flex-end;gap:3px}.ub{background:var(--br);color:#fff;border-radius:10px;min-width:20px;height:20px;display:grid;place-items:center;font-size:11px;font-weight:700;padding:0 5px}
+.thr{display:flex;flex-direction:column;gap:7px;padding:4px 0 80px}.msg{max-width:84%;padding:8px 11px;border-radius:15px;font-size:14.5px;word-break:break-word;background:var(--card);border:1px solid var(--bd)}.msg.o{align-self:flex-end;background:var(--br);color:#fff;border-color:var(--br)}
+.msg small{display:block;font-size:10.5px;opacity:.65;margin-top:2px}.msg .fr{font-size:11.5px;font-weight:700;color:var(--br);display:block}
+.comp{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px calc(10px + var(--sa));background:var(--bg);border-top:1px solid var(--bd);max-width:720px;margin:0 auto}
+.comp input{flex:1;padding:12px 14px;border-radius:22px;border:1px solid var(--bd);background:var(--card);font-size:16px;outline:0}.comp .btn{border-radius:50%;width:46px;min-height:46px;padding:0}
+.log{font-size:12.5px;display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)}.log time{color:var(--mu);font-size:11px;flex:none;width:58px}.log.ok span{color:var(--ok)}.log.err span{color:var(--er)}
+.bar{height:10px;background:var(--bd);border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2aabee,#6c63ff);transition:width .2s}
+.out{white-space:pre-wrap;word-break:break-word;background:#0b1220;color:#b9f6ca;border-radius:12px;padding:12px;font:12px/1.5 ui-monospace,Menlo,monospace;max-height:340px;overflow:auto;margin-top:8px}
+.empty{text-align:center;padding:26px 12px;color:var(--mu)}.empty i{display:block;font-style:normal;font-size:40px;margin-bottom:6px}
+.seg{display:flex;background:var(--in);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:11px}.seg button{flex:1;padding:8px;border-radius:9px;font-size:13px;font-weight:600;color:var(--mu)}.seg button.on{background:var(--card);color:var(--br);box-shadow:var(--sh)}
+.emo{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}.emo button{font-size:24px;height:44px;border-radius:10px}.emo button:active{background:var(--brl)}
+.tag{display:inline-block;padding:2px 8px;border-radius:8px;background:var(--brl);color:var(--br);font-size:11px;font-weight:700}
+.fz{border:2px dashed var(--bd);border-radius:14px;padding:18px;text-align:center;background:var(--in);color:var(--mu);font-size:13.5px}.fz b{color:var(--br)}
+details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;background:var(--card)}details.acc summary{padding:12px 14px;font-weight:600;font-size:14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}details.acc summary:after{content:"＋";color:var(--br)}details.acc[open] summary:after{content:"−"}details.acc>div{padding:0 14px 14px}
+@media(min-width:760px){.nav{max-width:720px;left:50%;transform:translateX(-50%);border-radius:18px 18px 0 0;border:1px solid var(--bd)}.page{left:50%;right:auto;width:720px;transform:translateX(120%);border-left:1px solid var(--bd)}.page.on{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
-<div class="app">
-<div class="header">
-  <div class="header-left">
-    <div class="logo">✈️</div>
-    <div><h1>Telegram Bot Tester Pro Max</h1><div class="header-sub">Bot API đầy đủ · Broadcast · Admin · Templates · Multi-profile</div></div>
-  </div>
-  <div class="header-actions">
-    <button class="btn-icon" onclick="toggleTheme()"><span id="themeIcon">🌙</span></button>
-    <button class="btn-icon" onclick="exportAll()">💾 Export</button>
-    <button class="btn-icon" onclick="importAll()">📥 Import</button>
-    <button class="btn-icon" onclick="clearAll()">🗑️ Reset</button>
-  </div>
-</div>
+<header class="top">
+  <div class="logo">✈</div>
+  <button class="botchip" onclick="openBot()"><span class="dot" id="hDot"></span><span><b id="hName">Bot chính</b><small id="hSub">Chưa kết nối</small></span><i>▾</i></button>
+  <button class="ib" onclick="openSheet('sh-log')" title="Nhật ký">🧾</button>
+  <button class="ib" onclick="cycleTheme()" id="hTheme">🌓</button>
+</header>
 
-<div class="layout">
-<!-- LEFT -->
-<div>
-  <div class="card">
-    <div class="card-h">⚙️ Cấu hình</div>
-    <div class="card-b">
-      <div class="fg">
-        <label>Hồ sơ Bot</label>
-        <select id="profileSel" onchange="switchProfile()"></select>
-        <div class="bg" style="margin-top:5px">
-          <button class="btn btn-sm btn-s" onclick="addProfile()">+ Hồ sơ</button>
-          <button class="btn btn-sm btn-d" onclick="delProfile()">Xóa</button>
-        </div>
-      </div>
-      <div class="fg">
-        <label>Bot Token</label>
-        <div class="token-w">
-          <input type="password" id="botToken" placeholder="123456:ABC..." oninput="saveData()">
-          <button class="token-t" onclick="toggleToken()">👁️</button>
-        </div>
-      </div>
-      <div class="fg">
-        <label>Gửi tới</label>
-        <select id="chatType" onchange="toggleChatLabel();saveData()">
-          <option value="private">Cá nhân</option>
-          <option value="group">Nhóm / Channel</option>
-        </select>
-      </div>
-      <div class="fg">
-        <div class="lr"><label id="chatIdLabel">Chat ID</label><button class="btn btn-sm btn-s" onclick="fetchUpdates()">🔍 Tìm</button></div>
-        <input type="text" id="chatId" placeholder="ID..." oninput="saveData()">
-      </div>
-      <div class="bg" style="margin-top:8px">
-        <button class="btn btn-sm btn-s" onclick="getMe()">🤖 Bot</button>
-        <button class="btn btn-sm btn-s" onclick="getChat()">💬 Chat</button>
-        <button class="btn btn-sm btn-s" onclick="getChatMemberCount()">👥 TV</button>
+<main>
+<!-- HOME -->
+<section class="view on" id="v-home"><div id="homeBody"></div></section>
+
+<!-- SEND -->
+<section class="view" id="v-send">
+  <button class="card rcpt" onclick="openChats()"><span class="ic" id="rcAv">?</span><div><small>Gửi tới</small><b id="rcName">Chọn cuộc trò chuyện</b></div><em>Đổi</em></button>
+  <div class="chips" id="sendChips">
+    <button class="chip on" data-p="text" onclick="sendPanel('text')">📝 Văn bản</button>
+    <button class="chip" data-p="media" onclick="sendPanel('media')">🖼 Media</button>
+    <button class="chip" data-p="album" onclick="sendPanel('album')">🗂 Album</button>
+    <button class="chip" data-p="poll" onclick="sendPanel('poll')">📊 Bình chọn</button>
+    <button class="chip" data-p="loc" onclick="sendPanel('loc')">📍 Vị trí</button>
+    <button class="chip" data-p="contact" onclick="sendPanel('contact')">📞 Liên hệ</button>
+    <button class="chip" data-p="dice" onclick="sendPanel('dice')">🎲 Dice</button>
+  </div>
+  <details class="acc"><summary>⚙️ Tùy chọn gửi</summary><div>
+    <div class="row wrap" style="margin-bottom:10px">
+      <label class="tg"><input type="checkbox" id="oSil"><span>🔇 Im lặng</span></label>
+      <label class="tg"><input type="checkbox" id="oPro"><span>🔒 Chặn chuyển tiếp</span></label>
+      <label class="tg"><input type="checkbox" id="oNop"><span>🚫 Tắt xem trước link</span></label>
+    </div>
+    <div class="grid g2"><label class="fl">ID tin cần trả lời<input type="text" inputmode="numeric" id="oRep" placeholder="VD: 123"></label><label class="fl">ID Topic (nhóm diễn đàn)<input type="text" inputmode="numeric" id="oThr" placeholder="VD: 5"></label></div>
+  </div></details>
+
+  <div class="panel on" id="sp-text">
+    <div class="card">
+      <div class="tb" id="fmtBar"></div>
+      <textarea id="message" class="inp" style="min-height:130px;margin:0 0 6px" placeholder="Nhập nội dung tin nhắn… (Ctrl+Enter để gửi)" oninput="onMsg()"></textarea>
+      <div class="cnt" id="charCount">0 / 4096</div>
+      <div class="row wrap" style="margin-bottom:6px">
+        <select id="parseMode" class="inp grow" style="margin:0" onchange="onMsg();fmtBar()"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="">Văn bản thường</option></select>
+        <button class="btn" onclick="openEmoji('message')">😊</button>
+        <button class="btn" onclick="openVars()">{ }</button>
+        <button class="btn" onclick="openTpls()">📋</button>
       </div>
     </div>
+    <div class="card"><h3>⌨️ Nút bấm dưới tin <span class="sp"></span><button class="btn sm" onclick="addKbBtn()">+ Nút</button><button class="btn sm" onclick="addKbRow()">+ Hàng</button></h3><div id="kbEd"></div></div>
+    <div class="card"><h3>👁 Xem trước</h3><div class="bubble" id="prevB"></div><div class="pvk" id="prevK"></div></div>
+    <div class="dock"><button class="btn" onclick="schedDlg()">⏰</button><button class="btn" onclick="saveTpl()">💾</button><button class="btn p" onclick="run(this,sendText)">Gửi ➤</button></div>
   </div>
-  <div class="card">
-    <div class="card-h">👥 Người dùng</div>
-    <div class="card-b">
-      <div class="stats">
-        <div class="stat"><div class="n" id="subCount">0</div><div class="l">User</div></div>
-        <div class="stat"><div class="n" id="groupCount">0</div><div class="l">Nhóm</div></div>
-        <div class="stat"><div class="n" id="histCount">0</div><div class="l">Lịch sử</div></div>
-      </div>
-      <div class="bg">
-        <button class="btn btn-sm btn-s" onclick="collectSubs()">📥 Thu thập</button>
-        <button class="btn btn-sm btn-s" onclick="switchTab('broadcast')">📢 Broadcast</button>
-      </div>
-    </div>
-  </div>
-  <div class="card" id="sidePanel" style="display:none">
-    <div class="card-h" id="sideTitle">📋 Info</div>
-    <div class="card-b" id="sideBody"></div>
-  </div>
-</div>
 
-<!-- RIGHT -->
-<div>
-  <div class="card">
-    <div class="card-h">🚀 Thao tác</div>
-    <div class="card-b">
-      <div class="tabs">
-        <button class="tab active" data-tab="text" onclick="switchTab('text')">📝 Text</button>
-        <button class="tab" data-tab="media" onclick="switchTab('media')">🖼️ Media</button>
-        <button class="tab" data-tab="broadcast" onclick="switchTab('broadcast')">📢 Broadcast</button>
-        <button class="tab" data-tab="templates" onclick="switchTab('templates')">📋 Mẫu</button>
-        <button class="tab" data-tab="location" onclick="switchTab('location')">📍 Vị trí</button>
-        <button class="tab" data-tab="poll" onclick="switchTab('poll')">📊 Poll</button>
-        <button class="tab" data-tab="admin" onclick="switchTab('admin')">👑 Admin</button>
-        <button class="tab" data-tab="advanced" onclick="switchTab('advanced')">⚡ Nâng cao</button>
-        <button class="tab" data-tab="manage" onclick="switchTab('manage')">🛠️ Quản lý</button>
-        <button class="tab" data-tab="history" onclick="switchTab('history')">📜 Lịch sử</button>
-        <button class="tab" data-tab="webhook" onclick="switchTab('webhook')">🔗 Webhook</button>
-      </div>
-
-      <!-- TEXT -->
-      <div id="tab-text" class="tc active">
-        <div class="fg">
-          <div class="lr"><label>Nội dung</label><span class="char" id="charCount">0/4096</span></div>
-          <div class="mdh">
-            <button type="button" onclick="insFmt('**','**')">B</button>
-            <button type="button" onclick="insFmt('_','_')"><i>I</i></button>
-            <button type="button" onclick="insFmt('`','`')">Code</button>
-            <button type="button" onclick="insFmt('[','](url)')">Link</button>
-            <button type="button" onclick="insFmt('<b>','</b>')">HTML B</button>
-            <button type="button" onclick="insFmt('<i>','</i>')">HTML I</button>
-            <button type="button" onclick="insFmt('<code>','</code>')">HTML Code</button>
-            <button type="button" onclick="togglePreview()">👁️ Preview</button>
-          </div>
-          <textarea id="message" placeholder="Nội dung... (Ctrl+Enter)" oninput="updateChar();updatePreview()" onkeydown="onKey(event)">Xin chào từ <b>Bot Tester Pro Max</b> 🚀</textarea>
-          <div class="preview" id="msgPreview"></div>
-        </div>
-        <div class="fg">
-          <label>Parse Mode</label>
-          <select id="parseMode" onchange="updatePreview()">
-            <option value="">Không</option><option value="Markdown">Markdown</option>
-            <option value="MarkdownV2">MarkdownV2</option><option value="HTML" selected>HTML</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Tùy chọn</label>
-          <div class="cg">
-            <label class="ci"><input type="checkbox" id="optSilent"> 🔇 Im lặng</label>
-            <label class="ci"><input type="checkbox" id="optProtect"> 🔒 Bảo vệ</label>
-            <label class="ci"><input type="checkbox" id="optNoPreview"> 🚫 Tắt link preview</label>
-          </div>
-        </div>
-        <div class="fg"><label>Reply Message ID</label><input type="text" id="replyId" placeholder="ID tin nhắn"></div>
-        <div class="sec">Inline Keyboard</div>
-        <div class="bg" style="margin-bottom:6px">
-          <button class="btn btn-sm btn-s" onclick="addKbBtn()">+ Nút</button>
-          <button class="btn btn-sm btn-s" onclick="addKbRow()">+ Hàng</button>
-          <button class="btn btn-sm btn-d" onclick="clearKb()">Xóa</button>
-        </div>
-        <div id="kbPrev"></div>
-        <button class="btn btn-p btn-block" id="btnSend" onclick="sendText()" style="margin-top:10px">📤 Gửi tin nhắn</button>
-      </div>
-
-      <!-- MEDIA -->
-      <div id="tab-media" class="tc">
-        <div class="fg">
-          <label>Loại</label>
-          <select id="mediaType">
-            <option value="photo">📷 Photo</option><option value="document">📄 Document</option>
-            <option value="video">🎬 Video</option><option value="audio">🎵 Audio</option>
-            <option value="voice">🎤 Voice</option><option value="animation">🎞️ GIF</option>
-            <option value="sticker">😊 Sticker</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>File / URL / file_id</label>
-          <div class="fzone" id="fzone" onclick="document.getElementById('mFile').click()">
-            <div>📁 Kéo thả hoặc bấm chọn</div>
-            <input type="file" id="mFile" onchange="onFile(this)">
-            <div class="fname" id="fName"></div>
-          </div>
-          <input type="text" id="mUrl" placeholder="URL hoặc file_id" style="margin-top:6px">
-        </div>
-        <div class="fg"><label>Caption</label><textarea id="mCap" style="min-height:50px" placeholder="Chú thích..."></textarea></div>
-        <div class="fg">
-          <label>Parse Mode</label>
-          <select id="mParse"><option value="">Không</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="HTML">HTML</option></select>
-        </div>
-        <div class="cg" style="margin-bottom:10px">
-          <label class="ci"><input type="checkbox" id="mSilent"> 🔇 Im lặng</label>
-          <label class="ci"><input type="checkbox" id="mProtect"> 🔒 Bảo vệ</label>
-        </div>
-        <button class="btn btn-p btn-block" onclick="sendMedia()">📤 Gửi Media</button>
-      </div>
-
-      <!-- BROADCAST -->
-      <div id="tab-broadcast" class="tc">
-        <div class="sec">Danh sách người dùng</div>
-        <div class="bg" style="margin-bottom:8px">
-          <button class="btn btn-sm btn-s" onclick="collectSubs()">📥 Thu thập</button>
-          <button class="btn btn-sm btn-s" onclick="addSubManual()">+ Thêm ID</button>
-          <button class="btn btn-sm btn-s" onclick="exportSubs()">💾 Export</button>
-          <button class="btn btn-sm btn-s" onclick="importSubs()">📥 Import</button>
-          <button class="btn btn-sm btn-d" onclick="clearSubs()">🗑️ Xóa hết</button>
-        </div>
-        <div class="sub-list" id="subList"><div class="note">Chưa có user. Thu thập sau khi họ /start.</div></div>
-        <div class="sec">Gửi hàng loạt</div>
-        <div class="fg"><label>Nội dung</label><textarea id="bcMsg" placeholder="Tin nhắn gửi tất cả..." style="min-height:80px"></textarea></div>
-        <div class="fg">
-          <label>Parse Mode</label>
-          <select id="bcParse"><option value="">Không</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="HTML" selected>HTML</option></select>
-        </div>
-        <div class="fg">
-          <label>Đối tượng</label>
-          <select id="bcTarget"><option value="private">Chỉ user</option><option value="group">Chỉ nhóm</option><option value="all">Tất cả</option></select>
-        </div>
-        <div class="fg"><label>Delay (ms) ≥50</label><input type="number" id="bcDelay" value="80" min="30" max="3000"></div>
-        <div class="cg" style="margin-bottom:8px">
-          <label class="ci"><input type="checkbox" id="bcSilent"> 🔇 Im lặng</label>
-          <label class="ci"><input type="checkbox" id="bcProtect"> 🔒 Bảo vệ</label>
-        </div>
-        <div class="prog" id="bcProg"><div class="prog-f" id="bcFill"></div></div>
-        <div id="bcStatus" class="note" style="margin-bottom:6px"></div>
-        <div class="bg">
-          <button class="btn btn-p" id="btnBc" onclick="startBc()">📢 Bắt đầu Broadcast</button>
-          <button class="btn btn-d" id="btnStopBc" onclick="stopBc()" style="display:none">⏹️ Dừng</button>
-        </div>
-      </div>
-
-      <!-- TEMPLATES -->
-      <div id="tab-templates" class="tc">
-        <div class="sec">Mẫu đã lưu</div>
-        <div class="bg" style="margin-bottom:8px"><button class="btn btn-sm btn-s" onclick="saveTemplate()">💾 Lưu tin hiện tại</button></div>
-        <div id="tplList"><div class="note">Chưa có mẫu.</div></div>
-        <div class="sec">Tạo mẫu mới</div>
-        <div class="fg"><label>Tên</label><input type="text" id="tplName" placeholder="VD: Chào mừng"></div>
-        <div class="fg"><label>Nội dung</label><textarea id="tplContent" style="min-height:60px"></textarea></div>
-        <button class="btn btn-p btn-block" onclick="addTemplate()">+ Thêm mẫu</button>
-      </div>
-
-      <!-- LOCATION -->
-      <div id="tab-location" class="tc">
-        <div class="sec">📍 Vị trí</div>
-        <div class="fg"><label>Latitude</label><input type="number" id="lat" step="any" placeholder="21.0285"></div>
-        <div class="fg"><label>Longitude</label><input type="number" id="lon" step="any" placeholder="105.8542"></div>
-        <button class="btn btn-p btn-block" onclick="sendLoc()" style="margin-bottom:12px">📍 Gửi vị trí</button>
-        <div class="sec">🏢 Venue</div>
-        <div class="fg"><label>Lat</label><input type="number" id="vLat" step="any"></div>
-        <div class="fg"><label>Lon</label><input type="number" id="vLon" step="any"></div>
-        <div class="fg"><label>Tên</label><input type="text" id="vTitle" placeholder="Hồ Gươm"></div>
-        <div class="fg"><label>Địa chỉ</label><input type="text" id="vAddr" placeholder="Hoàn Kiếm"></div>
-        <button class="btn btn-p btn-block" onclick="sendVenue()" style="margin-bottom:12px">🏢 Gửi Venue</button>
-        <div class="sec">📞 Liên hệ</div>
-        <div class="fg"><label>SĐT</label><input type="text" id="cPhone" placeholder="+8490..."></div>
-        <div class="fg"><label>Tên</label><input type="text" id="cFirst"></div>
-        <div class="fg"><label>Họ</label><input type="text" id="cLast"></div>
-        <button class="btn btn-p btn-block" onclick="sendContact()" style="margin-bottom:12px">📞 Gửi liên hệ</button>
-        <div class="sec">🎲 Dice</div>
-        <div class="fg"><select id="dice"><option value="🎲">🎲</option><option value="🎯">🎯</option><option value="🏀">🏀</option><option value="⚽">⚽</option><option value="🎳">🎳</option><option value="🎰">🎰</option></select></div>
-        <button class="btn btn-p btn-block" onclick="sendDice()">🎲 Gửi Dice</button>
-      </div>
-
-      <!-- POLL -->
-      <div id="tab-poll" class="tc">
-        <div class="fg"><label>Câu hỏi</label><input type="text" id="pQ"></div>
-        <div class="fg"><label>Lựa chọn (mỗi dòng 1)</label><textarea id="pOpts" style="min-height:90px" placeholder="A&#10;B&#10;C"></textarea></div>
-        <div class="fg"><label>Loại</label>
-          <select id="pType" onchange="document.getElementById('pCorrectG').style.display=this.value==='quiz'?'block':'none'">
-            <option value="regular">Regular</option><option value="quiz">Quiz</option>
-          </select>
-        </div>
-        <div class="fg" id="pCorrectG" style="display:none"><label>Index đáp án đúng</label><input type="number" id="pCorrect" value="0" min="0"></div>
-        <div class="cg" style="margin-bottom:10px">
-          <label class="ci"><input type="checkbox" id="pAnon" checked> Ẩn danh</label>
-          <label class="ci"><input type="checkbox" id="pMulti"> Nhiều lựa chọn</label>
-          <label class="ci"><input type="checkbox" id="pSilent"> 🔇 Im lặng</label>
-        </div>
-        <button class="btn btn-p btn-block" onclick="sendPoll()">📊 Gửi Poll</button>
-      </div>
-
-      <!-- ADMIN -->
-      <div id="tab-admin" class="tc">
-        <div class="note" style="margin-bottom:10px">Bot cần quyền admin trong nhóm.</div>
-        <div class="sec">Ban / Unban / Restrict</div>
-        <div class="fg"><label>User ID</label><input type="text" id="admUserId"></div>
-        <div class="bg" style="margin-bottom:10px">
-          <button class="btn btn-sm btn-d" onclick="banMember()">🚫 Ban</button>
-          <button class="btn btn-sm btn-ok" onclick="unbanMember()">✅ Unban</button>
-          <button class="btn btn-sm btn-w" onclick="restrictMember()">🔒 Restrict</button>
-        </div>
-        <div class="sec">Promote / Demote</div>
-        <div class="bg" style="margin-bottom:10px">
-          <button class="btn btn-sm btn-s" onclick="promoteMember()">⬆️ Promote</button>
-          <button class="btn btn-sm btn-s" onclick="demoteMember()">⬇️ Demote</button>
-        </div>
-        <div class="sec">Chat Settings</div>
-        <div class="fg"><label>Đổi tên</label><div class="bg"><input type="text" id="chatTitle" style="flex:1"><button class="btn btn-sm btn-s" onclick="setTitle()">Đặt</button></div></div>
-        <div class="fg"><label>Đổi mô tả</label><div class="bg"><input type="text" id="chatDesc" style="flex:1"><button class="btn btn-sm btn-s" onclick="setDesc()">Đặt</button></div></div>
-        <div class="sec">Thành viên</div>
-        <button class="btn btn-s btn-block" onclick="getChatMember()">👤 getChatMember</button>
-      </div>
-
-      <!-- ADVANCED -->
-      <div id="tab-advanced" class="tc">
-        <div class="sec">Forward / Copy</div>
-        <div class="fg"><label>From Chat ID</label><input type="text" id="fromChat"></div>
-        <div class="fg"><label>Message ID</label><input type="text" id="fwdMsgId"></div>
-        <div class="bg" style="margin-bottom:10px">
-          <button class="btn btn-s" onclick="fwdMsg()">➡️ Forward</button>
-          <button class="btn btn-s" onclick="copyMsg()">📋 Copy</button>
-        </div>
-        <div class="sec">Chat Action</div>
-        <div class="fg"><select id="action"><option value="typing">typing</option><option value="upload_photo">upload_photo</option><option value="record_video">record_video</option><option value="upload_video">upload_video</option><option value="record_voice">record_voice</option><option value="upload_voice">upload_voice</option><option value="upload_document">upload_document</option><option value="choose_sticker">choose_sticker</option><option value="find_location">find_location</option></select></div>
-        <button class="btn btn-s btn-block" onclick="sendAction()" style="margin-bottom:10px">💬 Gửi Action</button>
-        <div class="sec">Pin / Unpin</div>
-        <div class="fg"><label>Message ID</label><input type="text" id="pinId"></div>
-        <div class="bg" style="margin-bottom:10px">
-          <button class="btn btn-s" onclick="pinMsg()">📌 Pin</button>
-          <button class="btn btn-s" onclick="unpinMsg()">📍 Unpin</button>
-          <button class="btn btn-s" onclick="unpinAll()">🗑️ Unpin All</button>
-        </div>
-        <div class="sec">Khác</div>
-        <div class="bg">
-          <button class="btn btn-d" onclick="leaveChat()">🚪 Leave</button>
-          <button class="btn btn-s" onclick="getFileInfo()">📁 getFile</button>
-        </div>
-        <div class="fg" style="margin-top:8px"><label>File ID</label><input type="text" id="fileId" placeholder="AgACAgQAAxkB..."></div>
-      </div>
-
-      <!-- MANAGE -->
-      <div id="tab-manage" class="tc">
-        <div class="sec">✏️ Sửa tin nhắn</div>
-        <div class="fg"><label>Message ID</label><input type="text" id="editId"></div>
-        <div class="fg"><label>Nội dung mới</label><textarea id="editText" style="min-height:55px"></textarea></div>
-        <div class="fg"><label>Parse Mode</label><select id="editParse"><option value="">Không</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="HTML">HTML</option></select></div>
-        <button class="btn btn-p btn-block" onclick="editMsg()" style="margin-bottom:12px">✏️ Sửa</button>
-        <div class="sec">🗑️ Xóa tin nhắn</div>
-        <div class="fg"><label>Message ID</label><input type="text" id="delId"></div>
-        <button class="btn btn-d btn-block" onclick="delMsg()" style="margin-bottom:12px">🗑️ Xóa</button>
-        <div class="sec">Debug</div>
-        <button class="btn btn-s btn-block" onclick="fetchUpdates(true)">📥 getUpdates (raw)</button>
-      </div>
-
-      <!-- HISTORY -->
-      <div id="tab-history" class="tc">
-        <div class="sec">Tin đã gửi gần đây</div>
-        <div class="bg" style="margin-bottom:8px"><button class="btn btn-sm btn-d" onclick="clearHistory()">Xóa lịch sử</button></div>
-        <div id="histList"><div class="note">Chưa có lịch sử.</div></div>
-      </div>
-
-      <!-- WEBHOOK -->
-      <div id="tab-webhook" class="tc">
-        <div class="sec">Thông tin Webhook</div>
-        <button class="btn btn-s btn-block" onclick="getWebhook()" style="margin-bottom:10px">🔍 getWebhookInfo</button>
-        <div id="whBox"></div>
-        <div class="sec">Xóa Webhook</div>
-        <button class="btn btn-d btn-block" onclick="delWebhook()" style="margin-bottom:10px">🗑️ deleteWebhook</button>
-        <div class="sec">Set Webhook</div>
-        <div class="fg"><label>URL</label><input type="url" id="whUrl" placeholder="https://..."></div>
-        <button class="btn btn-s btn-block" onclick="setWebhook()">🔗 setWebhook</button>
-      </div>
-
-      <div id="result" class="result"></div>
+  <div class="panel" id="sp-media">
+    <div class="card">
+      <label class="fl">Loại<select id="mType"><option value="photo">📷 Ảnh</option><option value="document">📄 Tệp</option><option value="video">🎬 Video</option><option value="audio">🎵 Audio</option><option value="voice">🎤 Voice</option><option value="animation">🎞 GIF</option><option value="sticker">😊 Sticker</option></select></label>
+      <label class="fz" style="display:block;cursor:pointer" id="mDrop"><div id="mFname">📁 Chạm để chọn tệp hoặc <b>dán ảnh</b> (Ctrl+V)</div><input type="file" id="mFile" hidden onchange="onFile()"></label>
+      <label class="fl" style="margin-top:11px">…hoặc URL / file_id<input type="text" id="mUrl" placeholder="https://… hoặc file_id"></label>
+      <label class="fl">Chú thích<textarea id="mCap" style="min-height:70px" placeholder="Caption (tối đa 1024 ký tự)"></textarea></label>
+      <label class="fl">Parse mode<select id="mParse"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="">Thường</option></select></label>
+      <label class="tg"><input type="checkbox" id="mSpo"><span>🙈 Che spoiler</span></label>
+      <button class="btn p w" style="margin-top:12px" onclick="run(this,sendMedia)">Gửi media ➤</button>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-h">📜 Nhật ký <button class="btn btn-sm btn-s" style="margin-left:auto" onclick="clearLog()">Xóa</button></div>
-    <div class="card-b" style="padding:7px">
-      <div class="log-box" id="logBox"><div class="log-item"><span class="log-time">--:--:--</span><span>Sẵn sàng.</span></div></div>
+  <div class="panel" id="sp-album">
+    <div class="card">
+      <p class="mu" style="margin-bottom:10px">Gửi 2–10 ảnh/video/tệp trong một nhóm (album).</p>
+      <label class="fl">Loại<select id="aType"><option value="photo">📷 Ảnh</option><option value="video">🎬 Video</option><option value="document">📄 Tệp</option><option value="audio">🎵 Audio</option></select></label>
+      <label class="fz" style="display:block;cursor:pointer"><div id="aFname">📁 Chạm để chọn nhiều tệp</div><input type="file" id="aFiles" hidden multiple onchange="$('#aFname').textContent='📎 '+this.files.length+' tệp đã chọn'"></label>
+      <label class="fl" style="margin-top:11px">URL (mỗi dòng 1 link)<textarea id="aUrls" placeholder="https://…/1.jpg&#10;https://…/2.jpg"></textarea></label>
+      <label class="fl">Chú thích (gắn vào mục đầu)<input type="text" id="aCap"></label>
+      <button class="btn p w" onclick="run(this,sendAlbum)">Gửi album ➤</button>
     </div>
   </div>
-</div>
-</div>
-</div>
+
+  <div class="panel" id="sp-poll">
+    <div class="card">
+      <label class="fl">Câu hỏi<input type="text" id="pQ" maxlength="300"></label>
+      <label class="fl">Lựa chọn (mỗi dòng 1, tối đa 10)<textarea id="pOpts" placeholder="Có&#10;Không&#10;Để suy nghĩ"></textarea></label>
+      <div class="seg" id="pTypeSeg"><button class="on" onclick="pollType('regular')">Thường</button><button onclick="pollType('quiz')">Quiz</button></div>
+      <div id="pQuiz" style="display:none"><label class="fl">Đáp án đúng (số thứ tự, bắt đầu 1)<input type="number" id="pCorrect" value="1" min="1"></label><label class="fl">Giải thích<input type="text" id="pExp"></label></div>
+      <div class="row wrap" style="margin-bottom:11px"><label class="tg"><input type="checkbox" id="pAnon" checked><span>Ẩn danh</span></label><label class="tg"><input type="checkbox" id="pMulti"><span>Nhiều lựa chọn</span></label></div>
+      <label class="fl">Tự đóng sau (giây, 5–600, trống = không)<input type="number" id="pOpen" min="5" max="600"></label>
+      <button class="btn p w" onclick="run(this,sendPoll)">Gửi bình chọn ➤</button>
+    </div>
+  </div>
+
+  <div class="panel" id="sp-loc">
+    <div class="card"><h3>📍 Vị trí</h3>
+      <div class="grid g2"><label class="fl">Vĩ độ<input type="number" step="any" id="lat" placeholder="21.0285"></label><label class="fl">Kinh độ<input type="number" step="any" id="lon" placeholder="105.8542"></label></div>
+      <div class="row"><button class="btn grow" onclick="myLoc()">🎯 Vị trí của tôi</button><button class="btn p grow" onclick="run(this,sendLoc)">Gửi ➤</button></div></div>
+    <div class="card"><h3>🏢 Địa điểm</h3>
+      <div class="grid g2"><label class="fl">Vĩ độ<input type="number" step="any" id="vLat"></label><label class="fl">Kinh độ<input type="number" step="any" id="vLon"></label></div>
+      <label class="fl">Tên<input type="text" id="vTitle" placeholder="Hồ Gươm"></label><label class="fl">Địa chỉ<input type="text" id="vAddr" placeholder="Hoàn Kiếm, Hà Nội"></label>
+      <button class="btn p w" onclick="run(this,sendVenue)">Gửi địa điểm ➤</button></div>
+  </div>
+
+  <div class="panel" id="sp-contact"><div class="card">
+    <label class="fl">Số điện thoại<input type="tel" id="cPhone" placeholder="+84901234567"></label>
+    <div class="grid g2"><label class="fl">Tên<input type="text" id="cFirst"></label><label class="fl">Họ<input type="text" id="cLast"></label></div>
+    <button class="btn p w" onclick="run(this,sendContact)">Gửi liên hệ ➤</button></div></div>
+
+  <div class="panel" id="sp-dice"><div class="card"><p class="mu" style="margin-bottom:10px">Chạm biểu tượng để gửi ngay.</p>
+    <div class="grid g3" id="diceGrid"></div><h3 style="margin-top:16px">Trạng thái chat</h3>
+    <div class="row wrap" id="actGrid"></div></div></div>
+</section>
+
+<!-- INBOX -->
+<section class="view" id="v-inbox"><div id="inboxBody"></div></section>
+
+<!-- BROADCAST -->
+<section class="view" id="v-bc">
+  <div class="card"><h3>👥 Người nhận <span class="sp"></span><span class="tag" id="bcSelN">0</span></h3>
+    <div class="seg" id="bcSeg"><button class="on" onclick="bcFilter('all')">Tất cả</button><button onclick="bcFilter('private')">Người dùng</button><button onclick="bcFilter('group')">Nhóm</button></div>
+    <input class="inp" id="bcSearch" placeholder="🔍 Tìm theo tên / ID" oninput="renderBc()" style="margin-bottom:8px">
+    <div class="row wrap" style="margin-bottom:6px"><button class="btn sm" onclick="bcAll(true)">Chọn hết</button><button class="btn sm" onclick="bcAll(false)">Bỏ chọn</button><button class="btn sm" onclick="collectSubs()">📥 Thu thập</button><button class="btn sm" onclick="addSubDlg()">+ ID</button></div>
+    <div id="bcList" style="max-height:260px;overflow:auto"></div></div>
+  <div class="card"><h3>✉️ Nội dung</h3>
+    <textarea class="inp" id="bcMsg" style="margin:0 0 8px" placeholder="Xin chào {first}! …"></textarea>
+    <div class="row wrap" style="margin-bottom:10px"><button class="btn sm" onclick="openEmoji('bcMsg')">😊</button><button class="btn sm" onclick="openVars('bcMsg')">{ } Biến</button><button class="btn sm" onclick="openTpls('bcMsg')">📋 Mẫu</button></div>
+    <label class="fl">Ảnh đính kèm (URL, tùy chọn)<input type="url" id="bcImg" placeholder="https://…"></label>
+    <div class="grid g2"><label class="fl">Parse mode<select id="bcParse"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><label class="fl">Nghỉ giữa tin (ms)<input type="number" id="bcDelay" value="60" min="30"></label></div>
+    <div class="row wrap"><label class="tg"><input type="checkbox" id="bcSil"><span>🔇 Im lặng</span></label><label class="tg"><input type="checkbox" id="bcPro"><span>🔒 Chặn forward</span></label><label class="tg"><input type="checkbox" id="bcClean" checked><span>🧹 Xóa người đã chặn bot</span></label></div></div>
+  <div class="card" id="bcRun" style="display:none"><h3>📡 Tiến độ</h3><div class="bar"><i id="bcFill"></i></div><div class="mu" id="bcStat"></div><div id="bcFail"></div></div>
+  <div class="dock"><button class="btn d" id="bcStop" style="display:none" onclick="bcAbort=true">⏹ Dừng</button><button class="btn p" id="bcGo" onclick="startBc()">📢 Bắt đầu gửi</button></div>
+</section>
+
+<!-- TOOLS -->
+<section class="view" id="v-tools"><div id="toolsBody"></div></section>
+</main>
+
+<nav class="nav" id="nav">
+  <button class="on" data-v="home" onclick="go('home')"><i>🏠</i>Tổng quan</button>
+  <button data-v="send" onclick="go('send')"><i>✍️</i>Soạn tin</button>
+  <button data-v="inbox" onclick="go('inbox')"><i>💬</i>Hộp thư<em class="bdg" id="nbInbox">0</em></button>
+  <button data-v="bc" onclick="go('bc')"><i>📢</i>Hàng loạt</button>
+  <button data-v="tools" onclick="go('tools')"><i>🧰</i>Công cụ</button>
+</nav>
+
+<!-- ============ PAGES ============ -->
+<div class="page" id="pg-thread"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2 id="thTitle">Chat</h2><button class="btn sm" onclick="thPick()">Chọn gửi</button></div><div class="pb"><div class="thr" id="thBody"></div></div><div class="comp"><input id="thIn" placeholder="Nhắn tin…" onkeydown="if(event.key==='Enter')thSend()"><button class="btn p" onclick="thSend()">➤</button></div></div>
+
+<div class="page" id="pg-rules"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🤖 Tự động trả lời</h2><button class="btn p sm" onclick="editRule()">+ Luật</button></div><div class="pb">
+  <div class="card"><div class="row"><div class="grow"><b>Nhận tin realtime</b><div class="mu">Luật chỉ chạy khi trang mở và đang nhận tin.</div></div><label class="sw"><input type="checkbox" id="pollSw2" onchange="togglePoll(this.checked)"><span></span></label></div></div>
+  <div id="rulesBody"></div></div></div>
+
+<div class="page" id="pg-sched"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>⏰ Hẹn giờ gửi</h2><button class="btn p sm" onclick="schedDlg()">+ Hẹn</button></div><div class="pb"><p class="mu" style="margin-bottom:10px">Tin hẹn giờ gửi khi trang này đang mở. Soạn tin ở tab “Soạn tin” rồi bấm ⏰.</p><div id="schedBody"></div></div></div>
+
+<div class="page" id="pg-tpls"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>📋 Tin mẫu</h2><button class="btn p sm" onclick="newTpl()">+ Mẫu</button></div><div class="pb"><div id="tplBody"></div></div></div>
+
+<div class="page" id="pg-manage"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🛠 Quản lý tin nhắn</h2></div><div class="pb">
+  <div class="card"><h3>✏️ Sửa tin</h3><label class="fl">ID tin nhắn<input id="edId" inputmode="numeric"></label><label class="fl">Nội dung mới<textarea id="edTx"></textarea></label><label class="fl">Parse mode<select id="edPm"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><button class="btn p w" onclick="run(this,editMsg)">Lưu chỉnh sửa</button></div>
+  <div class="card"><h3>🗑 Xóa tin</h3><label class="fl">ID tin nhắn (nhiều ID cách nhau dấu phẩy)<input id="delId"></label><button class="btn d w" onclick="run(this,delMsg)">Xóa</button></div>
+  <div class="card"><h3>➡️ Chuyển tiếp / Sao chép</h3><label class="fl">Từ Chat ID<input id="fwFrom"></label><label class="fl">ID tin nhắn<input id="fwId" inputmode="numeric"></label><div class="row"><button class="btn grow" onclick="run(this,fwdMsg)">Forward</button><button class="btn grow" onclick="run(this,copyMsg)">Copy</button></div></div>
+  <div class="card"><h3>📌 Ghim</h3><label class="fl">ID tin nhắn<input id="pinId" inputmode="numeric"></label><div class="row wrap"><button class="btn grow" onclick="run(this,pinMsg)">Ghim</button><button class="btn grow" onclick="run(this,unpinMsg)">Bỏ ghim</button><button class="btn d grow" onclick="run(this,unpinAll)">Bỏ tất cả</button></div></div>
+  <div class="card"><h3>📁 Thông tin tệp</h3><label class="fl">file_id<input id="fileId"></label><button class="btn w" onclick="run(this,getFileInfo)">Lấy link tải</button><div id="fileOut"></div></div>
+</div></div>
+
+<div class="page" id="pg-admin"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>👑 Quản trị nhóm</h2></div><div class="pb">
+  <p class="mu" style="margin-bottom:10px">Bot cần là admin trong nhóm đang chọn.</p>
+  <div class="card"><h3>ℹ️ Thông tin nhóm</h3><div class="grid g2"><button class="btn" onclick="run(this,chatInfo)">💬 Chi tiết</button><button class="btn" onclick="run(this,memberCount)">👥 Số thành viên</button><button class="btn" onclick="run(this,listAdmins)">👑 Danh sách admin</button><button class="btn" onclick="run(this,inviteLink)">🔗 Link mời</button></div><div id="admOut" style="margin-top:10px"></div></div>
+  <div class="card"><h3>👤 Thành viên</h3><label class="fl">User ID<input id="uid" inputmode="numeric"></label>
+    <label class="fl">Thời gian (Ban/Mute)<select id="uDur"><option value="0">Vĩnh viễn</option><option value="3600">1 giờ</option><option value="86400">1 ngày</option><option value="604800">7 ngày</option></select></label>
+    <div class="grid g2"><button class="btn d" onclick="run(this,()=>member('ban'))">🚫 Ban</button><button class="btn ok" onclick="run(this,()=>member('unban'))">✅ Unban</button><button class="btn" onclick="run(this,()=>member('mute'))">🔇 Mute</button><button class="btn" onclick="run(this,()=>member('unmute'))">🔊 Unmute</button><button class="btn" onclick="run(this,()=>member('promote'))">⬆️ Lên admin</button><button class="btn" onclick="run(this,()=>member('demote'))">⬇️ Hạ admin</button></div>
+    <button class="btn w" style="margin-top:8px" onclick="run(this,memberInfo)">🔎 Xem trạng thái</button></div>
+  <div class="card"><h3>✏️ Cài đặt nhóm</h3><label class="fl">Tên nhóm<input id="cTitle"></label><button class="btn w" onclick="run(this,setTitle)" style="margin-bottom:10px">Đổi tên</button><label class="fl">Mô tả<textarea id="cDesc" style="min-height:60px"></textarea></label><button class="btn w" onclick="run(this,setDesc)">Đổi mô tả</button></div>
+  <div class="card"><button class="btn d w" onclick="run(this,leaveChat)">🚪 Cho bot rời nhóm</button></div>
+</div></div>
+
+<div class="page" id="pg-botset"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🧩 Hồ sơ & lệnh bot</h2></div><div class="pb">
+  <div class="card"><h3>Lệnh /menu</h3><div id="cmdList"></div><div class="row wrap"><button class="btn sm" onclick="cmdAdd()">+ Lệnh</button><button class="btn sm" onclick="run(this,cmdLoad)">⬇ Lấy hiện tại</button><button class="btn sm p" onclick="run(this,cmdSave)">💾 Lưu lên bot</button><button class="btn sm d" onclick="run(this,cmdClear)">Xóa hết</button></div></div>
+  <div class="card"><h3>Tên & mô tả</h3><label class="fl">Tên hiển thị<input id="bsName" maxlength="64"></label><button class="btn w" style="margin-bottom:10px" onclick="run(this,()=>setProf('setMyName','name','bsName'))">Đổi tên</button>
+    <label class="fl">Mô tả (hiện khi mở chat)<textarea id="bsDesc" maxlength="512"></textarea></label><button class="btn w" style="margin-bottom:10px" onclick="run(this,()=>setProf('setMyDescription','description','bsDesc'))">Đổi mô tả</button>
+    <label class="fl">Mô tả ngắn (trang hồ sơ)<input id="bsShort" maxlength="120"></label><button class="btn w" onclick="run(this,()=>setProf('setMyShortDescription','short_description','bsShort'))">Đổi mô tả ngắn</button></div>
+</div></div>
+
+<div class="page" id="pg-webhook"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🔗 Webhook</h2></div><div class="pb">
+  <div class="card"><button class="btn w" onclick="run(this,getWebhook)">🔍 Kiểm tra webhook</button><div id="whBox" style="margin-top:10px"></div></div>
+  <div class="card"><label class="fl">URL webhook (HTTPS)<input type="url" id="whUrl" placeholder="https://…"></label><button class="btn p w" onclick="run(this,setWebhook)">Đặt webhook</button></div>
+  <div class="card"><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="whDrop"><span>Xóa luôn tin chờ xử lý</span></label><button class="btn d w" onclick="run(this,delWebhook)">Xóa webhook (để nhận tin trong app)</button></div>
+</div></div>
+
+<div class="page" id="pg-lab"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🧪 API Lab</h2></div><div class="pb">
+  <div class="chips" id="labChips"></div>
+  <div class="card"><label class="fl">Phương thức<input id="apiM" value="getMe" autocapitalize="off"></label><label class="fl">Tham số JSON <span class="mu">(dùng {chat} cho Chat ID hiện tại)</span><textarea id="apiP" spellcheck="false" style="font-family:ui-monospace,monospace;font-size:14px;min-height:110px">{}</textarea></label>
+    <div class="row"><button class="btn p grow" onclick="run(this,runApi)">▶ Chạy</button><button class="btn grow" onclick="copyOut()">📋 Sao chép</button></div><pre class="out" id="apiOut">Chưa chạy.</pre></div>
+</div></div>
+
+<div class="page" id="pg-hist"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>📜 Lịch sử gửi</h2><button class="btn d sm" onclick="clearHist()">Xóa</button></div><div class="pb"><div id="histBody"></div></div></div>
+
+<div class="page" id="pg-set"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>⚙️ Cài đặt & sao lưu</h2></div><div class="pb">
+  <div class="card"><h3>Giao diện</h3><div class="seg" id="themeSeg"><button data-th="auto" onclick="setTheme('auto')">Tự động</button><button data-th="light" onclick="setTheme('light')">Sáng</button><button data-th="dark" onclick="setTheme('dark')">Tối</button></div>
+    <div class="row" style="margin-bottom:12px"><div class="grow"><b>Rung phản hồi</b><div class="mu">Rung nhẹ khi gửi thành công</div></div><label class="sw"><input type="checkbox" id="stHap" onchange="setOpt('haptic',this.checked)"><span></span></label></div>
+    <div class="row" style="margin-bottom:12px"><div class="grow"><b>Tự thu thập người dùng</b><div class="mu">Lưu chat khi có người nhắn bot</div></div><label class="sw"><input type="checkbox" id="stCol" onchange="setOpt('autoCollect',this.checked)"><span></span></label></div>
+    <div class="row"><div class="grow"><b>Tự trả lời nút bấm</b><div class="mu">Gửi answerCallbackQuery khi bấm nút</div></div><label class="sw"><input type="checkbox" id="stCb" onchange="setOpt('answerCb',this.checked)"><span></span></label></div></div>
+  <div class="card"><h3>Sao lưu</h3><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="bkTok"><span>Kèm Token bot (nhạy cảm!)</span></label><div class="grid g2"><button class="btn" onclick="exportAll()">💾 Xuất file</button><button class="btn" onclick="importAll()">📥 Khôi phục</button></div></div>
+  <div class="card"><button class="btn d w" onclick="resetAll()">🗑 Xóa toàn bộ dữ liệu</button><p class="mu" style="margin-top:8px">Token chỉ lưu trong trình duyệt của bạn và chỉ gửi tới api.telegram.org.</p></div>
+</div></div>
+
+<!-- ============ SHEETS ============ -->
+<div class="bd" id="bd" onclick="closeOv()"></div>
+
+<div class="sheet" id="sh-bot"><div class="grab"></div><div class="sh"><h2>🤖 Cấu hình bot</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
+  <label class="fl">Hồ sơ bot<select id="profSel" onchange="switchProfile()"></select></label>
+  <div class="row" style="margin-bottom:12px"><button class="btn sm grow" onclick="addProfile()">+ Hồ sơ</button><button class="btn sm grow" onclick="renameProfile()">✏️ Đổi tên</button><button class="btn sm d grow" onclick="delProfile()">Xóa</button></div>
+  <label class="fl">Token (từ @BotFather)<div class="row"><input class="inp grow" style="margin:5px 0 0" type="password" id="botToken" placeholder="123456:ABC-DEF…" oninput="saveBot()" autocomplete="off"><button class="btn" style="margin-top:5px" onclick="const i=$('#botToken');i.type=i.type==='password'?'text':'password'">👁</button></div></label>
+  <div class="grid g2"><label class="fl">Loại chat<select id="chatType" onchange="saveBot()"><option value="private">Cá nhân</option><option value="group">Nhóm / Kênh</option></select></label><label class="fl">Chat ID / @kênh<input id="chatId" oninput="saveBot()" placeholder="123456789"></label></div>
+  <div class="row"><button class="btn grow" onclick="openChats()">🔍 Tìm chat</button><button class="btn p grow" onclick="run(this,testBot)">⚡ Kiểm tra</button></div>
+  <div id="botInfo" style="margin-top:12px"></div>
+</div></div>
+
+<div class="sheet" id="sh-chats"><div class="grab"></div><div class="sh"><h2>📨 Chọn người nhận</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
+  <div class="row" style="margin-bottom:10px"><input class="inp grow" style="margin:0" id="chManual" placeholder="Nhập Chat ID hoặc @kênh"><button class="btn p" onclick="pickChat($('#chManual').value.trim())">Dùng</button></div>
+  <input class="inp" id="chSearch" placeholder="🔍 Tìm…" oninput="renderChats()" style="margin-bottom:8px">
+  <div id="chList"></div>
+  <button class="btn w" style="margin-top:10px" onclick="run(this,findChats)">📥 Lấy chat mới từ bot (getUpdates)</button>
+</div></div>
+
+<div class="sheet" id="sh-emoji"><div class="grab"></div><div class="sh"><h2>😊 Emoji</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb"><div class="emo" id="emoGrid"></div></div></div>
+<div class="sheet" id="sh-vars"><div class="grab"></div><div class="sh"><h2>{ } Biến tự điền</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="varsBody"></div></div>
+<div class="sheet" id="sh-tpl"><div class="grab"></div><div class="sh"><h2>📋 Chọn tin mẫu</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="tplPick"></div></div>
+<div class="sheet" id="sh-log"><div class="grab"></div><div class="sh"><h2>🧾 Nhật ký hoạt động</h2><button class="btn sm" onclick="LOG=[];renderLog()">Xóa</button></div><div class="sb" id="logBody"></div></div>
+
+<div class="sheet" id="sh-rule"><div class="grab"></div><div class="sh"><h2 id="ruleTitle">Luật mới</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
+  <label class="fl">Tên luật<input id="rName" placeholder="VD: Chào mừng"></label>
+  <label class="fl">Từ khóa <span class="mu">(nhiều từ cách nhau |, trống = mọi tin)</span><input id="rKw" placeholder="xin chào|hello|/start"></label>
+  <label class="fl">Kiểu khớp<select id="rMode"><option value="contains">Có chứa</option><option value="exact">Khớp chính xác</option><option value="starts">Bắt đầu bằng</option><option value="regex">Regex</option></select></label>
+  <label class="fl">Nội dung trả lời <span class="mu">(biến: {name} {first} {username} {date} {time})</span><textarea id="rReply"></textarea></label>
+  <div class="grid g2"><label class="fl">Parse mode<select id="rPm"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><label class="fl">Chờ giữa 2 lần (giây)<input type="number" id="rCd" value="0" min="0"></label></div>
+  <div class="row wrap" style="margin-bottom:12px"><label class="tg"><input type="checkbox" id="rPriv" checked><span>Chỉ chat riêng</span></label><label class="tg"><input type="checkbox" id="rQuote" checked><span>Trả lời trích dẫn</span></label></div>
+  <button class="btn p w" onclick="saveRule()">Lưu luật</button>
+</div></div>
+
+<div class="dlg" id="dlg"></div>
 <div class="toast" id="toast"></div>
 
 <script>
-let kb=[],kbRow=0,tokenVis=false,subs=[],templates=[],history=[],profiles=[{name:'Bot chính',token:'',chatId:'',chatType:'private'}],curProfile=0,bcAbort=false;
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const hm=(t=Date.now())=>new Date(t).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
+const KEY='tgs2',DKEY='tgs2_draft';
+const newProf=n=>({name:n,token:'',chatId:'',chatType:'private',subs:[],inbox:{},offset:0,me:null});
+let S={profiles:[newProf('Bot chính')],cur:0,tpls:[],hist:[],rules:[],sched:[],set:{theme:'auto',haptic:true,autoCollect:true,answerCb:true}};
+let kb=[],LOG=[],OV=[],bcSel=new Set(),bcType='all',bcAbort=false,ruleEdit=-1,tplTarget='message',emoTarget='message',threadId=null,cooldown={},poll={on:false,ctl:null},saveT=null,lastOut='',cmds=[];
+const P=()=>S.profiles[S.cur]||S.profiles[0];
 
-window.onload=()=>{loadAll();toggleChatLabel();updateChar();applyTheme();setupDrop();renderSubs();renderTpls();renderHist();renderProfiles()};
-
-function loadAll(){
-  try{const p=localStorage.getItem('tg_profiles');if(p)profiles=JSON.parse(p);curProfile=parseInt(localStorage.getItem('tg_curProfile')||'0')||0;if(curProfile>=profiles.length)curProfile=0}catch(e){}
-  applyProfile();
-  try{const s=localStorage.getItem('tg_subs');if(s)subs=JSON.parse(s)}catch(e){}
-  try{const t=localStorage.getItem('tg_tpls');if(t)templates=JSON.parse(t)}catch(e){}
-  try{const h=localStorage.getItem('tg_hist');if(h)history=JSON.parse(h)}catch(e){}
-  if(localStorage.getItem('tg_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeIcon').textContent='☀️'}
+/* ---------- storage ---------- */
+function load(){
+  try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);S={...S,...d,set:{...S.set,...(d.set||{})}};S.profiles.forEach(p=>Object.assign(p,{...newProf(p.name),...p}))}else migrate()}catch(e){}
+  if(S.cur>=S.profiles.length)S.cur=0;
+  const now=Date.now();S.sched.forEach(s=>{if(s.at<now-300000)s.missed=true});
 }
-function applyProfile(){const p=profiles[curProfile]||profiles[0];document.getElementById('botToken').value=p.token||'';document.getElementById('chatId').value=p.chatId||'';document.getElementById('chatType').value=p.chatType||'private'}
-function saveData(){const p=profiles[curProfile];if(!p)return;p.token=document.getElementById('botToken').value.trim();p.chatId=document.getElementById('chatId').value.trim();p.chatType=document.getElementById('chatType').value;localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile)}
-function saveSubs(){localStorage.setItem('tg_subs',JSON.stringify(subs));renderSubs()}
-function saveTpls(){localStorage.setItem('tg_tpls',JSON.stringify(templates));renderTpls()}
-function saveHist(){localStorage.setItem('tg_hist',JSON.stringify(history.slice(0,50)));renderHist()}
-function clearAll(){if(!confirm('Xóa toàn bộ dữ liệu?'))return;localStorage.clear();subs=[];templates=[];history=[];profiles=[{name:'Bot chính',token:'',chatId:'',chatType:'private'}];curProfile=0;applyProfile();renderSubs();renderTpls();renderHist();renderProfiles();showR('Đã reset!','ok');log('Reset','ok')}
+function migrate(){
+  try{const old=localStorage.getItem('tg_profiles');if(!old)return;
+    S.profiles=JSON.parse(old).map(p=>({...newProf(p.name),token:p.token||'',chatId:p.chatId||'',chatType:p.chatType||'private'}));
+    S.cur=parseInt(localStorage.getItem('tg_curProfile')||'0')||0;
+    S.profiles[0].subs=JSON.parse(localStorage.getItem('tg_subs')||'[]');
+    S.tpls=JSON.parse(localStorage.getItem('tg_tpls')||'[]');
+    S.hist=(JSON.parse(localStorage.getItem('tg_hist')||'[]')).map(h=>({id:h.msgId,act:h.action,chat:h.chatId,text:h.text,t:h.time}));
+    const ar=JSON.parse(localStorage.getItem('tg_autoreply')||'null');
+    if(ar&&ar.reply)S.rules.push({id:Date.now(),name:'Luật cũ',on:true,kw:ar.keyword||'',mode:ar.match==='starts'?'starts':ar.match==='exact'?'exact':'contains',reply:ar.reply,pm:'',cd:0,priv:ar.privateOnly!==false,quote:true});
+  }catch(e){}
+}
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Bộ nhớ đầy, hãy xóa bớt dữ liệu','err')}},250)}
 
-function renderProfiles(){document.getElementById('profileSel').innerHTML=profiles.map((p,i)=>`<option value="${i}" ${i===curProfile?'selected':''}>${p.name||'Bot '+(i+1)}</option>`).join('')}
-function switchProfile(){saveData();curProfile=parseInt(document.getElementById('profileSel').value)||0;applyProfile();toggleChatLabel();localStorage.setItem('tg_curProfile',curProfile);toast('Chuyển: '+(profiles[curProfile]?.name||''))}
-function addProfile(){const name=prompt('Tên hồ sơ:','Bot '+(profiles.length+1));if(!name)return;profiles.push({name,token:'',chatId:'',chatType:'private'});curProfile=profiles.length-1;localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile);applyProfile();renderProfiles();toast('Đã thêm hồ sơ')}
-function delProfile(){if(profiles.length<=1){toast('Không xóa được hồ sơ cuối');return}if(!confirm('Xóa hồ sơ?'))return;profiles.splice(curProfile,1);curProfile=Math.min(curProfile,profiles.length-1);localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile);applyProfile();renderProfiles();toast('Đã xóa')}
+/* ---------- ui helpers ---------- */
+let toastT;
+function toast(m,t=''){const e=$('#toast');e.textContent=m;e.className='toast on '+t;clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2600)}
+function vib(n=12){if(S.set.haptic&&navigator.vibrate)try{navigator.vibrate(n)}catch(e){}}
+function lg(m,t=''){LOG.unshift({t:Date.now(),m,k:t});if(LOG.length>120)LOG.pop();if($('#sh-log').classList.contains('on'))renderLog()}
+function renderLog(){$('#logBody').innerHTML=LOG.length?LOG.map(l=>`<div class="log ${l.k}"><time>${hm(l.t)}</time><span>${esc(l.m)}</span></div>`).join(''):'<div class="empty"><i>🧾</i>Chưa có hoạt động</div>'}
+async function run(b,f){if(b&&b.disabled)return;if(b){b.disabled=true;b.classList.add('ld')}try{await f()}catch(e){toast('Lỗi: '+e.message,'err');lg('Lỗi: '+e.message,'err')}finally{if(b){b.disabled=false;b.classList.remove('ld')}}}
+async function copy(t){try{await navigator.clipboard.writeText(t)}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove()}toast('Đã sao chép','ok')}
+function dlg(o){return new Promise(res=>{
+  const f=(o.fields||[]).map((x,i)=>`<label class="fl">${esc(x.label)}${x.type==='select'?`<select id="df${i}">${x.opts.map(a=>`<option value="${esc(a[0])}" ${a[0]==x.value?'selected':''}>${esc(a[1])}</option>`).join('')}</select>`:x.area?`<textarea id="df${i}" placeholder="${esc(x.ph||'')}">${esc(x.value||'')}</textarea>`:`<input id="df${i}" type="${x.type||'text'}" value="${esc(x.value||'')}" placeholder="${esc(x.ph||'')}">`}</label>`).join('');
+  const el=$('#dlg');el.innerHTML=`<div class="dbox"><h3>${esc(o.title||'')}</h3>${o.msg?`<p>${o.msg}</p>`:''}${f}<div class="drow"><button class="btn" id="dNo">Hủy</button><button class="btn ${o.danger?'d':'p'}" id="dOk">${esc(o.ok||'OK')}</button></div></div>`;
+  el.classList.add('on');const end=v=>{el.classList.remove('on');el.innerHTML='';res(v)};
+  $('#dNo').onclick=()=>end(null);$('#dOk').onclick=()=>end((o.fields||[]).length?o.fields.map((x,i)=>$('#df'+i).value):true);
+  el.onclick=e=>{if(e.target===el)end(null)};const f0=$('#df0');if(f0)setTimeout(()=>f0.focus(),50);
+})}
+/* overlay stack with Android back support */
+function openOv(id){if(OV.includes(id))return;OV.push(id);history.pushState({o:id},'');showOv(id,true)}
+function showOv(id,on){const e=$('#'+id);if(!e)return;e.classList.toggle('on',on);$('#bd').classList.toggle('on',OV.some(x=>x.startsWith('sh-')))}
+function closeOv(){if(OV.length)history.back()}
+window.addEventListener('popstate',()=>{const id=OV.pop();if(id)showOv(id,false)});
+const openSheet=id=>{if(id==='sh-log')renderLog();openOv(id)};
+const openPage=id=>{refreshPage(id);openOv(id)};
+function go(v){$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));if(v==='home')renderHome();if(v==='send')renderSend();if(v==='inbox')renderInbox();if(v==='bc')renderBc();if(v==='tools')renderTools();scrollTo({top:0})}
+function refreshPage(id){({'pg-rules':renderRules,'pg-sched':renderSched,'pg-tpls':renderTpls,'pg-hist':renderHist,'pg-set':renderSet,'pg-botset':()=>{},'pg-lab':renderLab}[id]||(()=>{}))()}
 
-function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('tg_theme',d?'':'dark');document.getElementById('themeIcon').textContent=d?'🌙':'☀️'}
-function applyTheme(){if(localStorage.getItem('tg_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeIcon').textContent='☀️'}}
-function toggleToken(){const i=document.getElementById('botToken');tokenVis=!tokenVis;i.type=tokenVis?'text':'password'}
-function toggleChatLabel(){document.getElementById('chatIdLabel').textContent=document.getElementById('chatType').value==='group'?'Group/Channel ID':'Chat ID'}
-function switchTab(n){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tc').forEach(c=>c.classList.remove('active'));document.querySelector(`.tab[data-tab="${n}"]`)?.classList.add('active');document.getElementById('tab-'+n)?.classList.add('active')}
-function updateChar(){const l=document.getElementById('message').value.length;const e=document.getElementById('charCount');e.textContent=l+'/4096';e.className='char'+(l>4096?' over':l>3500?' warn':'')}
-function onKey(e){if(e.ctrlKey&&e.key==='Enter')sendText()}
-function showR(m,t){const e=document.getElementById('result');e.style.display='block';e.className='result '+t;e.innerHTML=m}
-function log(m,t=''){const box=document.getElementById('logBox');const now=new Date().toLocaleTimeString('vi-VN');const cls=t==='ok'?'log-ok':t==='err'?'log-err':'';const item=document.createElement('div');item.className='log-item';item.innerHTML=`<span class="log-time">${now}</span><span class="${cls}">${m}</span>`;box.prepend(item)}
-function clearLog(){document.getElementById('logBox').innerHTML='';log('Log đã xóa')}
-function side(title,html){document.getElementById('sidePanel').style.display='block';document.getElementById('sideTitle').textContent=title;document.getElementById('sideBody').innerHTML=html}
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
-function insFmt(a,b){const ta=document.getElementById('message');const s=ta.selectionStart,e=ta.selectionEnd,v=ta.value;ta.value=v.slice(0,s)+a+v.slice(s,e)+b+v.slice(e);ta.focus();ta.selectionStart=s+a.length;ta.selectionEnd=e+a.length;updateChar();updatePreview()}
-function togglePreview(){document.getElementById('msgPreview').classList.toggle('show');updatePreview()}
-function updatePreview(){const p=document.getElementById('msgPreview');if(!p.classList.contains('show'))return;let t=document.getElementById('message').value;const mode=document.getElementById('parseMode').value;if(mode==='HTML'){t=t.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/&lt;b&gt;/g,'<b>').replace(/&lt;\/b&gt;/g,'</b>').replace(/&lt;i&gt;/g,'<i>').replace(/&lt;\/i&gt;/g,'</i>').replace(/&lt;code&gt;/g,'<code>').replace(/&lt;\/code&gt;/g,'</code>').replace(/&lt;strong&gt;/g,'<b>').replace(/&lt;\/strong&gt;/g,'</b>').replace(/&lt;em&gt;/g,'<i>').replace(/&lt;\/em&gt;/g,'</i>')}else if(mode==='Markdown'||mode==='MarkdownV2'){t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/_(.+?)_/g,'<i>$1</i>').replace(/`(.+?)`/g,'<code>$1</code>')}else{t=t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}p.innerHTML=t.replace(/\n/g,'<br>')}
-function getToken(){const t=document.getElementById('botToken').value.trim();if(!t){showR('Nhập Bot Token!','err');return null}return t}
-function getChatId(){const c=document.getElementById('chatId').value.trim();if(!c){showR('Nhập Chat ID!','err');return null}return c}
+/* ---------- theme ---------- */
+function applyTheme(){const t=S.set.theme;const dark=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.dataset.t=dark?'dark':'light';$('#metaTheme').content=dark?'#0b121b':'#2aabee';$('#hTheme').textContent=t==='auto'?'🌓':dark?'🌙':'☀️';$$('#themeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.th===t))}
+function setTheme(t){S.set.theme=t;save();applyTheme()}
+function cycleTheme(){setTheme({auto:'light',light:'dark',dark:'auto'}[S.set.theme]);toast('Giao diện: '+{auto:'Tự động',light:'Sáng',dark:'Tối'}[S.set.theme])}
+function setOpt(k,v){S.set[k]=v;save()}
 
-async function api(method,body=null,fd=false){const token=getToken();if(!token)return null;const url=`https://api.telegram.org/bot${token}/${method}`;const opts={method:'POST'};if(fd)opts.body=body;else if(body){opts.headers={'Content-Type':'application/json'};opts.body=JSON.stringify(body)}try{return await(await fetch(url,opts)).json()}catch(e){return{ok:false,description:'Lỗi kết nối: '+e.message}}}
-function handle(r,action){if(r?.ok){const mid=r.result?.message_id||'';showR(`✅ ${action} thành công!${mid?' ID: <strong>'+mid+'</strong> <button class="copy-btn" onclick="copyTxt(\''+mid+'\')">📋</button>':''}`,'ok');log(`${action} OK${mid?' → '+mid:''}`,'ok');if(mid)addHist(mid,action,document.getElementById('chatId').value)}else{const err=r?.description||'Unknown';showR('❌ '+err,'err');log(`${action} lỗi: ${err}`,'err')}}
-function copyTxt(t){navigator.clipboard.writeText(t);toast('Đã copy: '+t)}
-function addHist(msgId,action,chatId){history.unshift({msgId,action,chatId,time:Date.now(),text:(document.getElementById('message')?.value||'').slice(0,80)});if(history.length>50)history.pop();saveHist()}
+/* ---------- API ---------- */
+async function api(method,body,isForm,o={}){
+  const p=o.p||P();if(!p.token){if(!o.quiet){toast('Chưa nhập Token bot','err');openSheet('sh-bot')}return{ok:false,description:'Chưa có token'}}
+  try{const q={method:'POST',signal:o.signal};if(isForm)q.body=body;else if(body){q.headers={'Content-Type':'application/json'};q.body=JSON.stringify(body)}
+    const r=await fetch(`https://api.telegram.org/bot${p.token}/${method}`,q);return await r.json()}
+  catch(e){if(e.name==='AbortError')return{ok:false,aborted:true};return{ok:false,description:'Lỗi kết nối: '+e.message}}
+}
+function addHist(id,act,chat,text){S.hist.unshift({id,act,chat:String(chat||''),text:(text||'').slice(0,90),t:Date.now()});if(S.hist.length>100)S.hist.pop();save()}
+function done(r,act,txt){
+  if(r&&r.ok){const mid=r.result?.message_id??(Array.isArray(r.result)?r.result[0]?.message_id:'');toast(`✅ ${act}${mid?' · #'+mid:''}`,'ok');lg(act+' thành công','ok');vib();if(mid)addHist(mid,act,P().chatId,txt);return true}
+  if(r&&!r.aborted){toast('❌ '+(r.description||'Lỗi'),'err');lg(act+': '+(r.description||'lỗi'),'err');vib(40)}return false}
+function chatId(){const c=P().chatId;if(!c){toast('Hãy chọn người nhận trước','err');openChats();return null}return c}
+function fdAppend(fd,o){for(const[k,v]of Object.entries(o)){if(v==null)continue;fd.append(k,typeof v==='object'?JSON.stringify(v):String(v))}return fd}
+function extra(){const o={};if($('#oSil').checked)o.disable_notification=true;if($('#oPro').checked)o.protect_content=true;const r=parseInt($('#oRep').value);if(r)o.reply_parameters={message_id:r};const t=parseInt($('#oThr').value);if(t)o.message_thread_id=t;return o}
 
-async function sendText(){const chatId=getChatId();if(!chatId)return;const text=document.getElementById('message').value.trim();if(!text){showR('Nhập nội dung!','err');return}saveData();showR('Đang gửi...','info');document.getElementById('btnSend').disabled=true;const data={chat_id:chatId,text};const pm=document.getElementById('parseMode').value;if(pm)data.parse_mode=pm;if(document.getElementById('optSilent').checked)data.disable_notification=true;if(document.getElementById('optProtect').checked)data.protect_content=true;if(document.getElementById('optNoPreview').checked)data.link_preview_options={is_disabled:true};const rid=document.getElementById('replyId').value.trim();if(rid)data.reply_parameters={message_id:parseInt(rid)};if(kb.length){const rows={};kb.forEach(b=>{if(!rows[b.row])rows[b.row]=[];rows[b.row].push(b.data.startsWith('http')?{text:b.text,url:b.data}:{text:b.text,callback_data:b.data})});data.reply_markup={inline_keyboard:Object.values(rows)}}const r=await api('sendMessage',data);document.getElementById('btnSend').disabled=false;handle(r,'Gửi tin nhắn')}
+/* ---------- profile / bot ---------- */
+function saveBot(){const p=P();p.token=$('#botToken').value.trim();p.chatId=$('#chatId').value.trim();p.chatType=$('#chatType').value;save();renderHeader();renderRcpt()}
+function openBot(){const p=P();$('#profSel').innerHTML=S.profiles.map((x,i)=>`<option value="${i}" ${i===S.cur?'selected':''}>${esc(x.name)}</option>`).join('');$('#botToken').value=p.token;$('#chatId').value=p.chatId;$('#chatType').value=p.chatType;renderBotInfo();openSheet('sh-bot')}
+function renderBotInfo(){const m=P().me;$('#botInfo').innerHTML=m?`<div class="card" style="margin:0"><div class="row"><span class="av">🤖</span><div><b>${esc(m.name)}</b><div class="mu">@${esc(m.username)} · ID ${m.id}</div><div class="mu">Vào nhóm: ${m.join?'✅':'❌'} · Đọc mọi tin nhóm: ${m.readAll?'✅':'❌'}</div></div></div></div>`:''}
+function switchProfile(){stopPoll();S.cur=parseInt($('#profSel').value)||0;save();openBotRefill();renderAll();if(P().token)testBot(true)}
+function openBotRefill(){const p=P();$('#botToken').value=p.token;$('#chatId').value=p.chatId;$('#chatType').value=p.chatType;renderBotInfo()}
+async function addProfile(){const r=await dlg({title:'Hồ sơ mới',fields:[{label:'Tên hồ sơ',value:'Bot '+(S.profiles.length+1)}],ok:'Tạo'});if(!r||!r[0].trim())return;S.profiles.push(newProf(r[0].trim()));S.cur=S.profiles.length-1;save();stopPoll();openBot();renderAll()}
+async function renameProfile(){const r=await dlg({title:'Đổi tên hồ sơ',fields:[{label:'Tên',value:P().name}]});if(!r||!r[0].trim())return;P().name=r[0].trim();save();openBot();renderAll()}
+async function delProfile(){if(S.profiles.length<=1)return toast('Phải giữ lại ít nhất 1 hồ sơ','err');if(!await dlg({title:'Xóa hồ sơ?',msg:`Xóa “${esc(P().name)}” cùng danh sách người dùng và hộp thư của nó.`,danger:true,ok:'Xóa'}))return;stopPoll();S.profiles.splice(S.cur,1);S.cur=0;save();openBot();renderAll()}
+async function testBot(quiet){const r=await api('getMe',null,false,{quiet:quiet===true});if(r?.ok){const u=r.result;P().me={name:u.first_name,username:u.username,id:u.id,join:u.can_join_groups,readAll:u.can_read_all_group_messages};save();renderHeader();renderBotInfo();renderHome();if(quiet!==true)toast('✅ Kết nối @'+u.username,'ok');lg('Kết nối @'+u.username,'ok')}else if(!quiet&&r){P().me=null;save();renderHeader();toast('❌ '+(r.description||'Token sai'),'err')}}
+function renderHeader(){const p=P(),m=p.me;$('#hName').textContent=m?m.name:p.name;$('#hSub').textContent=m?'@'+m.username+(poll.on?' · đang nhận tin':''):(p.token?'Chưa xác thực':'Chưa nhập token');$('#hDot').className='dot'+(m?' on':'')+(poll.on?' live':'')}
+function renderRcpt(){const c=P().chatId,k=chatCtx(c);$('#rcName').textContent=c?((k?.name||k?.username||'Chat')+' · '+c):'Chọn cuộc trò chuyện';$('#rcAv').textContent=c?((k?.name||'#')[0].toUpperCase()):'?'}
 
-function addKbBtn(){const text=prompt('Text nút:');if(!text)return;const data=prompt('Callback / URL:','btn_'+(kb.length+1));if(!data)return;kb.push({text,data,row:kbRow});renderKb()}
-function addKbRow(){kbRow++;log('Thêm hàng keyboard')}
-function clearKb(){kb=[];kbRow=0;renderKb()}
-function rmKb(i){kb.splice(i,1);renderKb()}
-function renderKb(){const el=document.getElementById('kbPrev');if(!kb.length){el.innerHTML='<div class="note">Chưa có nút</div>';return}const rows={};kb.forEach((b,i)=>{if(!rows[b.row])rows[b.row]=[];rows[b.row].push({...b,i})});el.innerHTML=Object.keys(rows).sort().map(r=>'<div class="kb-row">'+rows[r].map(b=>`<div class="kb-btn">${b.text} <small>(${b.data})</small><button onclick="rmKb(${b.i})">×</button></div>`).join('')+'</div>').join('')}
+/* ---------- known chats ---------- */
+function known(){const p=P(),m=new Map();p.subs.forEach(s=>m.set(String(s.id),{...s}));Object.values(p.inbox).forEach(x=>{const k=String(x.chat.id);if(!m.has(k))m.set(k,{...x.chat,id:k})});return[...m.values()]}
+function chatCtx(id){return known().find(k=>String(k.id)===String(id))||null}
+function chatInfo2(c){const name=c.title||[c.first_name,c.last_name].filter(Boolean).join(' ')||c.username||String(c.id);return{id:String(c.id),type:c.type,name,username:c.username||'',first:c.first_name||c.title||''}}
+function addSub(c){const p=P(),i=chatInfo2(c),old=p.subs.find(s=>s.id===i.id);if(old){Object.assign(old,i);return false}p.subs.push({...i,at:Date.now()});return true}
+function openChats(){$('#chSearch').value='';renderChats();openSheet('sh-chats')}
+function renderChats(){const q=$('#chSearch').value.toLowerCase(),cur=String(P().chatId),l=known().filter(k=>!q||(k.name+k.username+k.id).toLowerCase().includes(q));
+  $('#chList').innerHTML=l.length?l.map(k=>`<button class="ci" onclick="pickChat('${esc(k.id)}')"><span class="av ${k.type==='private'?'':'g'}">${esc((k.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(k.name)}</b><small>${k.username?'@'+esc(k.username)+' · ':''}${esc(k.id)} · ${esc(k.type)}</small></span>${String(k.id)===cur?'<span class="tag">Đang chọn</span>':''}</button>`).join(''):'<div class="empty"><i>🔍</i>Chưa có chat nào.<br>Nhắn tin cho bot rồi bấm “Lấy chat mới”.</div>'}
+function pickChat(id){if(!id)return;const p=P(),k=chatCtx(id);p.chatId=String(id);p.chatType=k&&k.type&&k.type!=='private'?'group':'private';save();renderRcpt();closeOv();toast('Đã chọn '+(k?.name||id),'ok')}
+async function findChats(){const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok)return toast('❌ '+(r?.description||'Lỗi'),'err');let n=0;(r.result||[]).forEach(u=>{const c=(u.message||u.edited_message||u.channel_post||u.my_chat_member||{}).chat;if(c&&addSub(c))n++});save();renderChats();toast(`Thêm ${n} chat mới`,n?'ok':'')}
 
-function setupDrop(){const z=document.getElementById('fzone');if(!z)return;z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});z.addEventListener('dragleave',()=>z.classList.remove('over'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');if(e.dataTransfer.files.length){document.getElementById('mFile').files=e.dataTransfer.files;onFile(document.getElementById('mFile'))}})}
-function onFile(inp){if(inp.files?.[0])document.getElementById('fName').textContent='📎 '+inp.files[0].name+' ('+(inp.files[0].size/1024).toFixed(1)+' KB)'}
-async function sendMedia(){const chatId=getChatId();if(!chatId)return;const type=document.getElementById('mediaType').value;const file=document.getElementById('mFile');const url=document.getElementById('mUrl').value.trim();const cap=document.getElementById('mCap').value.trim();if(!file.files[0]&&!url){showR('Chọn file hoặc URL!','err');return}showR('Đang gửi...','info');const methods={photo:'sendPhoto',document:'sendDocument',video:'sendVideo',audio:'sendAudio',voice:'sendVoice',animation:'sendAnimation',sticker:'sendSticker'};const fields={photo:'photo',document:'document',video:'video',audio:'audio',voice:'voice',animation:'animation',sticker:'sticker'};const method=methods[type],field=fields[type];let r;if(file.files[0]){const form=new FormData();form.append('chat_id',chatId);form.append(field,file.files[0]);if(cap&&type!=='sticker')form.append('caption',cap);const pm=document.getElementById('mParse').value;if(pm)form.append('parse_mode',pm);if(document.getElementById('mSilent').checked)form.append('disable_notification','true');if(document.getElementById('mProtect').checked)form.append('protect_content','true');r=await api(method,form,true)}else{const data={chat_id:chatId};data[field]=url;if(cap&&type!=='sticker')data.caption=cap;const pm=document.getElementById('mParse').value;if(pm)data.parse_mode=pm;if(document.getElementById('mSilent').checked)data.disable_notification=true;if(document.getElementById('mProtect').checked)data.protect_content=true;r=await api(method,data)}handle(r,'Gửi '+type)}
+/* ---------- compose ---------- */
+const FM={HTML:{b:['<b>','</b>'],i:['<i>','</i>'],u:['<u>','</u>'],s:['<s>','</s>'],code:['<code>','</code>'],pre:['<pre>','</pre>'],link:['<a href="https://">','</a>'],spo:['<tg-spoiler>','</tg-spoiler>'],quote:['<blockquote>','</blockquote>']},Markdown:{b:['*','*'],i:['_','_'],code:['`','`'],pre:['```\n','\n```'],link:['[','](https://)']},MarkdownV2:{b:['*','*'],i:['_','_'],u:['__','__'],s:['~','~'],code:['`','`'],pre:['```\n','\n```'],link:['[','](https://)'],spo:['||','||'],quote:['>','']}};
+function fmtBar(){const m=$('#parseMode').value;const L={b:'B',i:'I',u:'U',s:'S',code:'‹›',pre:'▤',link:'🔗',spo:'👁‍🗨',quote:'❝'};$('#fmtBar').innerHTML=m?Object.keys(L).map(k=>`<button onclick="fmt('${k}')" style="${k==='b'?'font-weight:900':k==='i'?'font-style:italic':k==='u'?'text-decoration:underline':k==='s'?'text-decoration:line-through':''}">${L[k]}</button>`).join('')+(m==='MarkdownV2'?'<button onclick="escV2()">🛡 Thoát</button>':''):'<span class="mu">Chế độ văn bản thường: không định dạng.</span>'}
+function wrap(id,a,b){const t=$('#'+id),s=t.selectionStart,e=t.selectionEnd,v=t.value;t.value=v.slice(0,s)+a+v.slice(s,e)+b+v.slice(e);t.focus();t.selectionStart=s+a.length;t.selectionEnd=e+a.length;t.dispatchEvent(new Event('input'))}
+function fmt(k){const m=$('#parseMode').value,f=FM[m]?.[k];if(!f)return toast('Chế độ này không hỗ trợ định dạng đó','err');wrap('message',f[0],f[1])}
+function escV2(){const t=$('#message');t.value=t.value.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g,'\\$1');onMsg()}
+function ins(id,txt){wrap(id,txt,'')}
+function tg(t,mode){let h=esc(t);
+  if(mode==='HTML')h=h.replace(/&lt;(\/?)(b|strong|i|em|u|ins|s|strike|del|code|pre|blockquote)&gt;/g,'<$1$2>').replace(/&lt;tg-spoiler&gt;/g,'<span class="spo">').replace(/&lt;\/tg-spoiler&gt;/g,'</span>').replace(/&lt;a href=&quot;(https?:\/\/[^&"<>]+)&quot;&gt;/g,'<a href="$1" target="_blank" rel="noopener">').replace(/&lt;\/a&gt;/g,'</a>');
+  else if(mode==='Markdown'||mode==='MarkdownV2'){h=h.replace(/```([\s\S]+?)```/g,'<pre>$1</pre>').replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|[^_])_([^_\n]+)_/g,'$1<i>$2</i>');
+    if(mode==='MarkdownV2')h=h.replace(/__([^_\n]+)__/g,'<u>$1</u>').replace(/~([^~\n]+)~/g,'<s>$1</s>').replace(/\|\|([^|\n]+)\|\|/g,'<span class="spo">$1</span>').replace(/\\(.)/g,'$1')}
+  return h.replace(/\n/g,'<br>')}
+function vars(t,c={},mode=''){const d=new Date(),x=v=>mode==='HTML'?esc(v):v;const m={name:x(c.name||''),first:x(c.first||c.name||''),username:c.username?'@'+x(c.username):'',id:c.id||'',date:d.toLocaleDateString('vi-VN'),time:hm(),day:d.toLocaleDateString('vi-VN',{weekday:'long'})};return t.replace(/\{(\w+)\}/g,(s,k)=>k in m?m[k]:s)}
+function onMsg(){const t=$('#message').value,l=t.length,e=$('#charCount');e.textContent=l+' / 4096';e.className='cnt'+(l>4096?' e':l>3500?' w':'');try{localStorage.setItem(DKEY,t)}catch(x){}renderPrev()}
+function renderPrev(){const m=$('#parseMode').value,t=$('#message').value||'Nội dung xem trước…';$('#prevB').innerHTML=tg(vars(t,chatCtx(P().chatId)||{},''),m)+`<time>${hm()}</time>`;$('#prevK').innerHTML=kb.filter(r=>r.length).map(r=>`<div>${r.map(b=>`<span>${esc(b.text)}</span>`).join('')}</div>`).join('')}
+async function addKbBtn(){const r=await dlg({title:'Thêm nút',fields:[{label:'Chữ trên nút',ph:'Mở website'},{label:'Link (https://…) hoặc dữ liệu callback',ph:'https://… hoặc btn_1'}]});if(!r||!r[0].trim()||!r[1].trim())return;if(!/^https?:|^tg:/.test(r[1].trim())&&new Blob([r[1]]).size>64)return toast('Callback tối đa 64 byte','err');if(!kb.length)kb.push([]);kb[kb.length-1].push({text:r[0].trim(),data:r[1].trim()});renderKb()}
+function addKbRow(){if(!kb.length||kb[kb.length-1].length)kb.push([]);renderKb()}
+function rmKb(r,b){kb[r].splice(b,1);renderKb()}
+function renderKb(){kb=kb.filter((r,i)=>r.length||i===kb.length-1);$('#kbEd').innerHTML=kb.filter(r=>r.length).map((r,ri)=>`<div class="kbr">${r.map((b,bi)=>`<span class="kbb">${esc(b.text)}<em>${/^(https?|tg):/.test(b.data)?'🔗':'⚡'}</em><button onclick="rmKb(${ri},${bi})">×</button></span>`).join('')}</div>`).join('')||'<div class="mu">Chưa có nút. Thêm nút link hoặc nút callback.</div>';renderPrev()}
+function kbMarkup(){const rows=kb.filter(r=>r.length).map(r=>r.map(b=>/^(https?|tg):/.test(b.data)?{text:b.text,url:b.data}:{text:b.text,callback_data:b.data}));return rows.length?{inline_keyboard:rows}:null}
+function ctxFor(c){return{...(chatCtx(c)||{}),id:c}}
+async function sendText(){const c=chatId();if(!c)return;let t=$('#message').value.trim();if(!t)return toast('Hãy nhập nội dung','err');const pm=$('#parseMode').value;t=vars(t,ctxFor(c),pm);
+  const d={chat_id:c,text:t,...extra()};if(pm)d.parse_mode=pm;if($('#oNop').checked)d.link_preview_options={is_disabled:true};const km=kbMarkup();if(km)d.reply_markup=km;
+  const r=await api('sendMessage',d);if(done(r,'Gửi tin',t)){$('#message').value='';kb=[];renderKb();onMsg()}}
+async function schedDlg(){const c=chatId();if(!c)return;const t=$('#message').value.trim();if(!t)return toast('Hãy soạn nội dung ở tab Soạn tin trước','err');const d=new Date(Date.now()+10*60000);d.setSeconds(0);const loc=new Date(d-d.getTimezoneOffset()*60000).toISOString().slice(0,16);
+  const r=await dlg({title:'⏰ Hẹn giờ gửi',msg:'Trang cần mở lúc đến giờ.',fields:[{label:'Thời điểm',type:'datetime-local',value:loc}],ok:'Hẹn'});if(!r)return;const at=new Date(r[0]).getTime();if(!at||at<Date.now()+5000)return toast('Hãy chọn thời điểm trong tương lai','err');
+  S.sched.push({id:Date.now(),at,chat:c,pi:S.cur,text:vars(t,{id:c,...(chatCtx(c)||{})},$('#parseMode').value),pm:$('#parseMode').value,kb:kbMarkup(),ex:extra(),nop:$('#oNop').checked,fails:0});save();toast('Đã hẹn lúc '+new Date(at).toLocaleString('vi-VN'),'ok');renderSched()}
+function saveTpl(){const t=$('#message').value.trim();if(!t)return toast('Chưa có nội dung','err');dlg({title:'Lưu thành mẫu',fields:[{label:'Tên mẫu',value:'Mẫu '+(S.tpls.length+1)}],ok:'Lưu'}).then(r=>{if(!r||!r[0].trim())return;S.tpls.push({name:r[0].trim(),text:t,pm:$('#parseMode').value});save();toast('Đã lưu mẫu','ok')})}
+/* emoji + vars + template pickers */
+const EMO='😀😁😂🤣😊😍😘😎🤔😅😢😭😡🥳🤩😴👍👎👏🙏💪🤝👋✌️🔥✨⭐🌟💯✅❌⚠️❗❓💬📢📣🔔🎉🎁🏆🎯🚀💡📌📎📅⏰💰💳🛒📦🚚🏠📍📞✉️🔒🔑⚙️🛠📊📈📉🌐❤️💙💚💛🧡💜🖤🤍🍀🌹☕🍕🎵📷🎬'.match(/\p{Extended_Pictographic}(\uFE0F|\u200D\p{Extended_Pictographic})*/gu)||[];
+function openEmoji(id){emoTarget=id;$('#emoGrid').innerHTML=EMO.map(e=>`<button onclick="ins(emoTarget,'${e}')">${e}</button>`).join('');openSheet('sh-emoji')}
+function openVars(id){tplTarget=id||'message';const V=[['{name}','Tên đầy đủ'],['{first}','Tên'],['{username}','@username'],['{id}','Chat ID'],['{date}','Ngày hôm nay'],['{time}','Giờ hiện tại'],['{day}','Thứ trong tuần']];$('#varsBody').innerHTML=V.map(v=>`<button class="lrow" onclick="ins(tplTarget,'${v[0]}');closeOv()"><span class="ic">{ }</span><span><b>${v[0]}</b><small>${v[1]}</small></span></button>`).join('')+'<p class="mu" style="margin-top:8px">Biến được thay bằng thông tin người nhận khi gửi.</p>';openSheet('sh-vars')}
+function openTpls(id){tplTarget=id||'message';$('#tplPick').innerHTML=S.tpls.length?S.tpls.map((t,i)=>`<button class="lrow" onclick="useTpl(${i})"><span class="ic">📋</span><span style="min-width:0"><b>${esc(t.name)}</b><small>${esc(t.text.slice(0,60))}</small></span></button>`).join(''):'<div class="empty"><i>📋</i>Chưa có mẫu nào</div>';openSheet('sh-tpl')}
+function useTpl(i){const t=S.tpls[i];$('#'+tplTarget).value=t.text;if(tplTarget==='message'){if(t.pm!=null)$('#parseMode').value=t.pm;onMsg()}closeOv();toast('Đã nạp “'+t.name+'”','ok')}
 
-function renderSubs(){const priv=subs.filter(s=>s.type==='private').length;const grp=subs.filter(s=>s.type!=='private').length;document.getElementById('subCount').textContent=priv;document.getElementById('groupCount').textContent=grp;document.getElementById('histCount').textContent=history.length;const list=document.getElementById('subList');if(!list)return;if(!subs.length){list.innerHTML='<div class="note">Chưa có user. Thu thập sau khi /start.</div>';return}list.innerHTML=subs.map((s,i)=>`<div class="item"><div><span class="cid">${s.id}</span><div style="font-size:11px;color:var(--muted)">${s.name||s.username||s.type}${s.username?' (@'+s.username+')':''}</div></div><div style="display:flex;gap:4px;align-items:center"><span class="badge">${s.type}</span><button class="btn btn-sm btn-d" onclick="rmSub(${i})">×</button></div></div>`).join('')}
-function addSub(id,type,name,username){id=String(id);if(subs.some(s=>s.id===id))return false;subs.push({id,type:type||'private',name:name||'',username:username||'',at:Date.now()});saveSubs();return true}
-function rmSub(i){subs.splice(i,1);saveSubs();log('Xóa 1 user','ok')}
-function clearSubs(){if(!subs.length)return;if(!confirm(`Xóa ${subs.length} user?`))return;subs=[];saveSubs();log('Xóa hết user','ok')}
-function addSubManual(){const id=prompt('Chat ID:');if(!id)return;const type=confirm('Cá nhân?\nOK=User · Cancel=Group')?'private':'group';if(addSub(id.trim(),type)){showR('Đã thêm '+id,'ok');log('Thêm '+id,'ok')}else showR('Đã tồn tại!','err')}
-async function collectSubs(){showR('Đang thu thập...','info');const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok){showR('❌ '+(r?.description||'Lỗi'),'err');return}let added=0;(r.result||[]).forEach(u=>{const msg=u.message||u.edited_message||u.channel_post||u.my_chat_member||u.chat_member;if(!msg?.chat)return;const c=msg.chat;const name=c.title||((c.first_name||'')+' '+(c.last_name||'')).trim();if(addSub(c.id,c.type,name,c.username))added++});showR(`✅ Thêm mới: <strong>${added}</strong> · Tổng: <strong>${subs.length}</strong>`,'ok');log(`Thu thập +${added} (tổng ${subs.length})`,'ok')}
-function exportSubs(){if(!subs.length){showR('Danh sách trống!','err');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(subs,null,2)],{type:'application/json'}));a.download='subscribers.json';a.click();log('Export subscribers','ok')}
-function importSubs(){const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{try{const arr=JSON.parse(ev.target.result);let n=0;arr.forEach(s=>{if(s.id&&addSub(s.id,s.type,s.name,s.username))n++});showR(`Import +${n}`,'ok');log(`Import +${n}`,'ok')}catch(err){showR('JSON lỗi: '+err.message,'err')}};rd.readAsText(f)};inp.click()}
+/* ---------- send panels ---------- */
+function sendPanel(n){$$('#sendChips .chip').forEach(c=>c.classList.toggle('on',c.dataset.p===n));$$('.panel').forEach(p=>p.classList.toggle('on',p.id==='sp-'+n))}
+function renderSend(){renderRcpt();renderKb();fmtBar();onMsg()}
+function onFile(){const f=$('#mFile').files[0];$('#mFname').innerHTML=f?`📎 <b>${esc(f.name)}</b> (${(f.size/1024).toFixed(1)} KB)`:'📁 Chạm để chọn tệp hoặc <b>dán ảnh</b> (Ctrl+V)'}
+document.addEventListener('paste',e=>{if(!$('#sp-media').classList.contains('on')||!$('#v-send').classList.contains('on'))return;const f=[...(e.clipboardData?.files||[])][0];if(f){const dt=new DataTransfer();dt.items.add(f);$('#mFile').files=dt.files;onFile();toast('Đã dán ảnh','ok')}});
+async function sendMedia(){const c=chatId();if(!c)return;const type=$('#mType').value,f=$('#mFile').files[0],url=$('#mUrl').value.trim();if(!f&&!url)return toast('Chọn tệp hoặc nhập URL','err');
+  const cap=vars($('#mCap').value.trim(),ctxFor(c),$('#mParse').value),pm=$('#mParse').value,m={photo:'sendPhoto',document:'sendDocument',video:'sendVideo',audio:'sendAudio',voice:'sendVoice',animation:'sendAnimation',sticker:'sendSticker'}[type],o={chat_id:c,...extra()};
+  if(cap&&type!=='sticker'){o.caption=cap;if(pm)o.parse_mode=pm}if($('#mSpo').checked&&['photo','video','animation'].includes(type))o.has_spoiler=true;
+  let r;if(f){const fd=fdAppend(new FormData(),o);fd.append(type,f);r=await api(m,fd,true)}else r=await api(m,{...o,[type]:url});done(r,'Gửi '+type,cap)}
+async function sendAlbum(){const c=chatId();if(!c)return;const type=$('#aType').value,files=[...$('#aFiles').files],urls=$('#aUrls').value.split('\n').map(s=>s.trim()).filter(Boolean),n=files.length+urls.length;if(n<2||n>10)return toast('Cần 2–10 mục (hiện có '+n+')','err');
+  const media=[],fd=new FormData();urls.forEach(u=>media.push({type,media:u}));files.forEach((f,i)=>{media.push({type,media:'attach://f'+i});fd.append('f'+i,f)});const cap=$('#aCap').value.trim();if(cap)media[0].caption=cap;
+  fdAppend(fd,{chat_id:c,media,...extra()});done(await api('sendMediaGroup',fd,true),'Gửi album ('+n+')',cap)}
+function pollType(t){$$('#pTypeSeg button').forEach((b,i)=>b.classList.toggle('on',(i===1)===(t==='quiz')));$('#pQuiz').style.display=t==='quiz'?'block':'none';$('#pTypeSeg').dataset.t=t}
+async function sendPoll(){const c=chatId();if(!c)return;const q=$('#pQ').value.trim(),o=$('#pOpts').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!q||o.length<2)return toast('Cần câu hỏi và ≥ 2 lựa chọn','err');if(o.length>10)return toast('Tối đa 10 lựa chọn','err');
+  const type=$('#pTypeSeg').dataset.t||'regular',d={chat_id:c,question:q,options:o.map(text=>({text})),is_anonymous:$('#pAnon').checked,type,...extra()};if(type==='quiz'){const k=(parseInt($('#pCorrect').value)||1)-1;if(k<0||k>=o.length)return toast('Đáp án đúng ngoài phạm vi','err');d.correct_option_id=k;if($('#pExp').value.trim())d.explanation=$('#pExp').value.trim()}else d.allows_multiple_answers=$('#pMulti').checked;
+  const op=parseInt($('#pOpen').value);if(op)d.open_period=Math.min(600,Math.max(5,op));done(await api('sendPoll',d),'Gửi bình chọn',q)}
+function myLoc(){if(!navigator.geolocation)return toast('Thiết bị không hỗ trợ','err');navigator.geolocation.getCurrentPosition(p=>{$('#lat').value=p.coords.latitude.toFixed(6);$('#lon').value=p.coords.longitude.toFixed(6);toast('Đã lấy vị trí','ok')},e=>toast('Không lấy được vị trí: '+e.message,'err'),{enableHighAccuracy:true,timeout:10000})}
+async function sendLoc(){const c=chatId();if(!c)return;const a=parseFloat($('#lat').value),b=parseFloat($('#lon').value);if(isNaN(a)||isNaN(b))return toast('Tọa độ không hợp lệ','err');done(await api('sendLocation',{chat_id:c,latitude:a,longitude:b,...extra()}),'Gửi vị trí')}
+async function sendVenue(){const c=chatId();if(!c)return;const a=parseFloat($('#vLat').value),b=parseFloat($('#vLon').value),t=$('#vTitle').value.trim(),ad=$('#vAddr').value.trim();if(isNaN(a)||isNaN(b)||!t||!ad)return toast('Điền đủ thông tin','err');done(await api('sendVenue',{chat_id:c,latitude:a,longitude:b,title:t,address:ad,...extra()}),'Gửi địa điểm')}
+async function sendContact(){const c=chatId();if(!c)return;const ph=$('#cPhone').value.trim(),f=$('#cFirst').value.trim();if(!ph||!f)return toast('Cần SĐT và tên','err');const d={chat_id:c,phone_number:ph,first_name:f,...extra()};if($('#cLast').value.trim())d.last_name=$('#cLast').value.trim();done(await api('sendContact',d),'Gửi liên hệ')}
+async function sendDice(e){const c=chatId();if(!c)return;done(await api('sendDice',{chat_id:c,emoji:e,...extra()}),'Gửi '+e)}
+async function sendAct(a){const c=chatId();if(!c)return;const r=await api('sendChatAction',{chat_id:c,action:a});toast(r?.ok?'Đã gửi trạng thái “'+a+'”':'❌ '+(r?.description||''),r?.ok?'ok':'err')}
 
-async function startBc(){const text=document.getElementById('bcMsg').value.trim();if(!text){showR('Nhập nội dung!','err');return}if(!subs.length){showR('Chưa có user!','err');return}const target=document.getElementById('bcTarget').value;let list=subs;if(target==='private')list=subs.filter(s=>s.type==='private');else if(target==='group')list=subs.filter(s=>s.type!=='private');if(!list.length){showR('Không có đối tượng!','err');return}if(!confirm(`Gửi đến ${list.length} chat?`))return;bcAbort=false;document.getElementById('btnBc').style.display='none';document.getElementById('btnStopBc').style.display='inline-flex';document.getElementById('bcProg').style.display='block';document.getElementById('bcFill').style.width='0%';const delay=Math.max(30,parseInt(document.getElementById('bcDelay').value)||80);const pm=document.getElementById('bcParse').value;const silent=document.getElementById('bcSilent').checked;const protect=document.getElementById('bcProtect').checked;let ok=0,fail=0;for(let i=0;i<list.length;i++){if(bcAbort)break;const s=list[i];const data={chat_id:s.id,text};if(pm)data.parse_mode=pm;if(silent)data.disable_notification=true;if(protect)data.protect_content=true;const r=await api('sendMessage',data);if(r?.ok){ok++;log(`BC OK → ${s.id}`,'ok')}else{fail++;const err=r?.description||'';log(`BC FAIL → ${s.id}: ${err}`,'err');if(/blocked|deactivated|chat not found|user is deactivated/i.test(err)){const idx=subs.findIndex(x=>x.id===s.id);if(idx>=0){subs.splice(idx,1);saveSubs()}}}document.getElementById('bcFill').style.width=Math.round(((i+1)/list.length)*100)+'%';document.getElementById('bcStatus').textContent=`${i+1}/${list.length} · OK: ${ok} · Lỗi: ${fail}`;if(i<list.length-1)await new Promise(r=>setTimeout(r,delay))}document.getElementById('btnBc').style.display='inline-flex';document.getElementById('btnStopBc').style.display='none';showR(`📢 Xong! OK: <strong>${ok}</strong> · Lỗi: <strong>${fail}</strong>`,ok>0?'ok':'err');log(`Broadcast: ${ok} OK, ${fail} lỗi`,ok>0?'ok':'err')}
-function stopBc(){bcAbort=true;log('Dừng broadcast...','ok')}
+/* ---------- poller / inbox ---------- */
+function togglePoll(on){on?startPoll():stopPoll();$$('#pollSw,#pollSw2').forEach(x=>x&&(x.checked=poll.on))}
+function startPoll(){if(poll.on)return;if(!P().token){toast('Nhập token trước','err');openSheet('sh-bot');togglePollUI();return}poll.on=true;lg('Bắt đầu nhận tin','ok');renderHeader();togglePollUI();pollLoop()}
+function stopPoll(){if(!poll.on)return;poll.on=false;try{poll.ctl?.abort()}catch(e){}lg('Dừng nhận tin');renderHeader();togglePollUI()}
+function togglePollUI(){$$('#pollSw,#pollSw2').forEach(x=>x&&(x.checked=poll.on));const b=$('#inboxLive');if(b)b.textContent=poll.on?'⏹ Dừng nhận tin':'▶ Bắt đầu nhận tin'}
+async function pollLoop(){const p=P();let fails=0;
+  while(poll.on&&P()===p){poll.ctl=new AbortController();
+    const r=await api('getUpdates',{offset:p.offset||undefined,timeout:20,allowed_updates:['message','edited_message','channel_post','callback_query','my_chat_member']},false,{signal:poll.ctl.signal,quiet:true,p});
+    if(!poll.on||P()!==p)break;if(r.aborted)continue;
+    if(r.ok){fails=0;let any=false;for(const u of r.result){p.offset=u.update_id+1;try{ingest(u,p)}catch(e){lg('ingest: '+e.message,'err')}any=true}if(any){save();renderUnread();if($('#v-inbox').classList.contains('on'))renderInbox();if($('#v-home').classList.contains('on'))renderHome();if(threadId&&$('#pg-thread').classList.contains('on'))renderThread()}}
+    else{lg('Nhận tin lỗi: '+r.description,'err');if(/webhook|conflict/i.test(r.description||'')){stopPoll();toast('Bot đang dùng Webhook hoặc app khác đang nhận tin. Hãy xóa Webhook.','err');break}if(++fails>4){stopPoll();toast('Mất kết nối, đã dừng nhận tin','err');break}await sleep(2500)}}
+}
+function ingest(u,p){
+  if(u.callback_query){const q=u.callback_query,c=q.message?.chat;if(c)pushMsg(p,c,{id:q.message.message_id,from:q.from.first_name,text:'🔘 Bấm nút: '+q.data,date:Date.now(),out:false});if(S.set.answerCb)api('answerCallbackQuery',{callback_query_id:q.id,text:'Đã nhận ✅'},false,{quiet:true,p});lg('Callback '+q.data,'ok');return}
+  if(u.my_chat_member){if(S.set.autoCollect&&u.my_chat_member.chat.type!=='private')addSub(u.my_chat_member.chat);return}
+  const m=u.message||u.edited_message||u.channel_post||u.edited_channel_post;if(!m)return;const kind=m.photo?'🖼 Ảnh':m.video?'🎬 Video':m.document?'📄 Tệp':m.voice?'🎤 Voice':m.sticker?'😊 Sticker':m.location?'📍 Vị trí':m.contact?'📞 Liên hệ':m.audio?'🎵 Audio':m.animation?'🎞 GIF':m.poll?'📊 Poll':'';
+  const text=(kind?kind+' ':'')+(m.text||m.caption||'');pushMsg(p,m.chat,{id:m.message_id,from:m.from?.first_name||m.chat.title||'',text,date:(m.date||0)*1000,out:false});
+  if(S.set.autoCollect)addSub(m.chat);if(u.message&&m.text&&!m.from?.is_bot)runRules(m,p)}
+function pushMsg(p,c,msg){const k=String(c.id);let b=p.inbox[k];if(!b)b=p.inbox[k]={chat:chatInfo2(c),msgs:[],unread:0,last:0};b.chat=chatInfo2(c);if(!msg.out&&!(threadId===k&&$('#pg-thread').classList.contains('on')))b.unread++;b.msgs.push(msg);if(b.msgs.length>60)b.msgs.shift();b.last=msg.date||Date.now();
+  const ks=Object.keys(p.inbox);if(ks.length>60){ks.sort((a,b)=>p.inbox[a].last-p.inbox[b].last);delete p.inbox[ks[0]]}}
+function renderUnread(){const n=Object.values(P().inbox).reduce((a,b)=>a+(b.unread||0),0),e=$('#nbInbox');e.textContent=n>99?'99+':n;e.classList.toggle('on',n>0);document.title=(n?`(${n}) `:'')+'Bot Studio'}
+function renderInbox(){const l=Object.values(P().inbox).sort((a,b)=>b.last-a.last);
+  $('#inboxBody').innerHTML=`<div class="card"><div class="row"><div class="grow"><b>Nhận tin realtime</b><div class="mu">Xem tin nhắn gửi tới bot và trả lời ngay.</div></div><label class="sw"><input type="checkbox" id="pollSw" onchange="togglePoll(this.checked)" ${poll.on?'checked':''}><span></span></label></div></div>`+
+  (l.length?`<div class="card" style="padding:4px 12px">${l.map(b=>`<button class="ci" onclick="openThread('${esc(b.chat.id)}')"><span class="av ${b.chat.type==='private'?'':'g'}">${esc((b.chat.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(b.chat.name)}</b><small>${esc((b.msgs[b.msgs.length-1]?.out?'Bạn: ':'')+(b.msgs[b.msgs.length-1]?.text||''))}</small></span><span class="r"><span>${hm(b.last)}</span>${b.unread?`<span class="ub">${b.unread}</span>`:''}</span></button>`).join('')}</div><button class="btn d w" onclick="clearInbox()">🧹 Xóa hộp thư</button>`:'<div class="empty card"><i>💬</i>Chưa có tin nhắn.<br>Bật “Nhận tin realtime” rồi nhắn thử cho bot.</div>')}
+async function clearInbox(){if(!await dlg({title:'Xóa hộp thư?',msg:'Chỉ xóa bản lưu trong app.',danger:true,ok:'Xóa'}))return;P().inbox={};save();renderInbox();renderUnread()}
+function openThread(id){threadId=String(id);const b=P().inbox[threadId];if(b)b.unread=0;save();renderUnread();$('#thTitle').textContent=b?.chat.name||id;renderThread();openPage('pg-thread');setTimeout(()=>scrollTo(0,document.body.scrollHeight),50)}
+function renderThread(){const b=P().inbox[threadId];if(!b)return;b.unread=0;$('#thBody').innerHTML=b.msgs.map(m=>`<div class="msg ${m.out?'o':''}">${!m.out&&b.chat.type!=='private'?`<span class="fr">${esc(m.from)}</span>`:''}${esc(m.text).replace(/\n/g,'<br>')}<small>${hm(m.date)} · #${m.id}</small></div>`).join('');$('#pg-thread').scrollTo({top:99999})}
+function thPick(){pickChatSilent(threadId)}
+function pickChatSilent(id){const p=P(),k=chatCtx(id);p.chatId=String(id);p.chatType=k&&k.type!=='private'?'group':'private';save();renderRcpt();toast('Đã chọn làm người nhận','ok')}
+async function thSend(){const t=$('#thIn').value.trim();if(!t||!threadId)return;$('#thIn').value='';const r=await api('sendMessage',{chat_id:threadId,text:t});if(r?.ok){pushMsg(P(),P().inbox[threadId].chat,{id:r.result.message_id,from:'Bot',text:t,date:Date.now(),out:true});save();renderThread();vib()}else toast('❌ '+(r?.description||'Lỗi'),'err')}
 
-function renderTpls(){const el=document.getElementById('tplList');if(!el)return;if(!templates.length){el.innerHTML='<div class="note">Chưa có mẫu.</div>';return}el.innerHTML=templates.map((t,i)=>`<div class="tpl-item"><div onclick="useTpl(${i})" style="flex:1;cursor:pointer"><strong>${t.name}</strong><div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.content.slice(0,60)}</div></div><button class="btn btn-sm btn-d" onclick="rmTpl(${i})">×</button></div>`).join('')}
-function useTpl(i){document.getElementById('message').value=templates[i].content;updateChar();updatePreview();switchTab('text');toast('Đã nạp: '+templates[i].name)}
-function rmTpl(i){templates.splice(i,1);saveTpls()}
-function saveTemplate(){const content=document.getElementById('message').value.trim();if(!content){showR('Không có nội dung!','err');return}const name=prompt('Tên mẫu:','Mẫu '+(templates.length+1));if(!name)return;templates.push({name,content,at:Date.now()});saveTpls();toast('Đã lưu mẫu')}
-function addTemplate(){const name=document.getElementById('tplName').value.trim();const content=document.getElementById('tplContent').value.trim();if(!name||!content){showR('Nhập tên và nội dung!','err');return}templates.push({name,content,at:Date.now()});saveTpls();document.getElementById('tplName').value='';document.getElementById('tplContent').value='';toast('Đã thêm mẫu')}
+/* ---------- auto reply rules ---------- */
+function ruleHit(r,txt){const k=(r.kw||'').trim();if(!k)return true;if(r.mode==='regex'){try{return new RegExp(k,'i').test(txt)}catch(e){return false}}const a=txt.toLocaleLowerCase('vi');return k.split('|').map(s=>s.trim().toLocaleLowerCase('vi')).filter(Boolean).some(w=>r.mode==='exact'?a===w:r.mode==='starts'?a.startsWith(w):a.includes(w))}
+async function runRules(m,p){for(const r of S.rules){if(!r.on||!r.reply)continue;if(r.priv&&m.chat.type!=='private')continue;if(!ruleHit(r,m.text.trim()))continue;
+  const ck=r.id+'_'+m.chat.id;if(r.cd&&Date.now()-(cooldown[ck]||0)<r.cd*1000)return;cooldown[ck]=Date.now();
+  const ci=chatInfo2(m.from?{...m.from,type:'private'}:m.chat),text=vars(r.reply,{name:[m.from?.first_name,m.from?.last_name].filter(Boolean).join(' '),first:m.from?.first_name,username:m.from?.username,id:m.chat.id},r.pm);
+  const d={chat_id:m.chat.id,text};if(r.pm)d.parse_mode=r.pm;if(r.quote)d.reply_parameters={message_id:m.message_id};
+  const o=await api('sendMessage',d,false,{quiet:true,p});if(o.ok){pushMsg(p,m.chat,{id:o.result.message_id,from:'Bot',text,date:Date.now(),out:true});lg(`Luật “${r.name}” → ${m.chat.id}`,'ok')}else lg('Luật lỗi: '+o.description,'err');return}}
+function renderRules(){$('#pollSw2').checked=poll.on;$('#rulesBody').innerHTML=S.rules.length?S.rules.map((r,i)=>`<div class="card"><div class="row"><div class="grow"><b>${esc(r.name||'Luật '+(i+1))}</b><div class="mu">${r.kw?esc(r.mode==='regex'?'/'+r.kw+'/':r.kw):'Mọi tin nhắn'} · ${esc({contains:'chứa',exact:'chính xác',starts:'bắt đầu',regex:'regex'}[r.mode])}${r.priv?' · chat riêng':''}</div></div><label class="sw"><input type="checkbox" ${r.on?'checked':''} onchange="S.rules[${i}].on=this.checked;save()"><span></span></label></div><div class="bubble" style="margin:10px 0">${tg(r.reply,r.pm)}</div><div class="row"><button class="btn sm grow" onclick="editRule(${i})">✏️ Sửa</button><button class="btn sm grow" onclick="dupRule(${i})">⧉ Nhân bản</button><button class="btn sm d" onclick="delRule(${i})">Xóa</button></div></div>`).join(''):'<div class="empty card"><i>🤖</i>Chưa có luật nào.<br>Luật đầu tiên khớp sẽ được dùng.</div>'}
+function editRule(i=-1){ruleEdit=i;const r=i>=0?S.rules[i]:{name:'',kw:'',mode:'contains',reply:'',pm:'HTML',cd:0,priv:true,quote:true};$('#ruleTitle').textContent=i>=0?'Sửa luật':'Luật mới';$('#rName').value=r.name;$('#rKw').value=r.kw;$('#rMode').value=r.mode;$('#rReply').value=r.reply;$('#rPm').value=r.pm||'';$('#rCd').value=r.cd||0;$('#rPriv').checked=!!r.priv;$('#rQuote').checked=!!r.quote;openSheet('sh-rule')}
+function saveRule(){const reply=$('#rReply').value.trim();if(!reply)return toast('Nhập nội dung trả lời','err');const r={id:ruleEdit>=0?S.rules[ruleEdit].id:Date.now(),on:ruleEdit>=0?S.rules[ruleEdit].on:true,name:$('#rName').value.trim()||'Luật mới',kw:$('#rKw').value,mode:$('#rMode').value,reply,pm:$('#rPm').value,cd:parseInt($('#rCd').value)||0,priv:$('#rPriv').checked,quote:$('#rQuote').checked};if(r.mode==='regex'){try{new RegExp(r.kw)}catch(e){return toast('Regex không hợp lệ','err')}}ruleEdit>=0?S.rules[ruleEdit]=r:S.rules.push(r);save();closeOv();renderRules();toast('Đã lưu luật','ok')}
+function dupRule(i){S.rules.splice(i+1,0,{...S.rules[i],id:Date.now(),name:S.rules[i].name+' (bản sao)'});save();renderRules()}
+async function delRule(i){if(!await dlg({title:'Xóa luật?',danger:true,ok:'Xóa'}))return;S.rules.splice(i,1);save();renderRules()}
 
-function renderHist(){document.getElementById('histCount').textContent=history.length;const el=document.getElementById('histList');if(!el)return;if(!history.length){el.innerHTML='<div class="note">Chưa có lịch sử.</div>';return}el.innerHTML=history.map(h=>`<div class="hist-item"><div><span class="hid" onclick="copyTxt('${h.msgId}')" title="Copy">${h.msgId}</span> <span class="badge">${h.action}</span> <button class="btn btn-sm btn-s" onclick="fillEdit('${h.msgId}')">✏️</button> <button class="btn btn-sm btn-d" onclick="fillDel('${h.msgId}')">🗑️</button></div><div class="ht">${h.text||''} · ${new Date(h.time).toLocaleString('vi-VN')} · ${h.chatId}</div></div>`).join('')}
-function clearHistory(){if(!confirm('Xóa lịch sử?'))return;history=[];saveHist();log('Xóa lịch sử','ok')}
-function fillEdit(id){document.getElementById('editId').value=id;switchTab('manage')}
-function fillDel(id){document.getElementById('delId').value=id;switchTab('manage')}
+/* ---------- scheduler ---------- */
+function renderSched(){const l=[...S.sched].sort((a,b)=>a.at-b.at);$('#schedBody').innerHTML=l.length?l.map(s=>`<div class="card"><div class="row"><span class="tag" style="${s.missed?'background:#fff3cd;color:#92400e':''}">${s.missed?'Lỡ hẹn':new Date(s.at).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</span><span class="mu grow">→ ${esc(s.chat)}${s.fails?' · lỗi '+s.fails+'/3':''}</span></div><div class="bubble" style="margin:10px 0">${tg(s.text,s.pm)}</div><div class="row"><button class="btn sm p grow" onclick="schedNow(${s.id})">Gửi ngay</button><button class="btn sm d grow" onclick="schedDel(${s.id})">Hủy</button></div></div>`).join(''):'<div class="empty card"><i>⏰</i>Chưa có tin hẹn giờ</div>'}
+function schedDel(id){S.sched=S.sched.filter(s=>s.id!==id);save();renderSched()}
+async function schedSend(s){const p=S.profiles[s.pi]||P(),d={chat_id:s.chat,text:s.text,...(s.ex||{})};if(s.pm)d.parse_mode=s.pm;if(s.kb)d.reply_markup=s.kb;if(s.nop)d.link_preview_options={is_disabled:true};const r=await api('sendMessage',d,false,{quiet:true,p});
+  if(r.ok){S.sched=S.sched.filter(x=>x.id!==s.id);addHist(r.result.message_id,'Hẹn giờ',s.chat,s.text);toast('⏰ Đã gửi tin hẹn giờ','ok');lg('Hẹn giờ → '+s.chat,'ok');vib([20,40,20])}else{s.fails=(s.fails||0)+1;if(s.fails>=3){s.missed=true}lg('Hẹn giờ lỗi: '+r.description,'err')}save();if($('#pg-sched').classList.contains('on'))renderSched()}
+async function schedNow(id){const s=S.sched.find(x=>x.id===id);if(s)await schedSend(s)}
+setInterval(()=>{const now=Date.now();S.sched.filter(s=>!s.missed&&s.at<=now&&!s.busy).forEach(async s=>{s.busy=true;await schedSend(s);s.busy=false})},3000);
 
-async function sendLoc(){const c=getChatId();if(!c)return;const lat=parseFloat(document.getElementById('lat').value);const lon=parseFloat(document.getElementById('lon').value);if(isNaN(lat)||isNaN(lon)){showR('Lat/Lon không hợp lệ!','err');return}showR('Đang gửi...','info');handle(await api('sendLocation',{chat_id:c,latitude:lat,longitude:lon}),'Gửi vị trí')}
-async function sendVenue(){const c=getChatId();if(!c)return;const lat=parseFloat(document.getElementById('vLat').value);const lon=parseFloat(document.getElementById('vLon').value);const title=document.getElementById('vTitle').value.trim();const addr=document.getElementById('vAddr').value.trim();if(isNaN(lat)||isNaN(lon)||!title||!addr){showR('Điền đủ!','err');return}showR('Đang gửi...','info');handle(await api('sendVenue',{chat_id:c,latitude:lat,longitude:lon,title,address:addr}),'Gửi venue')}
-async function sendContact(){const c=getChatId();if(!c)return;const phone=document.getElementById('cPhone').value.trim();const first=document.getElementById('cFirst').value.trim();if(!phone||!first){showR('Nhập SĐT + tên!','err');return}const data={chat_id:c,phone_number:phone,first_name:first};const last=document.getElementById('cLast').value.trim();if(last)data.last_name=last;showR('Đang gửi...','info');handle(await api('sendContact',data),'Gửi liên hệ')}
-async function sendDice(){const c=getChatId();if(!c)return;showR('Đang gửi...','info');handle(await api('sendDice',{chat_id:c,emoji:document.getElementById('dice').value}),'Gửi dice')}
+/* ---------- templates page ---------- */
+function renderTpls(){$('#tplBody').innerHTML=S.tpls.length?S.tpls.map((t,i)=>`<div class="card"><b>${esc(t.name)}</b><div class="bubble" style="margin:8px 0">${tg(t.text,t.pm)}</div><div class="row"><button class="btn sm p grow" onclick="useTplGo(${i})">Dùng để soạn</button><button class="btn sm d" onclick="S.tpls.splice(${i},1);save();renderTpls()">Xóa</button></div></div>`).join(''):'<div class="empty card"><i>📋</i>Chưa có tin mẫu</div>'}
+function useTplGo(i){const t=S.tpls[i];$('#message').value=t.text;$('#parseMode').value=t.pm||'';closeOv();setTimeout(()=>{go('send');sendPanel('text');onMsg();fmtBar()},120)}
+async function newTpl(){const r=await dlg({title:'Mẫu mới',fields:[{label:'Tên'},{label:'Nội dung',area:true}],ok:'Lưu'});if(!r||!r[0].trim()||!r[1].trim())return;S.tpls.push({name:r[0].trim(),text:r[1].trim(),pm:'HTML'});save();renderTpls()}
 
-async function sendPoll(){const c=getChatId();if(!c)return;const q=document.getElementById('pQ').value.trim();const opts=document.getElementById('pOpts').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);if(!q||opts.length<2){showR('Cần câu hỏi + ≥2 lựa chọn!','err');return}if(opts.length>10){showR('Tối đa 10 lựa chọn!','err');return}const data={chat_id:c,question:q,options:opts.map(t=>({text:t})),is_anonymous:document.getElementById('pAnon').checked,allows_multiple_answers:document.getElementById('pMulti').checked,type:document.getElementById('pType').value};if(data.type==='quiz')data.correct_option_id=parseInt(document.getElementById('pCorrect').value)||0;if(document.getElementById('pSilent').checked)data.disable_notification=true;showR('Đang gửi...','info');handle(await api('sendPoll',data),'Gửi poll')}
+/* ---------- broadcast ---------- */
+function bcFilter(t){bcType=t;$$('#bcSeg button').forEach((b,i)=>b.classList.toggle('on',['all','private','group'][i]===t));renderBc()}
+function bcList(){const q=($('#bcSearch')?.value||'').toLowerCase();return P().subs.filter(s=>(bcType==='all'||(bcType==='private'?s.type==='private':s.type!=='private'))&&(!q||(s.name+s.username+s.id).toLowerCase().includes(q)))}
+function renderBc(){const l=bcList();$('#bcList').innerHTML=l.length?l.map(s=>`<label class="ci"><span class="av ${s.type==='private'?'':'g'}">${esc((s.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(s.name||s.id)}</b><small>${s.username?'@'+esc(s.username)+' · ':''}${esc(s.id)}</small></span><span class="sw"><input type="checkbox" ${bcSel.has(s.id)?'checked':''} onchange="bcTog('${esc(s.id)}',this.checked)"><span></span></span></label>`).join(''):'<div class="empty"><i>👥</i>Chưa có người nhận.<br>Bấm “Thu thập” sau khi họ /start bot.</div>';$('#bcSelN').textContent=[...bcSel].filter(id=>P().subs.some(s=>s.id===id)).length+' / '+P().subs.length}
+function bcTog(id,on){on?bcSel.add(id):bcSel.delete(id);$('#bcSelN').textContent=[...bcSel].filter(i=>P().subs.some(s=>s.id===i)).length+' / '+P().subs.length}
+function bcAll(on){bcList().forEach(s=>on?bcSel.add(s.id):bcSel.delete(s.id));renderBc()}
+async function collectSubs(){const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok)return toast('❌ '+(r?.description||'Lỗi'),'err');let n=0;(r.result||[]).forEach(u=>{const c=(u.message||u.edited_message||u.channel_post||u.my_chat_member||u.callback_query?.message||{}).chat;if(c&&addSub(c))n++});save();renderBc();renderHome();toast(`Thêm ${n} · Tổng ${P().subs.length}`,'ok')}
+async function addSubDlg(){const r=await dlg({title:'Thêm người nhận',fields:[{label:'Chat ID'},{label:'Loại',type:'select',opts:[['private','Người dùng'],['group','Nhóm / kênh']],value:'private'},{label:'Tên gợi nhớ (tùy chọn)'}]});if(!r||!r[0].trim())return;addSub({id:r[0].trim(),type:r[1],title:r[2].trim()||undefined,first_name:r[2].trim()||undefined});save();renderBc();toast('Đã thêm','ok')}
+async function startBc(){const text=$('#bcMsg').value.trim(),img=$('#bcImg').value.trim();if(!text&&!img)return toast('Nhập nội dung hoặc ảnh','err');const list=P().subs.filter(s=>bcSel.has(s.id));if(!list.length)return toast('Chưa chọn người nhận','err');
+  if(!await dlg({title:'Xác nhận gửi hàng loạt',msg:`Gửi tới <b>${list.length}</b> cuộc trò chuyện?`,ok:'Gửi'}))return;
+  bcAbort=false;$('#bcGo').style.display='none';$('#bcStop').style.display='';$('#bcRun').style.display='block';$('#bcFail').innerHTML='';
+  const delay=Math.max(30,parseInt($('#bcDelay').value)||60),pm=$('#bcParse').value,clean=$('#bcClean').checked;let ok=0,fail=0,failed=[];
+  for(let i=0;i<list.length;i++){if(bcAbort)break;const s=list[i],t=vars(text,s,pm);const d={chat_id:s.id};if($('#bcSil').checked)d.disable_notification=true;if($('#bcPro').checked)d.protect_content=true;
+    let m;if(img){m='sendPhoto';d.photo=img;if(t){d.caption=t;if(pm)d.parse_mode=pm}}else{m='sendMessage';d.text=t;if(pm)d.parse_mode=pm}
+    let r=await api(m,d);if(!r.ok&&r.parameters?.retry_after){await sleep(r.parameters.retry_after*1000+200);r=await api(m,d)}
+    if(r.ok)ok++;else{fail++;failed.push({s,e:r.description||''});if(clean&&/blocked|deactivated|chat not found/i.test(r.description||'')){const p=P();p.subs=p.subs.filter(x=>x.id!==s.id);bcSel.delete(s.id)}}
+    $('#bcFill').style.width=Math.round((i+1)/list.length*100)+'%';$('#bcStat').textContent=`${i+1}/${list.length} · ✅ ${ok} · ❌ ${fail}`;if(i<list.length-1)await sleep(delay)}
+  save();$('#bcGo').style.display='';$('#bcStop').style.display='none';renderBc();renderHome();vib([30,50,30]);toast(`Xong: ✅ ${ok} · ❌ ${fail}`,fail?'':'ok');lg(`Broadcast ${ok} OK, ${fail} lỗi`,fail?'err':'ok');
+  if(failed.length){$('#bcFail').innerHTML=`<details class="acc" style="margin-top:8px"><summary>Chi tiết ${failed.length} lỗi</summary><div>${failed.map(f=>`<div class="log err"><span>${esc(f.s.id)}: ${esc(f.e)}</span></div>`).join('')}</div></details>`}}
 
-async function banMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}if(!confirm('Ban '+uid+'?'))return;showR('Đang ban...','info');handle(await api('banChatMember',{chat_id:c,user_id:parseInt(uid)}),'Ban')}
-async function unbanMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang unban...','info');handle(await api('unbanChatMember',{chat_id:c,user_id:parseInt(uid),only_if_banned:true}),'Unban')}
-async function restrictMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang restrict...','info');handle(await api('restrictChatMember',{chat_id:c,user_id:parseInt(uid),permissions:{can_send_messages:false,can_send_media_messages:false,can_send_other_messages:false,can_add_web_page_previews:false}}),'Restrict')}
-async function promoteMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang promote...','info');handle(await api('promoteChatMember',{chat_id:c,user_id:parseInt(uid),can_manage_chat:true,can_delete_messages:true,can_manage_video_chats:true,can_restrict_members:true,can_promote_members:false,can_change_info:true,can_invite_users:true,can_pin_messages:true}),'Promote')}
-async function demoteMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang demote...','info');handle(await api('promoteChatMember',{chat_id:c,user_id:parseInt(uid),can_manage_chat:false,can_delete_messages:false,can_manage_video_chats:false,can_restrict_members:false,can_promote_members:false,can_change_info:false,can_invite_users:false,can_pin_messages:false}),'Demote')}
-async function setTitle(){const c=getChatId();if(!c)return;const title=document.getElementById('chatTitle').value.trim();if(!title){showR('Nhập tên!','err');return}showR('Đang đổi...','info');handle(await api('setChatTitle',{chat_id:c,title}),'Đổi tên')}
-async function setDesc(){const c=getChatId();if(!c)return;const desc=document.getElementById('chatDesc').value.trim();showR('Đang đổi...','info');handle(await api('setChatDescription',{chat_id:c,description:desc}),'Đổi mô tả')}
-async function getChatMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang lấy...','info');const r=await api('getChatMember',{chat_id:c,user_id:parseInt(uid)});if(r?.ok){const m=r.result;side('👤 Thành viên',`<div class="info-box"><div>Status: <strong>${m.status}</strong></div><div>User: <strong>${m.user?.first_name||''} ${m.user?.last_name||''}</strong></div><div>ID: <strong>${m.user?.id}</strong></div>${m.user?.username?'<div>@'+m.user.username+'</div>':''}</div>`);showR('✅ '+m.status,'ok')}else showR('❌ '+(r?.description||''),'err')}
+/* ---------- manage / admin ---------- */
+async function editMsg(){const c=chatId();if(!c)return;const id=parseInt($('#edId').value),t=$('#edTx').value.trim();if(!id||!t)return toast('Nhập ID và nội dung','err');const d={chat_id:c,message_id:id,text:t};if($('#edPm').value)d.parse_mode=$('#edPm').value;done(await api('editMessageText',d),'Sửa tin',t)}
+async function delMsg(){const c=chatId();if(!c)return;const ids=$('#delId').value.split(',').map(s=>parseInt(s)).filter(Boolean);if(!ids.length)return toast('Nhập ID','err');if(!await dlg({title:'Xóa '+ids.length+' tin?',danger:true,ok:'Xóa'}))return;done(await api(ids.length>1?'deleteMessages':'deleteMessage',ids.length>1?{chat_id:c,message_ids:ids}:{chat_id:c,message_id:ids[0]}),'Xóa tin')}
+async function fwdMsg(){const c=chatId();if(!c)return;const f=$('#fwFrom').value.trim(),id=parseInt($('#fwId').value);if(!f||!id)return toast('Nhập đủ thông tin','err');done(await api('forwardMessage',{chat_id:c,from_chat_id:f,message_id:id}),'Forward')}
+async function copyMsg(){const c=chatId();if(!c)return;const f=$('#fwFrom').value.trim(),id=parseInt($('#fwId').value);if(!f||!id)return toast('Nhập đủ thông tin','err');done(await api('copyMessage',{chat_id:c,from_chat_id:f,message_id:id}),'Copy')}
+async function pinMsg(){const c=chatId();if(!c)return;const id=parseInt($('#pinId').value);if(!id)return toast('Nhập ID','err');done(await api('pinChatMessage',{chat_id:c,message_id:id}),'Ghim')}
+async function unpinMsg(){const c=chatId();if(!c)return;const id=parseInt($('#pinId').value),d={chat_id:c};if(id)d.message_id=id;done(await api('unpinChatMessage',d),'Bỏ ghim')}
+async function unpinAll(){const c=chatId();if(!c)return;done(await api('unpinAllChatMessages',{chat_id:c}),'Bỏ ghim tất cả')}
+async function getFileInfo(){const f=$('#fileId').value.trim();if(!f)return toast('Nhập file_id','err');const r=await api('getFile',{file_id:f});if(r?.ok){const x=r.result,l=x.file_path?`https://api.telegram.org/file/bot${P().token}/${x.file_path}`:'';$('#fileOut').innerHTML=`<div class="mu" style="margin-top:8px">Dung lượng: ${x.file_size?(x.file_size/1024).toFixed(1)+' KB':'?'}</div>${l?`<a class="btn p w" style="margin-top:8px;text-decoration:none" href="${l}" target="_blank" rel="noopener">⬇ Tải xuống</a>`:''}`}else toast('❌ '+(r?.description||''),'err')}
+const out=h=>$('#admOut').innerHTML=h;
+async function chatInfo(){const c=chatId();if(!c)return;const r=await api('getChat',{chat_id:c});if(!r?.ok)return toast('❌ '+(r?.description||''),'err');const x=r.result;out(`<div class="mu">Tên: <b>${esc(x.title||x.first_name||'')}</b><br>Loại: ${esc(x.type)} · ID: ${x.id}${x.username?'<br>@'+esc(x.username):''}${x.description?'<br>'+esc(x.description):''}</div>`)}
+async function memberCount(){const c=chatId();if(!c)return;const r=await api('getChatMemberCount',{chat_id:c});r?.ok?out(`<b style="font-size:20px">${r.result}</b> thành viên`):toast('❌ '+(r?.description||''),'err')}
+async function listAdmins(){const c=chatId();if(!c)return;const r=await api('getChatAdministrators',{chat_id:c});if(!r?.ok)return toast('❌ '+(r?.description||''),'err');out(r.result.map(a=>`<div class="ci"><span class="av">${esc((a.user.first_name||'?')[0])}</span><span class="m"><b>${esc(a.user.first_name||'')}</b><small>${a.user.username?'@'+esc(a.user.username)+' · ':''}${a.user.id} · ${esc(a.status)}</small></span></div>`).join(''))}
+async function inviteLink(){const c=chatId();if(!c)return;const r=await api('exportChatInviteLink',{chat_id:c});r?.ok?(out(`<div class="row"><input class="inp grow" style="margin:0" readonly value="${esc(r.result)}"><button class="btn" onclick="copy('${esc(r.result)}')">📋</button></div>`),toast('Đã tạo link mời','ok')):toast('❌ '+(r?.description||''),'err')}
+async function member(a){const c=chatId();if(!c)return;const u=parseInt($('#uid').value);if(!u)return toast('Nhập User ID','err');const dur=parseInt($('#uDur').value)||0,until=dur?Math.floor(Date.now()/1000)+dur:0;let r;
+  const full={can_send_messages:true,can_send_audios:true,can_send_documents:true,can_send_photos:true,can_send_videos:true,can_send_video_notes:true,can_send_voice_notes:true,can_send_polls:true,can_send_other_messages:true,can_add_web_page_previews:true};
+  if(a==='ban'){if(!await dlg({title:'Ban '+u+'?',danger:true,ok:'Ban'}))return;r=await api('banChatMember',{chat_id:c,user_id:u,...(until?{until_date:until}:{})})}
+  else if(a==='unban')r=await api('unbanChatMember',{chat_id:c,user_id:u,only_if_banned:true});
+  else if(a==='mute')r=await api('restrictChatMember',{chat_id:c,user_id:u,permissions:{can_send_messages:false},...(until?{until_date:until}:{})});
+  else if(a==='unmute')r=await api('restrictChatMember',{chat_id:c,user_id:u,permissions:full});
+  else{const on=a==='promote';r=await api('promoteChatMember',{chat_id:c,user_id:u,can_manage_chat:on,can_delete_messages:on,can_manage_video_chats:on,can_restrict_members:on,can_promote_members:false,can_change_info:on,can_invite_users:on,can_pin_messages:on})}
+  done(r,{ban:'Ban',unban:'Unban',mute:'Mute',unmute:'Unmute',promote:'Lên admin',demote:'Hạ admin'}[a])}
+async function memberInfo(){const c=chatId();if(!c)return;const u=parseInt($('#uid').value);if(!u)return toast('Nhập User ID','err');const r=await api('getChatMember',{chat_id:c,user_id:u});r?.ok?out(`<div class="mu">Trạng thái: <b>${esc(r.result.status)}</b><br>${esc(r.result.user.first_name||'')} ${esc(r.result.user.last_name||'')} ${r.result.user.username?'· @'+esc(r.result.user.username):''}</div>`):toast('❌ '+(r?.description||''),'err')}
+async function setTitle(){const c=chatId();if(!c)return;const t=$('#cTitle').value.trim();if(!t)return toast('Nhập tên','err');done(await api('setChatTitle',{chat_id:c,title:t}),'Đổi tên nhóm')}
+async function setDesc(){const c=chatId();if(!c)return;done(await api('setChatDescription',{chat_id:c,description:$('#cDesc').value.trim()}),'Đổi mô tả')}
+async function leaveChat(){const c=chatId();if(!c)return;if(!await dlg({title:'Cho bot rời chat?',danger:true,ok:'Rời'}))return;done(await api('leaveChat',{chat_id:c}),'Rời chat')}
 
-async function fwdMsg(){const c=getChatId();if(!c)return;const from=document.getElementById('fromChat').value.trim();const mid=document.getElementById('fwdMsgId').value.trim();if(!from||!mid){showR('Nhập From + Msg ID!','err');return}showR('Đang forward...','info');handle(await api('forwardMessage',{chat_id:c,from_chat_id:from,message_id:parseInt(mid)}),'Forward')}
-async function copyMsg(){const c=getChatId();if(!c)return;const from=document.getElementById('fromChat').value.trim();const mid=document.getElementById('fwdMsgId').value.trim();if(!from||!mid){showR('Nhập From + Msg ID!','err');return}showR('Đang copy...','info');handle(await api('copyMessage',{chat_id:c,from_chat_id:from,message_id:parseInt(mid)}),'Copy')}
-async function sendAction(){const c=getChatId();if(!c)return;showR('Đang gửi...','info');handle(await api('sendChatAction',{chat_id:c,action:document.getElementById('action').value}),'Chat action')}
-async function pinMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('pinId').value.trim();if(!mid){showR('Nhập Msg ID!','err');return}showR('Đang pin...','info');handle(await api('pinChatMessage',{chat_id:c,message_id:parseInt(mid)}),'Pin')}
-async function unpinMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('pinId').value.trim();const data={chat_id:c};if(mid)data.message_id=parseInt(mid);showR('Đang unpin...','info');handle(await api('unpinChatMessage',data),'Unpin')}
-async function unpinAll(){const c=getChatId();if(!c)return;showR('Đang unpin all...','info');handle(await api('unpinAllChatMessages',{chat_id:c}),'Unpin all')}
-async function leaveChat(){const c=getChatId();if(!c)return;if(!confirm('Bot rời chat?'))return;showR('Đang rời...','info');handle(await api('leaveChat',{chat_id:c}),'Leave')}
-async function getFileInfo(){const fid=document.getElementById('fileId').value.trim();if(!fid){showR('Nhập File ID!','err');return}showR('Đang lấy...','info');const r=await api('getFile',{file_id:fid});if(r?.ok){const f=r.result;const token=getToken();const link=f.file_path?`https://api.telegram.org/file/bot${token}/${f.file_path}`:'';side('📁 File',`<div class="info-box"><div>File ID: <strong>${f.file_id}</strong></div><div>Size: <strong>${f.file_size?(f.file_size/1024).toFixed(1)+' KB':'N/A'}</strong></div>${link?`<div><a href="${link}" target="_blank" style="color:var(--p)">⬇️ Download</a></div>`:''}</div>`);showR('✅ File OK','ok')}else showR('❌ '+(r?.description||''),'err')}
+/* ---------- bot settings (commands/profile) ---------- */
+function cmdRender(){$('#cmdList').innerHTML=cmds.length?cmds.map((c,i)=>`<div class="row" style="margin-bottom:8px"><input class="inp" style="margin:0;width:38%" value="${esc(c.command)}" placeholder="start" oninput="cmds[${i}].command=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')"><input class="inp grow" style="margin:0" value="${esc(c.description)}" placeholder="Mô tả" oninput="cmds[${i}].description=this.value"><button class="btn sm d" onclick="cmds.splice(${i},1);cmdRender()">×</button></div>`).join(''):'<div class="mu" style="margin-bottom:10px">Chưa có lệnh.</div>'}
+function cmdAdd(){cmds.push({command:'',description:''});cmdRender()}
+async function cmdLoad(){const r=await api('getMyCommands');if(r?.ok){cmds=r.result;cmdRender();toast('Đã tải '+cmds.length+' lệnh','ok')}else toast('❌ '+(r?.description||''),'err')}
+async function cmdSave(){const l=cmds.filter(c=>c.command&&c.description);done(await api('setMyCommands',{commands:l}),'Lưu lệnh')}
+async function cmdClear(){if(!await dlg({title:'Xóa toàn bộ lệnh?',danger:true,ok:'Xóa'}))return;const r=await api('deleteMyCommands');if(done(r,'Xóa lệnh')){cmds=[];cmdRender()}}
+async function setProf(m,k,id){done(await api(m,{[k]:$('#'+id).value.trim()}),'Cập nhật hồ sơ bot')}
 
-async function editMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('editId').value.trim();const text=document.getElementById('editText').value.trim();if(!mid||!text){showR('Nhập ID + nội dung!','err');return}const data={chat_id:c,message_id:parseInt(mid),text};const pm=document.getElementById('editParse').value;if(pm)data.parse_mode=pm;showR('Đang sửa...','info');handle(await api('editMessageText',data),'Sửa tin nhắn')}
-async function delMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('delId').value.trim();if(!mid){showR('Nhập Msg ID!','err');return}if(!confirm('Xóa tin nhắn?'))return;showR('Đang xóa...','info');handle(await api('deleteMessage',{chat_id:c,message_id:parseInt(mid)}),'Xóa tin nhắn')}
+/* ---------- webhook ---------- */
+async function getWebhook(){const r=await api('getWebhookInfo');if(!r?.ok)return toast('❌ '+(r?.description||''),'err');const w=r.result;$('#whBox').innerHTML=`<div class="mu">URL: <b>${esc(w.url||'(trống — dùng được getUpdates)')}</b><br>Tin chờ: <b>${w.pending_update_count}</b>${w.last_error_message?`<br><span style="color:var(--er)">Lỗi: ${esc(w.last_error_message)}</span>`:''}</div>`}
+async function setWebhook(){const u=$('#whUrl').value.trim();if(!/^https:\/\//.test(u))return toast('URL phải bắt đầu bằng https://','err');if(!await dlg({title:'Đặt webhook?',msg:'Khi đặt webhook, chức năng nhận tin trong app sẽ ngừng hoạt động.',ok:'Đặt'}))return;stopPoll();done(await api('setWebhook',{url:u}),'Đặt webhook')}
+async function delWebhook(){done(await api('deleteWebhook',{drop_pending_updates:$('#whDrop').checked}),'Xóa webhook')}
 
-async function getMe(){showR('Đang lấy...','info');const r=await api('getMe');if(r?.ok){const u=r.result;side('🤖 Bot',`<div class="info-box"><div>🤖 <strong>${u.first_name}</strong></div><div>@${u.username||'N/A'} · ID: <strong>${u.id}</strong></div><div>Join groups: ${u.can_join_groups?'✅':'❌'}</div><div>Read all: ${u.can_read_all_group_messages?'✅':'❌'}</div><div>Inline: ${u.supports_inline_queries?'✅':'❌'}</div></div>`);showR(`✅ @${u.username}`,'ok');log(`getMe → @${u.username}`,'ok')}else showR('❌ '+(r?.description||''),'err')}
-async function getChat(){const c=getChatId();if(!c)return;showR('Đang lấy...','info');const r=await api('getChat',{chat_id:c});if(r?.ok){const ch=r.result;side('💬 Chat',`<div class="info-box"><div>Type: <strong>${ch.type}</strong></div><div>Name: <strong>${ch.title||ch.first_name||'N/A'}</strong></div><div>ID: <strong>${ch.id}</strong></div>${ch.username?'<div>@'+ch.username+'</div>':''}${ch.description?'<div>'+ch.description+'</div>':''}</div>`);showR(`✅ ${ch.title||ch.first_name}`,'ok')}else showR('❌ '+(r?.description||''),'err')}
-async function getChatMemberCount(){const c=getChatId();if(!c)return;showR('Đang lấy...','info');const r=await api('getChatMemberCount',{chat_id:c});if(r?.ok){showR(`✅ Thành viên: <strong>${r.result}</strong>`,'ok');log(`Member count: ${r.result}`,'ok')}else showR('❌ '+(r?.description||''),'err')}
-async function fetchUpdates(raw=false){showR('Đang lấy...','info');const r=await api('getUpdates',{limit:30,timeout:0});if(!r?.ok){showR('❌ '+(r?.description||''),'err');return}const ups=r.result||[];if(!ups.length){showR('Không có update. Nhắn tin cho bot trước!','info');return}const chats={};ups.forEach(u=>{const msg=u.message||u.edited_message||u.channel_post||u.my_chat_member;if(msg?.chat)chats[msg.chat.id]=msg.chat});let html='<div class="note" style="margin-bottom:6px">Bấm để chọn Chat ID:</div>';Object.values(chats).forEach(c=>{const name=c.title||((c.first_name||'')+' '+(c.last_name||'')).trim()||c.username||c.id;html+=`<div class="item" onclick="selChat('${c.id}')"><div><span class="cid">${c.id}</span><div style="font-size:11px">${name} (${c.type})</div></div></div>`});if(raw)html+=`<div class="sec">Raw</div><pre style="font-size:10px;overflow:auto;max-height:160px;background:var(--bg);padding:7px;border-radius:6px">${JSON.stringify(ups.slice(-3),null,2)}</pre>`;side('🔍 Chat ID',html);showR(`✅ ${Object.keys(chats).length} chat`,'ok')}
-function selChat(id){document.getElementById('chatId').value=id;saveData();showR('Đã chọn: '+id,'ok');log('Chọn chat '+id,'ok')}
+/* ---------- API lab ---------- */
+const PRESETS=[['getMe','{}'],['getChat','{"chat_id":"{chat}"}'],['getChatMemberCount','{"chat_id":"{chat}"}'],['getChatAdministrators','{"chat_id":"{chat}"}'],['getUpdates','{"limit":5,"timeout":0}'],['getWebhookInfo','{}'],['getMyCommands','{}'],['getMyName','{}'],['getMyDescription','{}'],['sendMessage','{"chat_id":"{chat}","text":"Xin chào 👋"}'],['getUserProfilePhotos','{"user_id":0,"limit":1}']];
+function renderLab(){$('#labChips').innerHTML=PRESETS.map((p,i)=>`<button class="chip" onclick="labPick(${i})">${p[0]}</button>`).join('')}
+function labPick(i){$('#apiM').value=PRESETS[i][0];$('#apiP').value=PRESETS[i][1]}
+async function runApi(){const m=$('#apiM').value.trim();if(!/^[A-Za-z]\w*$/.test(m))return toast('Tên phương thức sai','err');let b;try{b=JSON.parse($('#apiP').value.replace(/\{chat\}/g,P().chatId||'')||'{}')}catch(e){return toast('JSON lỗi: '+e.message,'err')}
+  $('#apiOut').textContent='Đang gọi '+m+'…';const r=await api(m,b);lastOut=JSON.stringify(r,null,2);$('#apiOut').textContent=lastOut;lg('API '+m,r.ok?'ok':'err')}
+function copyOut(){copy(lastOut||$('#apiOut').textContent)}
 
-async function getWebhook(){showR('Đang lấy...','info');const r=await api('getWebhookInfo');if(r?.ok){const w=r.result;document.getElementById('whBox').innerHTML=`<div class="info-box"><div>URL: <strong>${w.url||'(trống)'}</strong></div><div>Pending: <strong>${w.pending_update_count}</strong></div>${w.last_error_message?`<div>Error: ${w.last_error_message}</div>`:''}</div>`;showR(w.url?'Webhook active':'Không có webhook','ok')}else showR('❌ '+(r?.description||''),'err')}
-async function delWebhook(){if(!confirm('Xóa webhook?'))return;showR('Đang xóa...','info');handle(await api('deleteWebhook',{drop_pending_updates:false}),'deleteWebhook')}
-async function setWebhook(){const url=document.getElementById('whUrl').value.trim();if(!url){showR('Nhập URL!','err');return}if(!confirm('Set webhook: '+url+'?'))return;showR('Đang set...','info');handle(await api('setWebhook',{url}),'setWebhook')}
+/* ---------- history / settings ---------- */
+function renderHist(){$('#histBody').innerHTML=S.hist.length?S.hist.map(h=>`<div class="card" style="padding:12px"><div class="row"><b onclick="copy('${h.id}')">#${h.id}</b><span class="tag">${esc(h.act)}</span><span class="mu grow" style="text-align:right">${new Date(h.t).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</span></div>${h.text?`<div class="mu" style="margin:6px 0">${esc(h.text)}</div>`:''}<div class="mu">Chat ${esc(h.chat)}</div><div class="row" style="margin-top:8px"><button class="btn sm grow" onclick="histTo('edId','${h.id}')">✏️ Sửa</button><button class="btn sm d grow" onclick="histTo('delId','${h.id}')">🗑 Xóa</button><button class="btn sm grow" onclick="histTo('pinId','${h.id}')">📌 Ghim</button></div></div>`).join(''):'<div class="empty card"><i>📜</i>Chưa có lịch sử</div>'}
+function histTo(f,id){closeOv();setTimeout(()=>{$('#'+f).value=id;openPage('pg-manage')},150)}
+async function clearHist(){if(!await dlg({title:'Xóa lịch sử gửi?',danger:true,ok:'Xóa'}))return;S.hist=[];save();renderHist()}
+function renderSet(){$('#stHap').checked=S.set.haptic;$('#stCol').checked=S.set.autoCollect;$('#stCb').checked=S.set.answerCb;applyTheme()}
+function exportAll(){const d=JSON.parse(JSON.stringify(S));if(!$('#bkTok').checked)d.profiles.forEach(p=>p.token='');d.profiles.forEach(p=>{p.inbox={};p.me=null});const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='bot-studio-backup.json';a.click();toast('Đã xuất sao lưu','ok')}
+function importAll(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.profiles||!Array.isArray(d.profiles))throw new Error('File không đúng định dạng');S={...S,...d,set:{...S.set,...(d.set||{})}};S.profiles.forEach(p=>Object.assign(p,{...newProf(p.name),...p}));S.cur=Math.min(S.cur||0,S.profiles.length-1);save();renderAll();toast('Khôi phục thành công','ok')}catch(x){toast('Lỗi: '+x.message,'err')}};r.readAsText(f)};i.click()}
+async function resetAll(){if(!await dlg({title:'Xóa toàn bộ?',msg:'Mọi hồ sơ, token, mẫu, luật, lịch sử sẽ bị xóa.',danger:true,ok:'Xóa hết'}))return;stopPoll();localStorage.clear();location.reload()}
 
-function exportAll(){const data={profiles,curProfile,subs,templates,history};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='bot-tester-backup.json';a.click();log('Export all','ok');toast('Đã export')}
-function importAll(){const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.profiles)profiles=d.profiles;if(d.curProfile!=null)curProfile=d.curProfile;if(d.subs)subs=d.subs;if(d.templates)templates=d.templates;if(d.history)history=d.history;localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile);saveSubs();saveTpls();saveHist();applyProfile();renderProfiles();showR('Import OK!','ok');log('Import backup','ok')}catch(err){showR('Lỗi: '+err.message,'err')}};rd.readAsText(f)};inp.click()}
+/* ---------- home / tools ---------- */
+function renderHome(){const p=P(),m=p.me,today=new Date().toDateString(),sent=S.hist.filter(h=>new Date(h.t).toDateString()===today).length,priv=p.subs.filter(s=>s.type==='private').length,grp=p.subs.length-priv,pend=S.sched.filter(s=>!s.missed).length;
+  const Q=[['✍️','Soạn tin',"go('send')"],['📢','Gửi hàng loạt',"go('bc')"],['🤖','Tự trả lời',"openPage('pg-rules')"],['📊','Bình chọn',"go('send');sendPanel('poll')"],['⏰','Hẹn giờ',"openPage('pg-sched')"],['🗂','Album',"go('send');sendPanel('album')"],['📍','Vị trí',"go('send');sendPanel('loc')"],['🧪','API Lab',"openPage('pg-lab')"]];
+  $('#homeBody').innerHTML=`<div class="card hero"><h2>${m?esc(m.name):'Chào mừng 👋'}</h2><p>${m?'@'+esc(m.username)+' · ID '+m.id:'Nhập token từ @BotFather để bắt đầu.'}</p><div class="row"><button class="btn" onclick="openBot()">⚙️ ${m?'Cấu hình':'Kết nối bot'}</button>${p.token?'<button class="btn" onclick="run(this,testBot)">⚡ Kiểm tra</button>':''}</div></div>
+  <div class="grid g4" style="margin-bottom:12px"><div class="stat"><b>${priv}</b><span>Người dùng</span></div><div class="stat"><b>${grp}</b><span>Nhóm</span></div><div class="stat"><b>${sent}</b><span>Gửi hôm nay</span></div><div class="stat"><b>${pend}</b><span>Hẹn giờ</span></div></div>
+  <div class="card"><div class="row"><div class="grow"><b>📡 Nhận tin realtime</b><div class="mu">${poll.on?'Đang nhận tin từ bot…':'Bật để xem tin nhắn và chạy luật tự trả lời'}</div></div><label class="sw"><input type="checkbox" id="pollSw" onchange="togglePoll(this.checked)" ${poll.on?'checked':''}><span></span></label></div></div>
+  <div class="card"><h3>⚡ Truy cập nhanh</h3><div class="grid g4">${Q.map(q=>`<button class="tile" onclick="${q[2]}"><i>${q[0]}</i>${q[1]}</button>`).join('')}</div></div>
+  <div class="card"><h3>🕘 Gần đây <span class="sp"></span><button class="btn sm" onclick="openPage('pg-hist')">Tất cả</button></h3>${S.hist.slice(0,4).map(h=>`<div class="lrow" style="padding:8px 0"><span class="ic">${h.act.includes('Hẹn')?'⏰':'✉️'}</span><span style="min-width:0"><b>${esc(h.act)} · #${h.id}</b><small>${esc(h.text||h.chat)}</small></span></div>`).join('')||'<div class="mu">Chưa gửi tin nào.</div>'}</div>`}
+function renderTools(){const T=[['🤖','Tự động trả lời','Luật từ khóa, regex, chờ giữa 2 lần',"openPage('pg-rules')"],['⏰','Hẹn giờ gửi','Lên lịch tin nhắn',"openPage('pg-sched')"],['📋','Tin mẫu','Lưu & dùng lại nội dung',"openPage('pg-tpls')"],['🛠','Quản lý tin nhắn','Sửa, xóa, ghim, forward, copy',"openPage('pg-manage')"],['👑','Quản trị nhóm','Ban, mute, admin, link mời',"openPage('pg-admin')"],['🧩','Hồ sơ & lệnh bot','Lệnh /menu, tên, mô tả',"openPage('pg-botset');cmdRender()"],['🔗','Webhook','Xem / đặt / xóa webhook',"openPage('pg-webhook')"],['🧪','API Lab','Gọi bất kỳ phương thức Bot API',"openPage('pg-lab')"],['📜','Lịch sử gửi','Tin đã gửi gần đây',"openPage('pg-hist')"],['⚙️','Cài đặt & sao lưu','Giao diện, rung, sao lưu',"openPage('pg-set')"]];
+  $('#toolsBody').innerHTML=`<div class="card" style="padding:4px 14px">${T.map(t=>`<button class="lrow" onclick="${t[3]}"><span class="ic">${t[0]}</span><span><b>${t[1]}</b><small>${t[2]}</small></span><span class="ar">›</span></button>`).join('')}</div><p class="mu" style="text-align:center">Bot Studio · dữ liệu lưu cục bộ trên thiết bị</p>`}
+function renderAll(){renderHeader();renderHome();renderRcpt();renderUnread();togglePollUI();const v=($('.view.on')||{}).id;if(v==='v-send')renderSend();if(v==='v-inbox')renderInbox();if(v==='v-bc')renderBc();if(v==='v-tools')renderTools()}
+
+/* ---------- init ---------- */
+document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter'&&$('#v-send').classList.contains('on')&&$('#sp-text').classList.contains('on'))sendText()});
+matchMedia('(prefers-color-scheme:dark)').addEventListener?.('change',applyTheme);
+window.addEventListener('beforeunload',e=>{if(S.sched.some(s=>!s.missed)||poll.on){e.preventDefault();e.returnValue=''}});
+$('#diceGrid').innerHTML=['🎲','🎯','🏀','⚽','🎳','🎰'].map(e=>`<button class="tile" onclick="sendDice('${e}')"><i>${e}</i></button>`).join('');
+$('#actGrid').innerHTML=['typing','upload_photo','record_video','record_voice','upload_document','find_location'].map(a=>`<button class="btn sm" onclick="sendAct('${a}')">${a}</button>`).join('');
+load();try{$('#message').value=localStorage.getItem(DKEY)||'Xin chào {first}! 👋\nĐây là <b>Bot Studio</b> 🚀'}catch(e){}
+applyTheme();renderAll();if(P().token)testBot(true);
 </script>
 </body>
 </html>
