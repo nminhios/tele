@@ -1,271 +1,581 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Telegram Bot (Lưu tự động & Gửi nhanh)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: #ffffff;
-            padding: 25px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-        }
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        h2 {
-            margin: 0;
-            color: #333;
-            font-size: 20px;
-        }
-        .btn-clear {
-            background: #e0e0e0;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            color: #333;
-        }
-        .btn-clear:hover {
-            background: #d0d0d0;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-            font-size: 14px;
-        }
-        input[type="text"], textarea, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        textarea {
-            resize: vertical;
-            height: 80px;
-        }
-        .note {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-            font-style: italic;
-        }
-        .btn-send {
-            width: 100%;
-            padding: 11px;
-            background-color: #0088cc;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-send:hover {
-            background-color: #006699;
-        }
-        #result {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-            display: none;
-            font-size: 14px;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram Bot Tester Pro Max</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--p:#0088cc;--pd:#006699;--pl:#e6f4fb;--ok:#059669;--err:#dc2626;--warn:#d97706;--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);--r:14px;--rs:9px}
+[data-theme=dark]{--bg:#0b1220;--card:#151e2e;--text:#e8eef7;--muted:#8b9bb4;--border:#243044;--pl:#0c2d48;--shadow:0 1px 3px rgba(0,0,0,.3),0 4px 20px rgba(0,0,0,.35)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;transition:background .25s,color .25s}
+.app{max-width:1280px;margin:0 auto;padding:18px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;box-shadow:var(--shadow)}
+.header-left{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0088cc,#00b4ff);display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 4px 14px rgba(0,136,204,.35)}
+.header h1{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.header-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.header-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn-icon{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 11px;cursor:pointer;font-size:12.5px;color:var(--text);display:flex;align-items:center;gap:5px;transition:all .15s;font-family:inherit}
+.btn-icon:hover{border-color:var(--p);background:var(--pl);color:var(--p)}
+.layout{display:grid;grid-template-columns:290px 1fr;gap:16px}
+@media(max-width:960px){.layout{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:14px}
+.card-h{padding:11px 15px;border-bottom:1px solid var(--border);font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:7px;background:linear-gradient(180deg,var(--pl),transparent);color:var(--p)}
+.card-b{padding:14px}
+.fg{margin-bottom:12px}.fg:last-child{margin-bottom:0}
+label{display:block;margin-bottom:4px;font-weight:500;font-size:12.5px}
+.lr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+input[type=text],input[type=number],input[type=url],input[type=password],textarea,select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;background:var(--bg);color:var(--text);font-family:inherit;transition:border-color .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(0,136,204,.12)}
+textarea{resize:vertical;min-height:78px}
+.note{font-size:11px;color:var(--muted);margin-top:3px}
+.btn{padding:8px 13px;border:none;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-family:inherit}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}.btn-p:disabled{opacity:.55;cursor:not-allowed}
+.btn-s{background:var(--bg);color:var(--text);border:1px solid var(--border)}.btn-s:hover{border-color:var(--p);background:var(--pl);color:var(--p)}
+.btn-d{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}.btn-d:hover{background:#fee2e2}
+.btn-ok{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+.btn-w{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.btn-block{width:100%}.btn-sm{padding:5px 9px;font-size:11.5px}
+.bg{display:flex;gap:6px;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;padding:5px;background:var(--bg);border-radius:10px;margin-bottom:13px;overflow-x:auto;scrollbar-width:thin}
+.tab{padding:7px 11px;border:none;background:transparent;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .15s;font-family:inherit}
+.tab:hover{color:var(--text);background:var(--card)}
+.tab.active{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(0,136,204,.3)}
+.tc{display:none}.tc.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.cg{display:flex;flex-wrap:wrap;gap:10px;margin-top:5px}
+.ci{display:flex;align-items:center;gap:5px;font-size:12.5px;cursor:pointer}
+.ci input{width:14px;height:14px;accent-color:var(--p)}
+.result{padding:10px 13px;border-radius:var(--rs);font-size:12.5px;display:none;margin-top:12px;word-break:break-word}
+.result.ok{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;display:block}
+.result.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;display:block}
+.result.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;display:block}
+[data-theme=dark] .result.ok{background:#064e3b;color:#6ee7b7;border-color:#065f46}
+[data-theme=dark] .result.err{background:#7f1d1d;color:#fca5a5;border-color:#991b1b}
+[data-theme=dark] .result.info{background:#1e3a5f;color:#93c5fd;border-color:#1e40af}
+.log-box{max-height:240px;overflow-y:auto;font-size:11.5px;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:6px}
+.log-item{padding:4px 7px;border-bottom:1px solid var(--border);display:flex;gap:7px;align-items:flex-start}
+.log-item:last-child{border-bottom:none}
+.log-time{color:var(--muted);white-space:nowrap;font-size:10.5px;min-width:58px}
+.log-ok{color:var(--ok)}.log-err{color:var(--err)}
+.fzone{border:2px dashed var(--border);border-radius:var(--rs);padding:16px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg)}
+.fzone:hover,.fzone.over{border-color:var(--p);background:var(--pl)}
+.fzone input{display:none}
+.fname{font-size:12px;color:var(--p);margin-top:5px;font-weight:500}
+.kb-row{display:flex;gap:5px;margin-bottom:5px;flex-wrap:wrap}
+.kb-btn{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:11.5px;display:flex;align-items:center;gap:3px}
+.kb-btn button{background:none;border:none;color:var(--err);cursor:pointer;font-size:13px}
+.char{font-size:11px;color:var(--muted)}.char.warn{color:var(--warn)}.char.over{color:var(--err)}
+.info-box{background:var(--bg);border-radius:var(--rs);padding:10px;font-size:12.5px;line-height:1.65}
+.info-box strong{color:var(--p)}
+.item{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:8px 11px;margin-bottom:5px;cursor:pointer;transition:all .12s;font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
+.item:hover{border-color:var(--p);background:var(--pl)}
+.cid{font-weight:600;color:var(--p);font-size:12.5px}
+.sec{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:13px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.token-w{position:relative}
+.token-t{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px}
+.prog{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:7px 0;display:none}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--p),#00b4ff);border-radius:3px;width:0%;transition:width .25s}
+.badge{display:inline-block;padding:1px 7px;border-radius:8px;font-size:10.5px;font-weight:600;background:var(--pl);color:var(--p)}
+.sub-list{max-height:200px;overflow-y:auto}
+.stats{display:flex;gap:8px;margin-bottom:10px}
+.stat{flex:1;background:var(--bg);border-radius:var(--rs);padding:9px;text-align:center;border:1px solid var(--border)}
+.stat .n{font-size:18px;font-weight:700;color:var(--p)}.stat .l{font-size:10.5px;color:var(--muted)}
+.mdh{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px}
+.mdh button{padding:2px 6px;font-size:11px;border:1px solid var(--border);background:var(--bg);border-radius:4px;cursor:pointer;color:var(--text);font-family:inherit;font-weight:600}
+.mdh button:hover{border-color:var(--p);background:var(--pl);color:var(--p)}
+.hist-item{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:7px 10px;margin-bottom:5px;font-size:12px}
+.hist-item .hid{color:var(--p);font-weight:600;cursor:pointer}
+.hist-item .ht{color:var(--muted);font-size:11px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tpl-item{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:5px;font-size:12.5px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.tpl-item:hover{border-color:var(--p);background:var(--pl)}
+.preview{background:#1a2332;color:#e2e8f0;border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;margin-top:8px;display:none;border:1px solid #2d3a4f}
+.preview.show{display:block}
+.preview b{color:#fff}.preview i{color:#a5b4fc}.preview code{background:#0f172a;padding:1px 4px;border-radius:3px;font-size:12px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow);font-size:13px;z-index:999;max-width:320px;animation:slideUp .25s ease;display:none}
+.toast.show{display:block}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.copy-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:0 3px}
+.copy-btn:hover{color:var(--p)}
+@media(max-width:600px){.app{padding:10px}.header{padding:12px}.header h1{font-size:16px}.card-b{padding:12px}}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <div class="header-flex">
-        <h2>Test Telegram Bot</h2>
-        <button class="btn-clear" onclick="clearStorage()" title="Xóa dữ liệu đã lưu">Xóa bộ nhớ</button>
-    </div>
-    
-    <!-- Ô nhập Bot Token -->
-    <div class="form-group">
-        <label for="botToken">Bot Token:</label>
-        <input type="text" id="botToken" placeholder="Ví dụ: 123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" oninput="saveData()">
-    </div>
-
-    <!-- Chọn loại gửi: Cá nhân hay Nhóm -->
-    <div class="form-group">
-        <label for="chatType">Gửi tới:</label>
-        <select id="chatType" onchange="toggleChatIdLabel(); saveData();">
-            <option value="private">Chat Cá Nhân (User ID)</option>
-            <option value="group">Nhóm / Channel (Group ID)</option>
-        </select>
-    </div>
-
-    <!-- Ô nhập Chat ID / Group ID -->
-    <div class="form-group">
-        <label id="chatIdLabel" for="chatId">Chat ID (Cá nhân):</label>
-        <input type="text" id="chatId" placeholder="Nhập ID cá nhân của bạn" oninput="saveData()">
-        <div id="chatIdNote" class="note">Mẹo: Chat ID nhóm thường bắt đầu bằng dấu trừ (ví dụ: -100xxxxxxxxxx).</div>
-    </div>
-
-    <!-- Ô nhập nội dung tin nhắn -->
-    <div class="form-group">
-        <label for="message">Nội dung tin nhắn: <span style="font-weight: normal; font-size: 11px; color: #888;">(Bấm Ctrl + Enter để gửi nhanh)</span></label>
-        <textarea id="message" placeholder="Nhập nội dung..." onkeydown="handleKeyPress(event)">Xin chào, test gửi tin nhắn nhanh!</textarea>
-    </div>
-
-    <button class="btn-send" onclick="sendTelegramMessage()">Gửi Tin Nhắn</button>
-
-    <div id="result"></div>
+<div class="app">
+<div class="header">
+  <div class="header-left">
+    <div class="logo">✈️</div>
+    <div><h1>Telegram Bot Tester Pro Max</h1><div class="header-sub">Bot API đầy đủ · Broadcast · Admin · Templates · Multi-profile</div></div>
+  </div>
+  <div class="header-actions">
+    <button class="btn-icon" onclick="toggleTheme()"><span id="themeIcon">🌙</span></button>
+    <button class="btn-icon" onclick="exportAll()">💾 Export</button>
+    <button class="btn-icon" onclick="importAll()">📥 Import</button>
+    <button class="btn-icon" onclick="clearAll()">🗑️ Reset</button>
+  </div>
 </div>
 
+<div class="layout">
+<!-- LEFT -->
+<div>
+  <div class="card">
+    <div class="card-h">⚙️ Cấu hình</div>
+    <div class="card-b">
+      <div class="fg">
+        <label>Hồ sơ Bot</label>
+        <select id="profileSel" onchange="switchProfile()"></select>
+        <div class="bg" style="margin-top:5px">
+          <button class="btn btn-sm btn-s" onclick="addProfile()">+ Hồ sơ</button>
+          <button class="btn btn-sm btn-d" onclick="delProfile()">Xóa</button>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Bot Token</label>
+        <div class="token-w">
+          <input type="password" id="botToken" placeholder="123456:ABC..." oninput="saveData()">
+          <button class="token-t" onclick="toggleToken()">👁️</button>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Gửi tới</label>
+        <select id="chatType" onchange="toggleChatLabel();saveData()">
+          <option value="private">Cá nhân</option>
+          <option value="group">Nhóm / Channel</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="lr"><label id="chatIdLabel">Chat ID</label><button class="btn btn-sm btn-s" onclick="fetchUpdates()">🔍 Tìm</button></div>
+        <input type="text" id="chatId" placeholder="ID..." oninput="saveData()">
+      </div>
+      <div class="bg" style="margin-top:8px">
+        <button class="btn btn-sm btn-s" onclick="getMe()">🤖 Bot</button>
+        <button class="btn btn-sm btn-s" onclick="getChat()">💬 Chat</button>
+        <button class="btn btn-sm btn-s" onclick="getChatMemberCount()">👥 TV</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h">👥 Người dùng</div>
+    <div class="card-b">
+      <div class="stats">
+        <div class="stat"><div class="n" id="subCount">0</div><div class="l">User</div></div>
+        <div class="stat"><div class="n" id="groupCount">0</div><div class="l">Nhóm</div></div>
+        <div class="stat"><div class="n" id="histCount">0</div><div class="l">Lịch sử</div></div>
+      </div>
+      <div class="bg">
+        <button class="btn btn-sm btn-s" onclick="collectSubs()">📥 Thu thập</button>
+        <button class="btn btn-sm btn-s" onclick="switchTab('broadcast')">📢 Broadcast</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="sidePanel" style="display:none">
+    <div class="card-h" id="sideTitle">📋 Info</div>
+    <div class="card-b" id="sideBody"></div>
+  </div>
+</div>
+
+<!-- RIGHT -->
+<div>
+  <div class="card">
+    <div class="card-h">🚀 Thao tác</div>
+    <div class="card-b">
+      <div class="tabs">
+        <button class="tab active" data-tab="text" onclick="switchTab('text')">📝 Text</button>
+        <button class="tab" data-tab="media" onclick="switchTab('media')">🖼️ Media</button>
+        <button class="tab" data-tab="broadcast" onclick="switchTab('broadcast')">📢 Broadcast</button>
+        <button class="tab" data-tab="templates" onclick="switchTab('templates')">📋 Mẫu</button>
+        <button class="tab" data-tab="location" onclick="switchTab('location')">📍 Vị trí</button>
+        <button class="tab" data-tab="poll" onclick="switchTab('poll')">📊 Poll</button>
+        <button class="tab" data-tab="admin" onclick="switchTab('admin')">👑 Admin</button>
+        <button class="tab" data-tab="advanced" onclick="switchTab('advanced')">⚡ Nâng cao</button>
+        <button class="tab" data-tab="manage" onclick="switchTab('manage')">🛠️ Quản lý</button>
+        <button class="tab" data-tab="history" onclick="switchTab('history')">📜 Lịch sử</button>
+        <button class="tab" data-tab="webhook" onclick="switchTab('webhook')">🔗 Webhook</button>
+      </div>
+
+      <!-- TEXT -->
+      <div id="tab-text" class="tc active">
+        <div class="fg">
+          <div class="lr"><label>Nội dung</label><span class="char" id="charCount">0/4096</span></div>
+          <div class="mdh">
+            <button type="button" onclick="insFmt('**','**')">B</button>
+            <button type="button" onclick="insFmt('_','_')"><i>I</i></button>
+            <button type="button" onclick="insFmt('`','`')">Code</button>
+            <button type="button" onclick="insFmt('[','](url)')">Link</button>
+            <button type="button" onclick="insFmt('<b>','</b>')">HTML B</button>
+            <button type="button" onclick="insFmt('<i>','</i>')">HTML I</button>
+            <button type="button" onclick="insFmt('<code>','</code>')">HTML Code</button>
+            <button type="button" onclick="togglePreview()">👁️ Preview</button>
+          </div>
+          <textarea id="message" placeholder="Nội dung... (Ctrl+Enter)" oninput="updateChar();updatePreview()" onkeydown="onKey(event)">Xin chào từ <b>Bot Tester Pro Max</b> 🚀</textarea>
+          <div class="preview" id="msgPreview"></div>
+        </div>
+        <div class="fg">
+          <label>Parse Mode</label>
+          <select id="parseMode" onchange="updatePreview()">
+            <option value="">Không</option><option value="Markdown">Markdown</option>
+            <option value="MarkdownV2">MarkdownV2</option><option value="HTML" selected>HTML</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Tùy chọn</label>
+          <div class="cg">
+            <label class="ci"><input type="checkbox" id="optSilent"> 🔇 Im lặng</label>
+            <label class="ci"><input type="checkbox" id="optProtect"> 🔒 Bảo vệ</label>
+            <label class="ci"><input type="checkbox" id="optNoPreview"> 🚫 Tắt link preview</label>
+          </div>
+        </div>
+        <div class="fg"><label>Reply Message ID</label><input type="text" id="replyId" placeholder="ID tin nhắn"></div>
+        <div class="sec">Inline Keyboard</div>
+        <div class="bg" style="margin-bottom:6px">
+          <button class="btn btn-sm btn-s" onclick="addKbBtn()">+ Nút</button>
+          <button class="btn btn-sm btn-s" onclick="addKbRow()">+ Hàng</button>
+          <button class="btn btn-sm btn-d" onclick="clearKb()">Xóa</button>
+        </div>
+        <div id="kbPrev"></div>
+        <button class="btn btn-p btn-block" id="btnSend" onclick="sendText()" style="margin-top:10px">📤 Gửi tin nhắn</button>
+      </div>
+
+      <!-- MEDIA -->
+      <div id="tab-media" class="tc">
+        <div class="fg">
+          <label>Loại</label>
+          <select id="mediaType">
+            <option value="photo">📷 Photo</option><option value="document">📄 Document</option>
+            <option value="video">🎬 Video</option><option value="audio">🎵 Audio</option>
+            <option value="voice">🎤 Voice</option><option value="animation">🎞️ GIF</option>
+            <option value="sticker">😊 Sticker</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>File / URL / file_id</label>
+          <div class="fzone" id="fzone" onclick="document.getElementById('mFile').click()">
+            <div>📁 Kéo thả hoặc bấm chọn</div>
+            <input type="file" id="mFile" onchange="onFile(this)">
+            <div class="fname" id="fName"></div>
+          </div>
+          <input type="text" id="mUrl" placeholder="URL hoặc file_id" style="margin-top:6px">
+        </div>
+        <div class="fg"><label>Caption</label><textarea id="mCap" style="min-height:50px" placeholder="Chú thích..."></textarea></div>
+        <div class="fg">
+          <label>Parse Mode</label>
+          <select id="mParse"><option value="">Không</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="HTML">HTML</option></select>
+        </div>
+        <div class="cg" style="margin-bottom:10px">
+          <label class="ci"><input type="checkbox" id="mSilent"> 🔇 Im lặng</label>
+          <label class="ci"><input type="checkbox" id="mProtect"> 🔒 Bảo vệ</label>
+        </div>
+        <button class="btn btn-p btn-block" onclick="sendMedia()">📤 Gửi Media</button>
+      </div>
+
+      <!-- BROADCAST -->
+      <div id="tab-broadcast" class="tc">
+        <div class="sec">Danh sách người dùng</div>
+        <div class="bg" style="margin-bottom:8px">
+          <button class="btn btn-sm btn-s" onclick="collectSubs()">📥 Thu thập</button>
+          <button class="btn btn-sm btn-s" onclick="addSubManual()">+ Thêm ID</button>
+          <button class="btn btn-sm btn-s" onclick="exportSubs()">💾 Export</button>
+          <button class="btn btn-sm btn-s" onclick="importSubs()">📥 Import</button>
+          <button class="btn btn-sm btn-d" onclick="clearSubs()">🗑️ Xóa hết</button>
+        </div>
+        <div class="sub-list" id="subList"><div class="note">Chưa có user. Thu thập sau khi họ /start.</div></div>
+        <div class="sec">Gửi hàng loạt</div>
+        <div class="fg"><label>Nội dung</label><textarea id="bcMsg" placeholder="Tin nhắn gửi tất cả..." style="min-height:80px"></textarea></div>
+        <div class="fg">
+          <label>Parse Mode</label>
+          <select id="bcParse"><option value="">Không</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="HTML" selected>HTML</option></select>
+        </div>
+        <div class="fg">
+          <label>Đối tượng</label>
+          <select id="bcTarget"><option value="private">Chỉ user</option><option value="group">Chỉ nhóm</option><option value="all">Tất cả</option></select>
+        </div>
+        <div class="fg"><label>Delay (ms) ≥50</label><input type="number" id="bcDelay" value="80" min="30" max="3000"></div>
+        <div class="cg" style="margin-bottom:8px">
+          <label class="ci"><input type="checkbox" id="bcSilent"> 🔇 Im lặng</label>
+          <label class="ci"><input type="checkbox" id="bcProtect"> 🔒 Bảo vệ</label>
+        </div>
+        <div class="prog" id="bcProg"><div class="prog-f" id="bcFill"></div></div>
+        <div id="bcStatus" class="note" style="margin-bottom:6px"></div>
+        <div class="bg">
+          <button class="btn btn-p" id="btnBc" onclick="startBc()">📢 Bắt đầu Broadcast</button>
+          <button class="btn btn-d" id="btnStopBc" onclick="stopBc()" style="display:none">⏹️ Dừng</button>
+        </div>
+      </div>
+
+      <!-- TEMPLATES -->
+      <div id="tab-templates" class="tc">
+        <div class="sec">Mẫu đã lưu</div>
+        <div class="bg" style="margin-bottom:8px"><button class="btn btn-sm btn-s" onclick="saveTemplate()">💾 Lưu tin hiện tại</button></div>
+        <div id="tplList"><div class="note">Chưa có mẫu.</div></div>
+        <div class="sec">Tạo mẫu mới</div>
+        <div class="fg"><label>Tên</label><input type="text" id="tplName" placeholder="VD: Chào mừng"></div>
+        <div class="fg"><label>Nội dung</label><textarea id="tplContent" style="min-height:60px"></textarea></div>
+        <button class="btn btn-p btn-block" onclick="addTemplate()">+ Thêm mẫu</button>
+      </div>
+
+      <!-- LOCATION -->
+      <div id="tab-location" class="tc">
+        <div class="sec">📍 Vị trí</div>
+        <div class="fg"><label>Latitude</label><input type="number" id="lat" step="any" placeholder="21.0285"></div>
+        <div class="fg"><label>Longitude</label><input type="number" id="lon" step="any" placeholder="105.8542"></div>
+        <button class="btn btn-p btn-block" onclick="sendLoc()" style="margin-bottom:12px">📍 Gửi vị trí</button>
+        <div class="sec">🏢 Venue</div>
+        <div class="fg"><label>Lat</label><input type="number" id="vLat" step="any"></div>
+        <div class="fg"><label>Lon</label><input type="number" id="vLon" step="any"></div>
+        <div class="fg"><label>Tên</label><input type="text" id="vTitle" placeholder="Hồ Gươm"></div>
+        <div class="fg"><label>Địa chỉ</label><input type="text" id="vAddr" placeholder="Hoàn Kiếm"></div>
+        <button class="btn btn-p btn-block" onclick="sendVenue()" style="margin-bottom:12px">🏢 Gửi Venue</button>
+        <div class="sec">📞 Liên hệ</div>
+        <div class="fg"><label>SĐT</label><input type="text" id="cPhone" placeholder="+8490..."></div>
+        <div class="fg"><label>Tên</label><input type="text" id="cFirst"></div>
+        <div class="fg"><label>Họ</label><input type="text" id="cLast"></div>
+        <button class="btn btn-p btn-block" onclick="sendContact()" style="margin-bottom:12px">📞 Gửi liên hệ</button>
+        <div class="sec">🎲 Dice</div>
+        <div class="fg"><select id="dice"><option value="🎲">🎲</option><option value="🎯">🎯</option><option value="🏀">🏀</option><option value="⚽">⚽</option><option value="🎳">🎳</option><option value="🎰">🎰</option></select></div>
+        <button class="btn btn-p btn-block" onclick="sendDice()">🎲 Gửi Dice</button>
+      </div>
+
+      <!-- POLL -->
+      <div id="tab-poll" class="tc">
+        <div class="fg"><label>Câu hỏi</label><input type="text" id="pQ"></div>
+        <div class="fg"><label>Lựa chọn (mỗi dòng 1)</label><textarea id="pOpts" style="min-height:90px" placeholder="A&#10;B&#10;C"></textarea></div>
+        <div class="fg"><label>Loại</label>
+          <select id="pType" onchange="document.getElementById('pCorrectG').style.display=this.value==='quiz'?'block':'none'">
+            <option value="regular">Regular</option><option value="quiz">Quiz</option>
+          </select>
+        </div>
+        <div class="fg" id="pCorrectG" style="display:none"><label>Index đáp án đúng</label><input type="number" id="pCorrect" value="0" min="0"></div>
+        <div class="cg" style="margin-bottom:10px">
+          <label class="ci"><input type="checkbox" id="pAnon" checked> Ẩn danh</label>
+          <label class="ci"><input type="checkbox" id="pMulti"> Nhiều lựa chọn</label>
+          <label class="ci"><input type="checkbox" id="pSilent"> 🔇 Im lặng</label>
+        </div>
+        <button class="btn btn-p btn-block" onclick="sendPoll()">📊 Gửi Poll</button>
+      </div>
+
+      <!-- ADMIN -->
+      <div id="tab-admin" class="tc">
+        <div class="note" style="margin-bottom:10px">Bot cần quyền admin trong nhóm.</div>
+        <div class="sec">Ban / Unban / Restrict</div>
+        <div class="fg"><label>User ID</label><input type="text" id="admUserId"></div>
+        <div class="bg" style="margin-bottom:10px">
+          <button class="btn btn-sm btn-d" onclick="banMember()">🚫 Ban</button>
+          <button class="btn btn-sm btn-ok" onclick="unbanMember()">✅ Unban</button>
+          <button class="btn btn-sm btn-w" onclick="restrictMember()">🔒 Restrict</button>
+        </div>
+        <div class="sec">Promote / Demote</div>
+        <div class="bg" style="margin-bottom:10px">
+          <button class="btn btn-sm btn-s" onclick="promoteMember()">⬆️ Promote</button>
+          <button class="btn btn-sm btn-s" onclick="demoteMember()">⬇️ Demote</button>
+        </div>
+        <div class="sec">Chat Settings</div>
+        <div class="fg"><label>Đổi tên</label><div class="bg"><input type="text" id="chatTitle" style="flex:1"><button class="btn btn-sm btn-s" onclick="setTitle()">Đặt</button></div></div>
+        <div class="fg"><label>Đổi mô tả</label><div class="bg"><input type="text" id="chatDesc" style="flex:1"><button class="btn btn-sm btn-s" onclick="setDesc()">Đặt</button></div></div>
+        <div class="sec">Thành viên</div>
+        <button class="btn btn-s btn-block" onclick="getChatMember()">👤 getChatMember</button>
+      </div>
+
+      <!-- ADVANCED -->
+      <div id="tab-advanced" class="tc">
+        <div class="sec">Forward / Copy</div>
+        <div class="fg"><label>From Chat ID</label><input type="text" id="fromChat"></div>
+        <div class="fg"><label>Message ID</label><input type="text" id="fwdMsgId"></div>
+        <div class="bg" style="margin-bottom:10px">
+          <button class="btn btn-s" onclick="fwdMsg()">➡️ Forward</button>
+          <button class="btn btn-s" onclick="copyMsg()">📋 Copy</button>
+        </div>
+        <div class="sec">Chat Action</div>
+        <div class="fg"><select id="action"><option value="typing">typing</option><option value="upload_photo">upload_photo</option><option value="record_video">record_video</option><option value="upload_video">upload_video</option><option value="record_voice">record_voice</option><option value="upload_voice">upload_voice</option><option value="upload_document">upload_document</option><option value="choose_sticker">choose_sticker</option><option value="find_location">find_location</option></select></div>
+        <button class="btn btn-s btn-block" onclick="sendAction()" style="margin-bottom:10px">💬 Gửi Action</button>
+        <div class="sec">Pin / Unpin</div>
+        <div class="fg"><label>Message ID</label><input type="text" id="pinId"></div>
+        <div class="bg" style="margin-bottom:10px">
+          <button class="btn btn-s" onclick="pinMsg()">📌 Pin</button>
+          <button class="btn btn-s" onclick="unpinMsg()">📍 Unpin</button>
+          <button class="btn btn-s" onclick="unpinAll()">🗑️ Unpin All</button>
+        </div>
+        <div class="sec">Khác</div>
+        <div class="bg">
+          <button class="btn btn-d" onclick="leaveChat()">🚪 Leave</button>
+          <button class="btn btn-s" onclick="getFileInfo()">📁 getFile</button>
+        </div>
+        <div class="fg" style="margin-top:8px"><label>File ID</label><input type="text" id="fileId" placeholder="AgACAgQAAxkB..."></div>
+      </div>
+
+      <!-- MANAGE -->
+      <div id="tab-manage" class="tc">
+        <div class="sec">✏️ Sửa tin nhắn</div>
+        <div class="fg"><label>Message ID</label><input type="text" id="editId"></div>
+        <div class="fg"><label>Nội dung mới</label><textarea id="editText" style="min-height:55px"></textarea></div>
+        <div class="fg"><label>Parse Mode</label><select id="editParse"><option value="">Không</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="HTML">HTML</option></select></div>
+        <button class="btn btn-p btn-block" onclick="editMsg()" style="margin-bottom:12px">✏️ Sửa</button>
+        <div class="sec">🗑️ Xóa tin nhắn</div>
+        <div class="fg"><label>Message ID</label><input type="text" id="delId"></div>
+        <button class="btn btn-d btn-block" onclick="delMsg()" style="margin-bottom:12px">🗑️ Xóa</button>
+        <div class="sec">Debug</div>
+        <button class="btn btn-s btn-block" onclick="fetchUpdates(true)">📥 getUpdates (raw)</button>
+      </div>
+
+      <!-- HISTORY -->
+      <div id="tab-history" class="tc">
+        <div class="sec">Tin đã gửi gần đây</div>
+        <div class="bg" style="margin-bottom:8px"><button class="btn btn-sm btn-d" onclick="clearHistory()">Xóa lịch sử</button></div>
+        <div id="histList"><div class="note">Chưa có lịch sử.</div></div>
+      </div>
+
+      <!-- WEBHOOK -->
+      <div id="tab-webhook" class="tc">
+        <div class="sec">Thông tin Webhook</div>
+        <button class="btn btn-s btn-block" onclick="getWebhook()" style="margin-bottom:10px">🔍 getWebhookInfo</button>
+        <div id="whBox"></div>
+        <div class="sec">Xóa Webhook</div>
+        <button class="btn btn-d btn-block" onclick="delWebhook()" style="margin-bottom:10px">🗑️ deleteWebhook</button>
+        <div class="sec">Set Webhook</div>
+        <div class="fg"><label>URL</label><input type="url" id="whUrl" placeholder="https://..."></div>
+        <button class="btn btn-s btn-block" onclick="setWebhook()">🔗 setWebhook</button>
+      </div>
+
+      <div id="result" class="result"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">📜 Nhật ký <button class="btn btn-sm btn-s" style="margin-left:auto" onclick="clearLog()">Xóa</button></div>
+    <div class="card-b" style="padding:7px">
+      <div class="log-box" id="logBox"><div class="log-item"><span class="log-time">--:--:--</span><span>Sẵn sàng.</span></div></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
 <script>
-    // Khi trang vừa tải xong, tự động load dữ liệu đã lưu trước đó
-    window.onload = function() {
-        if (localStorage.getItem('tg_botToken')) {
-            document.getElementById('botToken').value = localStorage.getItem('tg_botToken');
-        }
-        if (localStorage.getItem('tg_chatType')) {
-            document.getElementById('chatType').value = localStorage.getItem('tg_chatType');
-        }
-        if (localStorage.getItem('tg_chatId')) {
-            document.getElementById('chatId').value = localStorage.getItem('tg_chatId');
-        }
-        toggleChatIdLabel();
-    };
+let kb=[],kbRow=0,tokenVis=false,subs=[],templates=[],history=[],profiles=[{name:'Bot chính',token:'',chatId:'',chatType:'private'}],curProfile=0,bcAbort=false;
 
-    // Lưu dữ liệu vào localStorage mỗi khi người dùng gõ
-    function saveData() {
-        localStorage.setItem('tg_botToken', document.getElementById('botToken').value.trim());
-        localStorage.setItem('tg_chatType', document.getElementById('chatType').value);
-        localStorage.setItem('tg_chatId', document.getElementById('chatId').value.trim());
-    }
+window.onload=()=>{loadAll();toggleChatLabel();updateChar();applyTheme();setupDrop();renderSubs();renderTpls();renderHist();renderProfiles()};
 
-    // Xóa bộ nhớ lưu trữ
-    function clearStorage() {
-        if (confirm("Bạn có chắc muốn xóa Bot Token và Chat ID đã lưu không?")) {
-            localStorage.clear();
-            document.getElementById('botToken').value = '';
-            document.getElementById('chatId').value = '';
-            document.getElementById('chatType').value = 'private';
-            toggleChatIdLabel();
-            showResult("Đã xóa sạch bộ nhớ lưu trữ!", "success");
-        }
-    }
+function loadAll(){
+  try{const p=localStorage.getItem('tg_profiles');if(p)profiles=JSON.parse(p);curProfile=parseInt(localStorage.getItem('tg_curProfile')||'0')||0;if(curProfile>=profiles.length)curProfile=0}catch(e){}
+  applyProfile();
+  try{const s=localStorage.getItem('tg_subs');if(s)subs=JSON.parse(s)}catch(e){}
+  try{const t=localStorage.getItem('tg_tpls');if(t)templates=JSON.parse(t)}catch(e){}
+  try{const h=localStorage.getItem('tg_hist');if(h)history=JSON.parse(h)}catch(e){}
+  if(localStorage.getItem('tg_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeIcon').textContent='☀️'}
+}
+function applyProfile(){const p=profiles[curProfile]||profiles[0];document.getElementById('botToken').value=p.token||'';document.getElementById('chatId').value=p.chatId||'';document.getElementById('chatType').value=p.chatType||'private'}
+function saveData(){const p=profiles[curProfile];if(!p)return;p.token=document.getElementById('botToken').value.trim();p.chatId=document.getElementById('chatId').value.trim();p.chatType=document.getElementById('chatType').value;localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile)}
+function saveSubs(){localStorage.setItem('tg_subs',JSON.stringify(subs));renderSubs()}
+function saveTpls(){localStorage.setItem('tg_tpls',JSON.stringify(templates));renderTpls()}
+function saveHist(){localStorage.setItem('tg_hist',JSON.stringify(history.slice(0,50)));renderHist()}
+function clearAll(){if(!confirm('Xóa toàn bộ dữ liệu?'))return;localStorage.clear();subs=[];templates=[];history=[];profiles=[{name:'Bot chính',token:'',chatId:'',chatType:'private'}];curProfile=0;applyProfile();renderSubs();renderTpls();renderHist();renderProfiles();showR('Đã reset!','ok');log('Reset','ok')}
 
-    // Gửi nhanh bằng phím tắt Ctrl + Enter trong ô soạn thảo
-    function handleKeyPress(event) {
-        if (event.ctrlKey && event.key === 'Enter') {
-            sendTelegramMessage();
-        }
-    }
+function renderProfiles(){document.getElementById('profileSel').innerHTML=profiles.map((p,i)=>`<option value="${i}" ${i===curProfile?'selected':''}>${p.name||'Bot '+(i+1)}</option>`).join('')}
+function switchProfile(){saveData();curProfile=parseInt(document.getElementById('profileSel').value)||0;applyProfile();toggleChatLabel();localStorage.setItem('tg_curProfile',curProfile);toast('Chuyển: '+(profiles[curProfile]?.name||''))}
+function addProfile(){const name=prompt('Tên hồ sơ:','Bot '+(profiles.length+1));if(!name)return;profiles.push({name,token:'',chatId:'',chatType:'private'});curProfile=profiles.length-1;localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile);applyProfile();renderProfiles();toast('Đã thêm hồ sơ')}
+function delProfile(){if(profiles.length<=1){toast('Không xóa được hồ sơ cuối');return}if(!confirm('Xóa hồ sơ?'))return;profiles.splice(curProfile,1);curProfile=Math.min(curProfile,profiles.length-1);localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile);applyProfile();renderProfiles();toast('Đã xóa')}
 
-    // Thay đổi nhãn hướng dẫn tùy theo lựa chọn Cá nhân hay Nhóm
-    function toggleChatIdLabel() {
-        const chatType = document.getElementById('chatType').value;
-        const chatIdLabel = document.getElementById('chatIdLabel');
-        const chatIdInput = document.getElementById('chatId');
+function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');localStorage.setItem('tg_theme',d?'':'dark');document.getElementById('themeIcon').textContent=d?'🌙':'☀️'}
+function applyTheme(){if(localStorage.getItem('tg_theme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeIcon').textContent='☀️'}}
+function toggleToken(){const i=document.getElementById('botToken');tokenVis=!tokenVis;i.type=tokenVis?'text':'password'}
+function toggleChatLabel(){document.getElementById('chatIdLabel').textContent=document.getElementById('chatType').value==='group'?'Group/Channel ID':'Chat ID'}
+function switchTab(n){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tc').forEach(c=>c.classList.remove('active'));document.querySelector(`.tab[data-tab="${n}"]`)?.classList.add('active');document.getElementById('tab-'+n)?.classList.add('active')}
+function updateChar(){const l=document.getElementById('message').value.length;const e=document.getElementById('charCount');e.textContent=l+'/4096';e.className='char'+(l>4096?' over':l>3500?' warn':'')}
+function onKey(e){if(e.ctrlKey&&e.key==='Enter')sendText()}
+function showR(m,t){const e=document.getElementById('result');e.style.display='block';e.className='result '+t;e.innerHTML=m}
+function log(m,t=''){const box=document.getElementById('logBox');const now=new Date().toLocaleTimeString('vi-VN');const cls=t==='ok'?'log-ok':t==='err'?'log-err':'';const item=document.createElement('div');item.className='log-item';item.innerHTML=`<span class="log-time">${now}</span><span class="${cls}">${m}</span>`;box.prepend(item)}
+function clearLog(){document.getElementById('logBox').innerHTML='';log('Log đã xóa')}
+function side(title,html){document.getElementById('sidePanel').style.display='block';document.getElementById('sideTitle').textContent=title;document.getElementById('sideBody').innerHTML=html}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function insFmt(a,b){const ta=document.getElementById('message');const s=ta.selectionStart,e=ta.selectionEnd,v=ta.value;ta.value=v.slice(0,s)+a+v.slice(s,e)+b+v.slice(e);ta.focus();ta.selectionStart=s+a.length;ta.selectionEnd=e+a.length;updateChar();updatePreview()}
+function togglePreview(){document.getElementById('msgPreview').classList.toggle('show');updatePreview()}
+function updatePreview(){const p=document.getElementById('msgPreview');if(!p.classList.contains('show'))return;let t=document.getElementById('message').value;const mode=document.getElementById('parseMode').value;if(mode==='HTML'){t=t.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/&lt;b&gt;/g,'<b>').replace(/&lt;\/b&gt;/g,'</b>').replace(/&lt;i&gt;/g,'<i>').replace(/&lt;\/i&gt;/g,'</i>').replace(/&lt;code&gt;/g,'<code>').replace(/&lt;\/code&gt;/g,'</code>').replace(/&lt;strong&gt;/g,'<b>').replace(/&lt;\/strong&gt;/g,'</b>').replace(/&lt;em&gt;/g,'<i>').replace(/&lt;\/em&gt;/g,'</i>')}else if(mode==='Markdown'||mode==='MarkdownV2'){t=t.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/_(.+?)_/g,'<i>$1</i>').replace(/`(.+?)`/g,'<code>$1</code>')}else{t=t.replace(/</g,'&lt;').replace(/>/g,'&gt;')}p.innerHTML=t.replace(/\n/g,'<br>')}
+function getToken(){const t=document.getElementById('botToken').value.trim();if(!t){showR('Nhập Bot Token!','err');return null}return t}
+function getChatId(){const c=document.getElementById('chatId').value.trim();if(!c){showR('Nhập Chat ID!','err');return null}return c}
 
-        if (chatType === 'group') {
-            chatIdLabel.innerText = "Group / Channel ID:";
-            chatIdInput.placeholder = "Ví dụ: -1001234567890";
-        } else {
-            chatIdLabel.innerText = "Chat ID (Cá nhân):";
-            chatIdInput.placeholder = "Nhập ID cá nhân của bạn";
-        }
-    }
+async function api(method,body=null,fd=false){const token=getToken();if(!token)return null;const url=`https://api.telegram.org/bot${token}/${method}`;const opts={method:'POST'};if(fd)opts.body=body;else if(body){opts.headers={'Content-Type':'application/json'};opts.body=JSON.stringify(body)}try{return await(await fetch(url,opts)).json()}catch(e){return{ok:false,description:'Lỗi kết nối: '+e.message}}}
+function handle(r,action){if(r?.ok){const mid=r.result?.message_id||'';showR(`✅ ${action} thành công!${mid?' ID: <strong>'+mid+'</strong> <button class="copy-btn" onclick="copyTxt(\''+mid+'\')">📋</button>':''}`,'ok');log(`${action} OK${mid?' → '+mid:''}`,'ok');if(mid)addHist(mid,action,document.getElementById('chatId').value)}else{const err=r?.description||'Unknown';showR('❌ '+err,'err');log(`${action} lỗi: ${err}`,'err')}}
+function copyTxt(t){navigator.clipboard.writeText(t);toast('Đã copy: '+t)}
+function addHist(msgId,action,chatId){history.unshift({msgId,action,chatId,time:Date.now(),text:(document.getElementById('message')?.value||'').slice(0,80)});if(history.length>50)history.pop();saveHist()}
 
-    // Hàm gửi tin nhắn Telegram
-    function sendTelegramMessage() {
-        const token = document.getElementById('botToken').value.trim();
-        const chatId = document.getElementById('chatId').value.trim();
-        const text = document.getElementById('message').value.trim();
-        const resultDiv = document.getElementById('result');
+async function sendText(){const chatId=getChatId();if(!chatId)return;const text=document.getElementById('message').value.trim();if(!text){showR('Nhập nội dung!','err');return}saveData();showR('Đang gửi...','info');document.getElementById('btnSend').disabled=true;const data={chat_id:chatId,text};const pm=document.getElementById('parseMode').value;if(pm)data.parse_mode=pm;if(document.getElementById('optSilent').checked)data.disable_notification=true;if(document.getElementById('optProtect').checked)data.protect_content=true;if(document.getElementById('optNoPreview').checked)data.link_preview_options={is_disabled:true};const rid=document.getElementById('replyId').value.trim();if(rid)data.reply_parameters={message_id:parseInt(rid)};if(kb.length){const rows={};kb.forEach(b=>{if(!rows[b.row])rows[b.row]=[];rows[b.row].push(b.data.startsWith('http')?{text:b.text,url:b.data}:{text:b.text,callback_data:b.data})});data.reply_markup={inline_keyboard:Object.values(rows)}}const r=await api('sendMessage',data);document.getElementById('btnSend').disabled=false;handle(r,'Gửi tin nhắn')}
 
-        // Lưu lại dữ liệu lúc bấm gửi cho chắc chắn
-        saveData();
+function addKbBtn(){const text=prompt('Text nút:');if(!text)return;const data=prompt('Callback / URL:','btn_'+(kb.length+1));if(!data)return;kb.push({text,data,row:kbRow});renderKb()}
+function addKbRow(){kbRow++;log('Thêm hàng keyboard')}
+function clearKb(){kb=[];kbRow=0;renderKb()}
+function rmKb(i){kb.splice(i,1);renderKb()}
+function renderKb(){const el=document.getElementById('kbPrev');if(!kb.length){el.innerHTML='<div class="note">Chưa có nút</div>';return}const rows={};kb.forEach((b,i)=>{if(!rows[b.row])rows[b.row]=[];rows[b.row].push({...b,i})});el.innerHTML=Object.keys(rows).sort().map(r=>'<div class="kb-row">'+rows[r].map(b=>`<div class="kb-btn">${b.text} <small>(${b.data})</small><button onclick="rmKb(${b.i})">×</button></div>`).join('')+'</div>').join('')}
 
-        // Kiểm tra dữ liệu đầu vào
-        if (!token) {
-            showResult("Vui lòng nhập Bot Token!", "error");
-            return;
-        }
-        if (!chatId) {
-            showResult("Vui lòng nhập Chat ID hoặc Group ID!", "error");
-            return;
-        }
-        if (!text) {
-            showResult("Vui lòng nhập nội dung tin nhắn!", "error");
-            return;
-        }
+function setupDrop(){const z=document.getElementById('fzone');if(!z)return;z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});z.addEventListener('dragleave',()=>z.classList.remove('over'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');if(e.dataTransfer.files.length){document.getElementById('mFile').files=e.dataTransfer.files;onFile(document.getElementById('mFile'))}})}
+function onFile(inp){if(inp.files?.[0])document.getElementById('fName').textContent='📎 '+inp.files[0].name+' ('+(inp.files[0].size/1024).toFixed(1)+' KB)'}
+async function sendMedia(){const chatId=getChatId();if(!chatId)return;const type=document.getElementById('mediaType').value;const file=document.getElementById('mFile');const url=document.getElementById('mUrl').value.trim();const cap=document.getElementById('mCap').value.trim();if(!file.files[0]&&!url){showR('Chọn file hoặc URL!','err');return}showR('Đang gửi...','info');const methods={photo:'sendPhoto',document:'sendDocument',video:'sendVideo',audio:'sendAudio',voice:'sendVoice',animation:'sendAnimation',sticker:'sendSticker'};const fields={photo:'photo',document:'document',video:'video',audio:'audio',voice:'voice',animation:'animation',sticker:'sticker'};const method=methods[type],field=fields[type];let r;if(file.files[0]){const form=new FormData();form.append('chat_id',chatId);form.append(field,file.files[0]);if(cap&&type!=='sticker')form.append('caption',cap);const pm=document.getElementById('mParse').value;if(pm)form.append('parse_mode',pm);if(document.getElementById('mSilent').checked)form.append('disable_notification','true');if(document.getElementById('mProtect').checked)form.append('protect_content','true');r=await api(method,form,true)}else{const data={chat_id:chatId};data[field]=url;if(cap&&type!=='sticker')data.caption=cap;const pm=document.getElementById('mParse').value;if(pm)data.parse_mode=pm;if(document.getElementById('mSilent').checked)data.disable_notification=true;if(document.getElementById('mProtect').checked)data.protect_content=true;r=await api(method,data)}handle(r,'Gửi '+type)}
 
-        const url = `https://api.telegram.org/bot${token}/sendMessage`;
-        const data = {
-            chat_id: chatId,
-            text: text
-        };
+function renderSubs(){const priv=subs.filter(s=>s.type==='private').length;const grp=subs.filter(s=>s.type!=='private').length;document.getElementById('subCount').textContent=priv;document.getElementById('groupCount').textContent=grp;document.getElementById('histCount').textContent=history.length;const list=document.getElementById('subList');if(!list)return;if(!subs.length){list.innerHTML='<div class="note">Chưa có user. Thu thập sau khi /start.</div>';return}list.innerHTML=subs.map((s,i)=>`<div class="item"><div><span class="cid">${s.id}</span><div style="font-size:11px;color:var(--muted)">${s.name||s.username||s.type}${s.username?' (@'+s.username+')':''}</div></div><div style="display:flex;gap:4px;align-items:center"><span class="badge">${s.type}</span><button class="btn btn-sm btn-d" onclick="rmSub(${i})">×</button></div></div>`).join('')}
+function addSub(id,type,name,username){id=String(id);if(subs.some(s=>s.id===id))return false;subs.push({id,type:type||'private',name:name||'',username:username||'',at:Date.now()});saveSubs();return true}
+function rmSub(i){subs.splice(i,1);saveSubs();log('Xóa 1 user','ok')}
+function clearSubs(){if(!subs.length)return;if(!confirm(`Xóa ${subs.length} user?`))return;subs=[];saveSubs();log('Xóa hết user','ok')}
+function addSubManual(){const id=prompt('Chat ID:');if(!id)return;const type=confirm('Cá nhân?\nOK=User · Cancel=Group')?'private':'group';if(addSub(id.trim(),type)){showR('Đã thêm '+id,'ok');log('Thêm '+id,'ok')}else showR('Đã tồn tại!','err')}
+async function collectSubs(){showR('Đang thu thập...','info');const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok){showR('❌ '+(r?.description||'Lỗi'),'err');return}let added=0;(r.result||[]).forEach(u=>{const msg=u.message||u.edited_message||u.channel_post||u.my_chat_member||u.chat_member;if(!msg?.chat)return;const c=msg.chat;const name=c.title||((c.first_name||'')+' '+(c.last_name||'')).trim();if(addSub(c.id,c.type,name,c.username))added++});showR(`✅ Thêm mới: <strong>${added}</strong> · Tổng: <strong>${subs.length}</strong>`,'ok');log(`Thu thập +${added} (tổng ${subs.length})`,'ok')}
+function exportSubs(){if(!subs.length){showR('Danh sách trống!','err');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(subs,null,2)],{type:'application/json'}));a.download='subscribers.json';a.click();log('Export subscribers','ok')}
+function importSubs(){const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{try{const arr=JSON.parse(ev.target.result);let n=0;arr.forEach(s=>{if(s.id&&addSub(s.id,s.type,s.name,s.username))n++});showR(`Import +${n}`,'ok');log(`Import +${n}`,'ok')}catch(err){showR('JSON lỗi: '+err.message,'err')}};rd.readAsText(f)};inp.click()}
 
-        resultDiv.style.display = "block";
-        resultDiv.className = "";
-        resultDiv.innerHTML = "Đang gửi...";
+async function startBc(){const text=document.getElementById('bcMsg').value.trim();if(!text){showR('Nhập nội dung!','err');return}if(!subs.length){showR('Chưa có user!','err');return}const target=document.getElementById('bcTarget').value;let list=subs;if(target==='private')list=subs.filter(s=>s.type==='private');else if(target==='group')list=subs.filter(s=>s.type!=='private');if(!list.length){showR('Không có đối tượng!','err');return}if(!confirm(`Gửi đến ${list.length} chat?`))return;bcAbort=false;document.getElementById('btnBc').style.display='none';document.getElementById('btnStopBc').style.display='inline-flex';document.getElementById('bcProg').style.display='block';document.getElementById('bcFill').style.width='0%';const delay=Math.max(30,parseInt(document.getElementById('bcDelay').value)||80);const pm=document.getElementById('bcParse').value;const silent=document.getElementById('bcSilent').checked;const protect=document.getElementById('bcProtect').checked;let ok=0,fail=0;for(let i=0;i<list.length;i++){if(bcAbort)break;const s=list[i];const data={chat_id:s.id,text};if(pm)data.parse_mode=pm;if(silent)data.disable_notification=true;if(protect)data.protect_content=true;const r=await api('sendMessage',data);if(r?.ok){ok++;log(`BC OK → ${s.id}`,'ok')}else{fail++;const err=r?.description||'';log(`BC FAIL → ${s.id}: ${err}`,'err');if(/blocked|deactivated|chat not found|user is deactivated/i.test(err)){const idx=subs.findIndex(x=>x.id===s.id);if(idx>=0){subs.splice(idx,1);saveSubs()}}}document.getElementById('bcFill').style.width=Math.round(((i+1)/list.length)*100)+'%';document.getElementById('bcStatus').textContent=`${i+1}/${list.length} · OK: ${ok} · Lỗi: ${fail}`;if(i<list.length-1)await new Promise(r=>setTimeout(r,delay))}document.getElementById('btnBc').style.display='inline-flex';document.getElementById('btnStopBc').style.display='none';showR(`📢 Xong! OK: <strong>${ok}</strong> · Lỗi: <strong>${fail}</strong>`,ok>0?'ok':'err');log(`Broadcast: ${ok} OK, ${fail} lỗi`,ok>0?'ok':'err')}
+function stopBc(){bcAbort=true;log('Dừng broadcast...','ok')}
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.ok) {
-                showResult("Gửi tin nhắn thành công!", "success");
-            } else {
-                showResult("Lỗi từ Telegram: " + data.description, "error");
-            }
-        })
-        .catch(error => {
-            showResult("Lỗi kết nối mạng: " + error.message, "error");
-        });
-    }
+function renderTpls(){const el=document.getElementById('tplList');if(!el)return;if(!templates.length){el.innerHTML='<div class="note">Chưa có mẫu.</div>';return}el.innerHTML=templates.map((t,i)=>`<div class="tpl-item"><div onclick="useTpl(${i})" style="flex:1;cursor:pointer"><strong>${t.name}</strong><div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.content.slice(0,60)}</div></div><button class="btn btn-sm btn-d" onclick="rmTpl(${i})">×</button></div>`).join('')}
+function useTpl(i){document.getElementById('message').value=templates[i].content;updateChar();updatePreview();switchTab('text');toast('Đã nạp: '+templates[i].name)}
+function rmTpl(i){templates.splice(i,1);saveTpls()}
+function saveTemplate(){const content=document.getElementById('message').value.trim();if(!content){showR('Không có nội dung!','err');return}const name=prompt('Tên mẫu:','Mẫu '+(templates.length+1));if(!name)return;templates.push({name,content,at:Date.now()});saveTpls();toast('Đã lưu mẫu')}
+function addTemplate(){const name=document.getElementById('tplName').value.trim();const content=document.getElementById('tplContent').value.trim();if(!name||!content){showR('Nhập tên và nội dung!','err');return}templates.push({name,content,at:Date.now()});saveTpls();document.getElementById('tplName').value='';document.getElementById('tplContent').value='';toast('Đã thêm mẫu')}
 
-    function showResult(message, type) {
-        const resultDiv = document.getElementById('result');
-        resultDiv.style.display = "block";
-        resultDiv.className = type;
-        resultDiv.innerText = message;
-    }
+function renderHist(){document.getElementById('histCount').textContent=history.length;const el=document.getElementById('histList');if(!el)return;if(!history.length){el.innerHTML='<div class="note">Chưa có lịch sử.</div>';return}el.innerHTML=history.map(h=>`<div class="hist-item"><div><span class="hid" onclick="copyTxt('${h.msgId}')" title="Copy">${h.msgId}</span> <span class="badge">${h.action}</span> <button class="btn btn-sm btn-s" onclick="fillEdit('${h.msgId}')">✏️</button> <button class="btn btn-sm btn-d" onclick="fillDel('${h.msgId}')">🗑️</button></div><div class="ht">${h.text||''} · ${new Date(h.time).toLocaleString('vi-VN')} · ${h.chatId}</div></div>`).join('')}
+function clearHistory(){if(!confirm('Xóa lịch sử?'))return;history=[];saveHist();log('Xóa lịch sử','ok')}
+function fillEdit(id){document.getElementById('editId').value=id;switchTab('manage')}
+function fillDel(id){document.getElementById('delId').value=id;switchTab('manage')}
+
+async function sendLoc(){const c=getChatId();if(!c)return;const lat=parseFloat(document.getElementById('lat').value);const lon=parseFloat(document.getElementById('lon').value);if(isNaN(lat)||isNaN(lon)){showR('Lat/Lon không hợp lệ!','err');return}showR('Đang gửi...','info');handle(await api('sendLocation',{chat_id:c,latitude:lat,longitude:lon}),'Gửi vị trí')}
+async function sendVenue(){const c=getChatId();if(!c)return;const lat=parseFloat(document.getElementById('vLat').value);const lon=parseFloat(document.getElementById('vLon').value);const title=document.getElementById('vTitle').value.trim();const addr=document.getElementById('vAddr').value.trim();if(isNaN(lat)||isNaN(lon)||!title||!addr){showR('Điền đủ!','err');return}showR('Đang gửi...','info');handle(await api('sendVenue',{chat_id:c,latitude:lat,longitude:lon,title,address:addr}),'Gửi venue')}
+async function sendContact(){const c=getChatId();if(!c)return;const phone=document.getElementById('cPhone').value.trim();const first=document.getElementById('cFirst').value.trim();if(!phone||!first){showR('Nhập SĐT + tên!','err');return}const data={chat_id:c,phone_number:phone,first_name:first};const last=document.getElementById('cLast').value.trim();if(last)data.last_name=last;showR('Đang gửi...','info');handle(await api('sendContact',data),'Gửi liên hệ')}
+async function sendDice(){const c=getChatId();if(!c)return;showR('Đang gửi...','info');handle(await api('sendDice',{chat_id:c,emoji:document.getElementById('dice').value}),'Gửi dice')}
+
+async function sendPoll(){const c=getChatId();if(!c)return;const q=document.getElementById('pQ').value.trim();const opts=document.getElementById('pOpts').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);if(!q||opts.length<2){showR('Cần câu hỏi + ≥2 lựa chọn!','err');return}if(opts.length>10){showR('Tối đa 10 lựa chọn!','err');return}const data={chat_id:c,question:q,options:opts.map(t=>({text:t})),is_anonymous:document.getElementById('pAnon').checked,allows_multiple_answers:document.getElementById('pMulti').checked,type:document.getElementById('pType').value};if(data.type==='quiz')data.correct_option_id=parseInt(document.getElementById('pCorrect').value)||0;if(document.getElementById('pSilent').checked)data.disable_notification=true;showR('Đang gửi...','info');handle(await api('sendPoll',data),'Gửi poll')}
+
+async function banMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}if(!confirm('Ban '+uid+'?'))return;showR('Đang ban...','info');handle(await api('banChatMember',{chat_id:c,user_id:parseInt(uid)}),'Ban')}
+async function unbanMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang unban...','info');handle(await api('unbanChatMember',{chat_id:c,user_id:parseInt(uid),only_if_banned:true}),'Unban')}
+async function restrictMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang restrict...','info');handle(await api('restrictChatMember',{chat_id:c,user_id:parseInt(uid),permissions:{can_send_messages:false,can_send_media_messages:false,can_send_other_messages:false,can_add_web_page_previews:false}}),'Restrict')}
+async function promoteMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang promote...','info');handle(await api('promoteChatMember',{chat_id:c,user_id:parseInt(uid),can_manage_chat:true,can_delete_messages:true,can_manage_video_chats:true,can_restrict_members:true,can_promote_members:false,can_change_info:true,can_invite_users:true,can_pin_messages:true}),'Promote')}
+async function demoteMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang demote...','info');handle(await api('promoteChatMember',{chat_id:c,user_id:parseInt(uid),can_manage_chat:false,can_delete_messages:false,can_manage_video_chats:false,can_restrict_members:false,can_promote_members:false,can_change_info:false,can_invite_users:false,can_pin_messages:false}),'Demote')}
+async function setTitle(){const c=getChatId();if(!c)return;const title=document.getElementById('chatTitle').value.trim();if(!title){showR('Nhập tên!','err');return}showR('Đang đổi...','info');handle(await api('setChatTitle',{chat_id:c,title}),'Đổi tên')}
+async function setDesc(){const c=getChatId();if(!c)return;const desc=document.getElementById('chatDesc').value.trim();showR('Đang đổi...','info');handle(await api('setChatDescription',{chat_id:c,description:desc}),'Đổi mô tả')}
+async function getChatMember(){const c=getChatId();if(!c)return;const uid=document.getElementById('admUserId').value.trim();if(!uid){showR('Nhập User ID!','err');return}showR('Đang lấy...','info');const r=await api('getChatMember',{chat_id:c,user_id:parseInt(uid)});if(r?.ok){const m=r.result;side('👤 Thành viên',`<div class="info-box"><div>Status: <strong>${m.status}</strong></div><div>User: <strong>${m.user?.first_name||''} ${m.user?.last_name||''}</strong></div><div>ID: <strong>${m.user?.id}</strong></div>${m.user?.username?'<div>@'+m.user.username+'</div>':''}</div>`);showR('✅ '+m.status,'ok')}else showR('❌ '+(r?.description||''),'err')}
+
+async function fwdMsg(){const c=getChatId();if(!c)return;const from=document.getElementById('fromChat').value.trim();const mid=document.getElementById('fwdMsgId').value.trim();if(!from||!mid){showR('Nhập From + Msg ID!','err');return}showR('Đang forward...','info');handle(await api('forwardMessage',{chat_id:c,from_chat_id:from,message_id:parseInt(mid)}),'Forward')}
+async function copyMsg(){const c=getChatId();if(!c)return;const from=document.getElementById('fromChat').value.trim();const mid=document.getElementById('fwdMsgId').value.trim();if(!from||!mid){showR('Nhập From + Msg ID!','err');return}showR('Đang copy...','info');handle(await api('copyMessage',{chat_id:c,from_chat_id:from,message_id:parseInt(mid)}),'Copy')}
+async function sendAction(){const c=getChatId();if(!c)return;showR('Đang gửi...','info');handle(await api('sendChatAction',{chat_id:c,action:document.getElementById('action').value}),'Chat action')}
+async function pinMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('pinId').value.trim();if(!mid){showR('Nhập Msg ID!','err');return}showR('Đang pin...','info');handle(await api('pinChatMessage',{chat_id:c,message_id:parseInt(mid)}),'Pin')}
+async function unpinMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('pinId').value.trim();const data={chat_id:c};if(mid)data.message_id=parseInt(mid);showR('Đang unpin...','info');handle(await api('unpinChatMessage',data),'Unpin')}
+async function unpinAll(){const c=getChatId();if(!c)return;showR('Đang unpin all...','info');handle(await api('unpinAllChatMessages',{chat_id:c}),'Unpin all')}
+async function leaveChat(){const c=getChatId();if(!c)return;if(!confirm('Bot rời chat?'))return;showR('Đang rời...','info');handle(await api('leaveChat',{chat_id:c}),'Leave')}
+async function getFileInfo(){const fid=document.getElementById('fileId').value.trim();if(!fid){showR('Nhập File ID!','err');return}showR('Đang lấy...','info');const r=await api('getFile',{file_id:fid});if(r?.ok){const f=r.result;const token=getToken();const link=f.file_path?`https://api.telegram.org/file/bot${token}/${f.file_path}`:'';side('📁 File',`<div class="info-box"><div>File ID: <strong>${f.file_id}</strong></div><div>Size: <strong>${f.file_size?(f.file_size/1024).toFixed(1)+' KB':'N/A'}</strong></div>${link?`<div><a href="${link}" target="_blank" style="color:var(--p)">⬇️ Download</a></div>`:''}</div>`);showR('✅ File OK','ok')}else showR('❌ '+(r?.description||''),'err')}
+
+async function editMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('editId').value.trim();const text=document.getElementById('editText').value.trim();if(!mid||!text){showR('Nhập ID + nội dung!','err');return}const data={chat_id:c,message_id:parseInt(mid),text};const pm=document.getElementById('editParse').value;if(pm)data.parse_mode=pm;showR('Đang sửa...','info');handle(await api('editMessageText',data),'Sửa tin nhắn')}
+async function delMsg(){const c=getChatId();if(!c)return;const mid=document.getElementById('delId').value.trim();if(!mid){showR('Nhập Msg ID!','err');return}if(!confirm('Xóa tin nhắn?'))return;showR('Đang xóa...','info');handle(await api('deleteMessage',{chat_id:c,message_id:parseInt(mid)}),'Xóa tin nhắn')}
+
+async function getMe(){showR('Đang lấy...','info');const r=await api('getMe');if(r?.ok){const u=r.result;side('🤖 Bot',`<div class="info-box"><div>🤖 <strong>${u.first_name}</strong></div><div>@${u.username||'N/A'} · ID: <strong>${u.id}</strong></div><div>Join groups: ${u.can_join_groups?'✅':'❌'}</div><div>Read all: ${u.can_read_all_group_messages?'✅':'❌'}</div><div>Inline: ${u.supports_inline_queries?'✅':'❌'}</div></div>`);showR(`✅ @${u.username}`,'ok');log(`getMe → @${u.username}`,'ok')}else showR('❌ '+(r?.description||''),'err')}
+async function getChat(){const c=getChatId();if(!c)return;showR('Đang lấy...','info');const r=await api('getChat',{chat_id:c});if(r?.ok){const ch=r.result;side('💬 Chat',`<div class="info-box"><div>Type: <strong>${ch.type}</strong></div><div>Name: <strong>${ch.title||ch.first_name||'N/A'}</strong></div><div>ID: <strong>${ch.id}</strong></div>${ch.username?'<div>@'+ch.username+'</div>':''}${ch.description?'<div>'+ch.description+'</div>':''}</div>`);showR(`✅ ${ch.title||ch.first_name}`,'ok')}else showR('❌ '+(r?.description||''),'err')}
+async function getChatMemberCount(){const c=getChatId();if(!c)return;showR('Đang lấy...','info');const r=await api('getChatMemberCount',{chat_id:c});if(r?.ok){showR(`✅ Thành viên: <strong>${r.result}</strong>`,'ok');log(`Member count: ${r.result}`,'ok')}else showR('❌ '+(r?.description||''),'err')}
+async function fetchUpdates(raw=false){showR('Đang lấy...','info');const r=await api('getUpdates',{limit:30,timeout:0});if(!r?.ok){showR('❌ '+(r?.description||''),'err');return}const ups=r.result||[];if(!ups.length){showR('Không có update. Nhắn tin cho bot trước!','info');return}const chats={};ups.forEach(u=>{const msg=u.message||u.edited_message||u.channel_post||u.my_chat_member;if(msg?.chat)chats[msg.chat.id]=msg.chat});let html='<div class="note" style="margin-bottom:6px">Bấm để chọn Chat ID:</div>';Object.values(chats).forEach(c=>{const name=c.title||((c.first_name||'')+' '+(c.last_name||'')).trim()||c.username||c.id;html+=`<div class="item" onclick="selChat('${c.id}')"><div><span class="cid">${c.id}</span><div style="font-size:11px">${name} (${c.type})</div></div></div>`});if(raw)html+=`<div class="sec">Raw</div><pre style="font-size:10px;overflow:auto;max-height:160px;background:var(--bg);padding:7px;border-radius:6px">${JSON.stringify(ups.slice(-3),null,2)}</pre>`;side('🔍 Chat ID',html);showR(`✅ ${Object.keys(chats).length} chat`,'ok')}
+function selChat(id){document.getElementById('chatId').value=id;saveData();showR('Đã chọn: '+id,'ok');log('Chọn chat '+id,'ok')}
+
+async function getWebhook(){showR('Đang lấy...','info');const r=await api('getWebhookInfo');if(r?.ok){const w=r.result;document.getElementById('whBox').innerHTML=`<div class="info-box"><div>URL: <strong>${w.url||'(trống)'}</strong></div><div>Pending: <strong>${w.pending_update_count}</strong></div>${w.last_error_message?`<div>Error: ${w.last_error_message}</div>`:''}</div>`;showR(w.url?'Webhook active':'Không có webhook','ok')}else showR('❌ '+(r?.description||''),'err')}
+async function delWebhook(){if(!confirm('Xóa webhook?'))return;showR('Đang xóa...','info');handle(await api('deleteWebhook',{drop_pending_updates:false}),'deleteWebhook')}
+async function setWebhook(){const url=document.getElementById('whUrl').value.trim();if(!url){showR('Nhập URL!','err');return}if(!confirm('Set webhook: '+url+'?'))return;showR('Đang set...','info');handle(await api('setWebhook',{url}),'setWebhook')}
+
+function exportAll(){const data={profiles,curProfile,subs,templates,history};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='bot-tester-backup.json';a.click();log('Export all','ok');toast('Đã export')}
+function importAll(){const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.profiles)profiles=d.profiles;if(d.curProfile!=null)curProfile=d.curProfile;if(d.subs)subs=d.subs;if(d.templates)templates=d.templates;if(d.history)history=d.history;localStorage.setItem('tg_profiles',JSON.stringify(profiles));localStorage.setItem('tg_curProfile',curProfile);saveSubs();saveTpls();saveHist();applyProfile();renderProfiles();showR('Import OK!','ok');log('Import backup','ok')}catch(err){showR('Lỗi: '+err.message,'err')}};rd.readAsText(f)};inp.click()}
 </script>
-
 </body>
 </html>
