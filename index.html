@@ -1,666 +1,2584 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#2aabee" id="metaTheme">
-<meta name="mobile-web-app-capable" content="yes">
-<title>Bot Studio</title>
-<style>
-:root{--bg:#f2f4f8;--card:#fff;--tx:#0e1621;--mu:#6b7a90;--bd:#e3e8ef;--br:#2aabee;--br2:#1b8fd0;--brl:#e5f4fd;--ok:#16a34a;--er:#e11d48;--wa:#f59e0b;--in:#f6f8fb;--sh:0 1px 2px rgba(14,22,33,.05),0 6px 20px rgba(14,22,33,.06);--nav:62px;--sa:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px);--bub:#e8f6ff}
-[data-t=dark]{--bg:#0b121b;--card:#142030;--tx:#e9eff7;--mu:#8ea0b8;--bd:#223247;--brl:#0f2a40;--in:#0f1a28;--sh:0 1px 2px #0006,0 6px 20px #0005;--bub:#17324a}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.45;font-size:15px;min-height:100vh;overscroll-behavior-y:none}
-button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer;border:0;background:none}
-.mu{color:var(--mu);font-size:12.5px}
-.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--st)) 12px 8px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
-.logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#2aabee,#229ed9 55%,#6c7bff);display:grid;place-items:center;color:#fff;font-size:17px;flex:none;box-shadow:0 4px 12px rgba(42,171,238,.4)}
-.botchip{flex:1;min-width:0;display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:12px;background:var(--card);border:1px solid var(--bd);text-align:left}
-.botchip span:nth-child(2){min-width:0;flex:1;display:flex;flex-direction:column;line-height:1.2}
-.botchip b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.botchip small{font-size:11px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.botchip i{color:var(--mu);font-style:normal;font-size:11px}
-.dot{width:9px;height:9px;border-radius:50%;background:#9aa7b8;flex:none}.dot.on{background:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.18)}.dot.live{animation:pulse 1.6s infinite}
-@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(22,163,74,0)}}
-.ib{width:38px;height:38px;border-radius:11px;background:var(--card);border:1px solid var(--bd);display:grid;place-items:center;font-size:16px;flex:none;position:relative}
-main{padding:12px 12px calc(var(--nav) + var(--sa) + 24px);max-width:720px;margin:0 auto}
-.view{display:none}.view.on{display:block;animation:up .22s ease}
-@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
-.card h3{font-size:13px;color:var(--mu);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px}
-.card h3 .sp{flex:1}
-.hero{background:linear-gradient(135deg,#2aabee,#1b7fd0 60%,#6c63ff);color:#fff;border:0;position:relative;overflow:hidden}
-.hero:after{content:"✈";position:absolute;right:-8px;bottom:-26px;font-size:120px;opacity:.12;transform:rotate(-15deg)}
-.hero h2{font-size:18px}.hero p{opacity:.9;font-size:13px;margin:2px 0 12px}
-.hero .btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.35)}
-.grid{display:grid;gap:10px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
-.stat{background:var(--in);border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}
-.stat b{display:block;font-size:20px;color:var(--br)}.stat span{font-size:11px;color:var(--mu)}
-.tile{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;border-radius:14px;background:var(--in);border:1px solid var(--bd);font-size:11.5px;font-weight:600;text-align:center;min-height:74px;justify-content:center}
-.tile i{font-style:normal;font-size:22px}.tile:active{transform:scale(.96);background:var(--brl)}
-.lrow{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--bd);width:100%;text-align:left}
-.lrow:last-child{border:0}.lrow .ic{width:38px;height:38px;border-radius:12px;background:var(--brl);display:grid;place-items:center;font-size:19px;flex:none}
-.lrow b{display:block;font-size:14.5px}.lrow small{color:var(--mu);font-size:12px}.lrow .ar{margin-left:auto;color:var(--mu)}
-.fl{display:block;margin-bottom:11px;font-size:12.5px;font-weight:600;color:var(--mu)}
-.fl>input,.fl>select,.fl>textarea,.inp{display:block;width:100%;margin-top:5px;padding:12px;border:1px solid var(--bd);border-radius:12px;background:var(--in);color:var(--tx);font-size:16px;font-weight:400;outline:0}
-textarea{resize:vertical;min-height:90px}
-.fl>input:focus,.fl>select:focus,.fl>textarea:focus,.inp:focus{border-color:var(--br);box-shadow:0 0 0 3px rgba(42,171,238,.18)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 16px;min-height:44px;border-radius:12px;font-weight:600;font-size:14.5px;background:var(--in);border:1px solid var(--bd);transition:.12s}
-.btn:active{transform:scale(.97)}.btn.p{background:var(--br);border-color:var(--br);color:#fff}.btn.d{background:#fff1f3;color:var(--er);border-color:#fecdd6}[data-t=dark] .btn.d{background:#3a1520;border-color:#5b1f2e}
-.btn.ok{background:#ecfdf3;color:var(--ok);border-color:#bbf0d0}[data-t=dark] .btn.ok{background:#0f2e1d;border-color:#14532d}
-.btn.w{width:100%}.btn.sm{min-height:34px;padding:0 11px;font-size:12.5px;border-radius:10px}.btn:disabled{opacity:.55}.btn.ld:after{content:"";width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.row{display:flex;gap:8px;align-items:center}.row.wrap{flex-wrap:wrap}.row>.grow{flex:1;min-width:0}
-.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;padding:8px 13px;border-radius:20px;background:var(--card);border:1px solid var(--bd);font-size:13px;font-weight:600;color:var(--mu)}
-.chip.on{background:var(--br);color:#fff;border-color:var(--br)}
-.tg{display:inline-block}.tg input{display:none}.tg span{display:inline-block;padding:8px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--in);font-size:13px}.tg input:checked+span{background:var(--brl);border-color:var(--br);color:var(--br);font-weight:600}
-.rcpt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:11px 14px}
-.rcpt .ic{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7cc8f5,#2aabee);display:grid;place-items:center;color:#fff;font-weight:700;flex:none}
-.rcpt div{flex:1;min-width:0}.rcpt small{color:var(--mu);font-size:11.5px;display:block}.rcpt b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rcpt em{font-style:normal;color:var(--br);font-weight:600;font-size:13px}
-.panel{display:none}.panel.on{display:block}
-.tb{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}.tb::-webkit-scrollbar{display:none}
-.tb button{flex:none;min-width:38px;height:36px;padding:0 10px;border-radius:10px;border:1px solid var(--bd);background:var(--in);font-weight:700;font-size:13px}
-.tb button:active{background:var(--brl)}
-.cnt{font-size:11.5px;color:var(--mu);text-align:right;margin-top:-6px;margin-bottom:8px}.cnt.w{color:var(--wa)}.cnt.e{color:var(--er)}
-.bubble{background:var(--bub);border-radius:14px 14px 14px 4px;padding:9px 12px;max-width:92%;word-break:break-word;font-size:14.5px;position:relative;display:inline-block}
-.bubble time{display:block;text-align:right;font-size:10.5px;color:var(--mu);margin-top:2px}
-.bubble code,.bubble pre{background:rgba(0,0,0,.08);border-radius:5px;padding:1px 5px;font-family:ui-monospace,Menlo,monospace;font-size:13px}.bubble pre{display:block;padding:7px 9px;white-space:pre-wrap}
-.bubble a{color:var(--br)}.bubble blockquote{border-left:3px solid var(--br);padding-left:8px;margin:3px 0}.spo{background:var(--mu);color:transparent;border-radius:4px;cursor:pointer}.spo:active{color:inherit;background:transparent}
-.pvk{display:flex;flex-direction:column;gap:4px;margin-top:5px;max-width:92%}.pvk div{display:flex;gap:4px}.pvk span{flex:1;text-align:center;background:rgba(42,171,238,.18);color:var(--br);border-radius:8px;padding:6px;font-size:13px;font-weight:600}
-.kbr{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}.kbb{display:inline-flex;align-items:center;gap:6px;background:var(--brl);color:var(--br);border-radius:10px;padding:5px 5px 5px 11px;font-size:13px;font-weight:600}
-.kbb em{font-style:normal;font-size:11px}.kbb button{width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.08);color:var(--tx);font-size:13px;line-height:1}
-.dock{position:sticky;bottom:calc(var(--nav) + var(--sa) + 8px);display:flex;gap:8px;padding:8px;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:18px;box-shadow:var(--sh);z-index:20}
-.dock .btn.p{flex:1;min-height:48px;font-size:15.5px}
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--bd);padding-bottom:var(--sa)}
-.nav button{flex:1;height:var(--nav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mu);font-size:10.5px;font-weight:600;position:relative}
-.nav button i{font-style:normal;font-size:21px;filter:grayscale(1);opacity:.75;transition:.15s}
-.nav button.on{color:var(--br)}.nav button.on i{filter:none;opacity:1;transform:translateY(-1px) scale(1.08)}
-.bdg{position:absolute;top:7px;left:calc(50% + 6px);min-width:17px;height:17px;border-radius:9px;background:var(--er);color:#fff;font-size:10px;display:none;place-items:center;padding:0 4px;font-style:normal}.bdg.on{display:grid}
-.sw{position:relative;width:48px;height:28px;flex:none}.sw input{display:none}.sw span{position:absolute;inset:0;background:#b5c0cf;border-radius:14px;transition:.2s}.sw span:after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}.sw input:checked+span{background:var(--ok)}.sw input:checked+span:after{transform:translateX(20px)}
-.bd{position:fixed;inset:0;background:rgba(5,12,20,.5);z-index:60;opacity:0;pointer-events:none;transition:.2s}.bd.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--bg);border-radius:22px 22px 0 0;max-height:88vh;display:flex;flex-direction:column;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);padding-bottom:var(--sa);max-width:720px;margin:0 auto}
-.sheet.on{transform:none}.sheet .grab{width:42px;height:5px;border-radius:3px;background:var(--bd);margin:9px auto 4px;flex:none}
-.sheet .sh{display:flex;align-items:center;padding:6px 16px 10px}.sheet .sh h2{flex:1;font-size:17px}
-.sheet .sb{overflow-y:auto;padding:4px 14px 18px;flex:1}
-.page{position:fixed;inset:0;z-index:65;background:var(--bg);transform:translateX(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow-y:auto;overscroll-behavior:contain}
-.page.on{transform:none}
-.ph{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--st)) 12px 8px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
-.ph h2{font-size:17px;flex:1}.pb{padding:12px 12px calc(30px + var(--sa));max-width:720px;margin:0 auto}
-.toast{position:fixed;left:50%;bottom:calc(var(--nav) + var(--sa) + 76px);transform:translate(-50%,20px);background:#0e1621;color:#fff;padding:11px 16px;border-radius:14px;font-size:13.5px;z-index:99;opacity:0;pointer-events:none;transition:.22s;max-width:90vw;box-shadow:0 8px 24px rgba(0,0,0,.35);text-align:center}
-.toast.on{opacity:1;transform:translate(-50%,0)}.toast.ok{background:#0f7a3a}.toast.err{background:#be123c}
-.dlg{position:fixed;inset:0;z-index:100;background:rgba(5,12,20,.55);display:none;align-items:center;justify-content:center;padding:18px}.dlg.on{display:flex}
-.dbox{background:var(--card);border-radius:20px;padding:18px;width:100%;max-width:420px;max-height:86vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.dbox h3{font-size:17px;margin-bottom:6px}.dbox p{color:var(--mu);font-size:14px;margin-bottom:12px}.drow{display:flex;gap:8px;margin-top:6px}.drow .btn{flex:1}
-.ci{display:flex;align-items:center;gap:11px;padding:10px 4px;border-bottom:1px solid var(--bd);width:100%;text-align:left}.ci:last-child{border:0}
-.av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#8fd3f7,#2aabee);color:#fff;display:grid;place-items:center;font-weight:700;flex:none;font-size:16px}
-.av.g{background:linear-gradient(135deg,#ffb36b,#ff6b8b)}.ci .m{flex:1;min-width:0}.ci .m b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ci .m small{color:var(--mu);font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ci .r{text-align:right;font-size:11px;color:var(--mu);display:flex;flex-direction:column;align-items:flex-end;gap:3px}.ub{background:var(--br);color:#fff;border-radius:10px;min-width:20px;height:20px;display:grid;place-items:center;font-size:11px;font-weight:700;padding:0 5px}
-.thr{display:flex;flex-direction:column;gap:7px;padding:4px 0 80px}.msg{max-width:84%;padding:8px 11px;border-radius:15px;font-size:14.5px;word-break:break-word;background:var(--card);border:1px solid var(--bd)}.msg.o{align-self:flex-end;background:var(--br);color:#fff;border-color:var(--br)}
-.msg small{display:block;font-size:10.5px;opacity:.65;margin-top:2px}.msg .fr{font-size:11.5px;font-weight:700;color:var(--br);display:block}
-.comp{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px calc(10px + var(--sa));background:var(--bg);border-top:1px solid var(--bd);max-width:720px;margin:0 auto}
-.comp input{flex:1;padding:12px 14px;border-radius:22px;border:1px solid var(--bd);background:var(--card);font-size:16px;outline:0}.comp .btn{border-radius:50%;width:46px;min-height:46px;padding:0}
-.log{font-size:12.5px;display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)}.log time{color:var(--mu);font-size:11px;flex:none;width:58px}.log.ok span{color:var(--ok)}.log.err span{color:var(--er)}
-.bar{height:10px;background:var(--bd);border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2aabee,#6c63ff);transition:width .2s}
-.out{white-space:pre-wrap;word-break:break-word;background:#0b1220;color:#b9f6ca;border-radius:12px;padding:12px;font:12px/1.5 ui-monospace,Menlo,monospace;max-height:340px;overflow:auto;margin-top:8px}
-.empty{text-align:center;padding:26px 12px;color:var(--mu)}.empty i{display:block;font-style:normal;font-size:40px;margin-bottom:6px}
-.seg{display:flex;background:var(--in);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:11px}.seg button{flex:1;padding:8px;border-radius:9px;font-size:13px;font-weight:600;color:var(--mu)}.seg button.on{background:var(--card);color:var(--br);box-shadow:var(--sh)}
-.emo{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}.emo button{font-size:24px;height:44px;border-radius:10px}.emo button:active{background:var(--brl)}
-.tag{display:inline-block;padding:2px 8px;border-radius:8px;background:var(--brl);color:var(--br);font-size:11px;font-weight:700}
-.fz{border:2px dashed var(--bd);border-radius:14px;padding:18px;text-align:center;background:var(--in);color:var(--mu);font-size:13.5px}.fz b{color:var(--br)}
-details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;background:var(--card)}details.acc summary{padding:12px 14px;font-weight:600;font-size:14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}details.acc summary:after{content:"＋";color:var(--br)}details.acc[open] summary:after{content:"−"}details.acc>div{padding:0 14px 14px}
-@media(min-width:760px){.nav{max-width:720px;left:50%;transform:translateX(-50%);border-radius:18px 18px 0 0;border:1px solid var(--bd)}.page{left:50%;right:auto;width:720px;transform:translateX(120%);border-left:1px solid var(--bd)}.page.on{transform:translateX(-50%)}}
-</style>
+<html lang="vi"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#070B12">
+  <title>NovaX — GetKey</title>
+  <link rel="icon" type="image/png" href="/Nova-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       NOVAX DESIGN SYSTEM — PREMIUM CYBER GAMING 2026
+       Dark Tactical Interface | Industrial Tech Design | Competitive Gaming Dashboard
+       ========================================================================== */
+    :root {
+      /* Palette Tokens */
+      --bg-main: #070B12;
+      --bg-secondary: #0C121D;
+      --bg-elevated: #111B29;
+      --bg-surface-hover: #162438;
+      --bg-surface-active: #1C2E46;
+
+      /* Brand Accents */
+      --blue-primary: #087EFF;
+      --blue-electric: #00B7FF;
+      --blue-subtle: rgba(8, 126, 255, 0.08);
+      --blue-border: rgba(8, 126, 255, 0.28);
+      --blue-glow-subtle: rgba(0, 183, 255, 0.15);
+
+      /* Functional Colors */
+      --color-success: #25D6A2;
+      --color-success-bg: rgba(37, 214, 162, 0.08);
+      --color-success-border: rgba(37, 214, 162, 0.25);
+      --color-warning: #F5B84B;
+      --color-warning-bg: rgba(245, 184, 75, 0.08);
+      --color-warning-border: rgba(245, 184, 75, 0.25);
+      --color-error: #FF5268;
+      --color-error-bg: rgba(255, 82, 104, 0.08);
+      --color-error-border: rgba(255, 82, 104, 0.25);
+
+      /* Typography Tokens */
+      --text-primary: #EAF2FF;
+      --text-secondary: #8998AD;
+      --text-muted: #50627A;
+      --text-disabled: #354458;
+
+      /* Borders & Dividers */
+      --border-subtle: #1B2B40;
+      --border-medium: #263C59;
+      --border-focus: #087EFF;
+
+      /* Geometry */
+      --radius-xs: 4px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+
+      /* Animation Timing */
+      --ease-fast: 140ms cubic-bezier(0.2, 0, 0, 1);
+      --ease-smooth: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Global Reset & Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: 15px;
+      height: 100%;
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-main);
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(8, 126, 255, 0.07), transparent 70%),
+        linear-gradient(180deg, var(--bg-main) 0%, #06090F 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100%;
+      min-height: 100dvh;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle Tactical Background Grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(27, 43, 64, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(27, 43, 64, 0.15) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 90% 70% at 50% 10%, black 40%, transparent 95%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 10%, black 40%, transparent 95%);
+    }
+
+    /* Layout Container */
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Toast Notification System */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast-msg {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-medium);
+      border-left: 3px solid var(--blue-electric);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: toastIn 0.22s var(--ease-smooth);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: auto;
+      backdrop-filter: blur(8px);
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(12px) scale(0.96); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       HEADER & BRAND PANEL — TACTICAL CYBER IDENTITY
+       ========================================================================== */
+    .hero-brand-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-brand-panel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 24px;
+      right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 183, 255, 0.35), transparent);
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .logo-img {
+      height: 48px;
+      width: auto;
+      max-width: 130px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0, 183, 255, 0.18));
+      display: block;
+    }
+
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.2;
+    }
+
+    .brand-title .nova-glow {
+      color: #FFFFFF;
+    }
+
+    .brand-title .x-glow {
+      color: var(--blue-electric);
+      position: relative;
+    }
+
+    .brand-title .title-suffix {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace;
+      padding-left: 2px;
+    }
+
+    .brand-subtitle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-vip {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--blue-electric);
+      background: rgba(0, 183, 255, 0.08);
+      border: 1px solid rgba(0, 183, 255, 0.25);
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-vip::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--blue-electric);
+    }
+
+    .brand-caption {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Tactical Navigation Bar */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg-elevated);
+      padding: 4px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: var(--radius-xs);
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all var(--ease-fast);
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .nav a:hover {
+      color: var(--text-primary);
+      background: var(--bg-surface-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .nav a.active {
+      color: var(--text-primary);
+      background: var(--blue-primary);
+      border-color: var(--blue-electric);
+      box-shadow: 0 0 12px rgba(8, 126, 255, 0.25);
+    }
+
+    .nav a .ui-icon {
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       TACTICAL PANELS & COMMON COMPONENT STYLES
+       ========================================================================== */
+    .panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      transition: border-color var(--ease-fast);
+    }
+
+    .panel:hover {
+      border-color: var(--border-medium);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+    }
+
+    .panel-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      line-height: 1.25;
+    }
+
+    .panel-header h2 .ui-icon {
+      color: var(--blue-electric);
+      flex-shrink: 0;
+    }
+
+    .panel-header .muted {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* Common Button Styles */
+    button, .btn {
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all var(--ease-fast);
+      user-select: none;
+      white-space: nowrap;
+      text-decoration: none;
+      line-height: 1.2;
+    }
+
+    button:disabled, .remote-control:disabled {
+      opacity: 0.45;
+      cursor: not-allowed !important;
+      pointer-events: none;
+      filter: grayscale(0.5);
+    }
+
+    button.blue, .btn-primary {
+      background: var(--blue-primary);
+      color: #FFFFFF;
+      border-color: rgba(0, 183, 255, 0.4);
+      box-shadow: 0 2px 10px rgba(8, 126, 255, 0.2);
+    }
+
+    button.blue:hover:not(:disabled), .btn-primary:hover:not(:disabled) {
+      background: #0070ea;
+      border-color: var(--blue-electric);
+      box-shadow: 0 4px 16px rgba(8, 126, 255, 0.35);
+      transform: translateY(-1px);
+    }
+
+    button.blue:active:not(:disabled), .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+      background: #0060cc;
+    }
+
+    button.light, .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-subtle);
+    }
+
+    button.light:hover:not(:disabled), .btn-secondary:hover:not(:disabled) {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-medium);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    button.danger, .btn-danger {
+      background: rgba(255, 82, 104, 0.08);
+      color: var(--color-error);
+      border-color: var(--color-error-border);
+    }
+
+    button.danger:hover:not(:disabled), .btn-danger:hover:not(:disabled) {
+      background: rgba(255, 82, 104, 0.16);
+      border-color: var(--color-error);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* Common Input & Select Styles */
+    .form {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      color: var(--text-primary);
+      font-size: 0.88rem;
+      font-family: 'IBM Plex Mono', 'Inter', monospace;
+      outline: none;
+      transition: all var(--ease-fast);
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--border-focus);
+      background: var(--bg-surface-hover);
+      box-shadow: 0 0 0 3px rgba(8, 126, 255, 0.15);
+    }
+
+    select {
+      appearance: none;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 8px 30px 8px 12px;
+      outline: none;
+      cursor: pointer;
+      transition: all var(--ease-fast);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238998AD' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px rgba(8, 126, 255, 0.15);
+    }
+
+    /* Notices & Alerts */
+    .notice {
+      font-size: 0.8rem;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notice:empty {
+      display: none;
+    }
+
+    /* ==========================================================================
+       SECTION 1: TACTICAL GETKEY REDESIGN
+       ========================================================================== */
+    .tactical-stepper {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.55;
+      transition: opacity var(--ease-fast);
+    }
+
+    .step-item.active {
+      opacity: 1;
+    }
+
+    .step-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-xs);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-medium);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-item.active .step-num {
+      background: var(--blue-primary);
+      border-color: var(--blue-electric);
+      color: #FFFFFF;
+      box-shadow: 0 0 8px rgba(8, 126, 255, 0.35);
+    }
+
+    .step-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .step-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      text-transform: uppercase;
+    }
+
+    .step-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .step-divider {
+      width: 24px;
+      height: 1px;
+      background: var(--border-subtle);
+    }
+
+    /* Key Output Box */
+    .key-output {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-medium);
+      border-left: 3px solid var(--color-success);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      animation: keySlide 0.25s var(--ease-smooth);
+    }
+
+    .key-output[hidden] {
+      display: none !important;
+    }
+
+    @keyframes keySlide {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .key-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      word-break: break-all;
+    }
+
+    /* ==========================================================================
+       SECTION 2: LOGIN & CONNECTION TELEMETRY
+       ========================================================================== */
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 9px 14px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .status .dot.online {
+      background: var(--color-success);
+      box-shadow: 0 0 10px var(--color-success);
+    }
+
+    .status .dot.online::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px solid var(--color-success);
+      opacity: 0.7;
+      animation: statusPulse 2s infinite ease-out;
+    }
+
+    @keyframes statusPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    #online-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    #client-state-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* ==========================================================================
+       SECTION 3: CONTROL DASHBOARD — CATEGORIES & FEATURE GRID
+       ========================================================================== */
+    .setting-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Category Filter Navigation Bar */
+    .category-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .category-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 6px 14px;
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      text-transform: uppercase;
+      transition: all var(--ease-fast);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-surface-hover);
+    }
+
+    .tab-btn.active {
+      background: var(--blue-primary);
+      color: #FFFFFF;
+      border-color: var(--blue-electric);
+      box-shadow: 0 0 10px rgba(8, 126, 255, 0.25);
+    }
+
+    /* Feature Groups Dashboard Grid */
+    .feature-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .feature-group {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color var(--ease-fast);
+    }
+
+    .feature-group:hover {
+      border-color: var(--border-medium);
+    }
+
+    .feature-group h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .feature-group h3 .ui-icon {
+      color: var(--blue-electric);
+    }
+
+    /* Feature Row */
+    .feature {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px;
+      border-radius: var(--radius-xs);
+      background: var(--bg-secondary);
+      border: 1px solid rgba(27, 43, 64, 0.5);
+      transition: all var(--ease-fast);
+    }
+
+    .feature:hover {
+      border-color: var(--border-medium);
+      background: var(--bg-surface-hover);
+    }
+
+    .feature-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       CYBER GAMING TOGGLE SWITCH (RE-ENGINEERED 2026)
+       ========================================================================== */
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 0;
+      cursor: pointer;
+      outline: none;
+      transition: all var(--ease-smooth);
+      flex-shrink: 0;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: transform var(--ease-smooth), background-color var(--ease-smooth);
+    }
+
+    .toggle:hover:not(:disabled) {
+      border-color: var(--border-medium);
+    }
+
+    .toggle:hover:not(:disabled)::after {
+      background: var(--text-secondary);
+    }
+
+    .toggle.on {
+      background: var(--blue-primary);
+      border-color: var(--blue-electric);
+      box-shadow: 0 0 10px rgba(8, 126, 255, 0.3);
+    }
+
+    .toggle.on::after {
+      transform: translateX(20px);
+      background: #FFFFFF;
+    }
+
+    .toggle:focus-visible {
+      box-shadow: 0 0 0 2px var(--bg-main), 0 0 0 4px var(--blue-electric);
+    }
+
+    /* Aim Panels Grid */
+    .aim-panels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      grid-column: 1 / -1;
+    }
+
+    .aim-panel {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+
+    /* ==========================================================================
+       SETTINGS & SLIDERS GRID
+       ========================================================================== */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .setting-group {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .setting-group h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .setting-group h3 .ui-icon {
+      color: var(--blue-electric);
+    }
+
+    .setting {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .setting label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Range Slider Styling */
+    input[type="range"] {
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      outline: none;
+      cursor: pointer;
+      margin: 8px 0;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--blue-primary);
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 6px rgba(0, 183, 255, 0.4);
+      cursor: pointer;
+      transition: transform var(--ease-fast);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: var(--blue-electric);
+    }
+
+    .range-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--blue-electric);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      padding: 2px 8px;
+      border-radius: var(--radius-xs);
+      display: inline-block;
+      text-align: center;
+      min-width: 50px;
+    }
+
+    /* Color Grid Styling */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .color-grid label {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .color-grid select {
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       SECTION 4: MOD SKIN STUDIO
+       ========================================================================== */
+    .mod-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      flex-wrap: wrap;
+    }
+
+    .mod-toolbar label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .mod-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-medium) var(--bg-elevated);
+    }
+
+    .mod-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all var(--ease-fast);
+    }
+
+    .mod-card:hover {
+      border-color: var(--border-medium);
+      background: var(--bg-surface-hover);
+    }
+
+    .mod-card b {
+      font-size: 0.84rem;
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .mod-card small {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .mod-card button {
+      padding: 6px 12px;
+      font-size: 0.74rem;
+      flex-shrink: 0;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 32px;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE ADAPTATIONS
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .hero-brand-panel {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+      }
+      .brand-cluster {
+        justify-content: flex-start;
+      }
+      .nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .nav a {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 6px;
+        font-size: 0.7rem;
+      }
+      .tactical-stepper {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .step-divider {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wrap {
+        padding: 16px 12px 48px;
+        gap: 14px;
+      }
+      .panel {
+        padding: 16px 14px;
+        gap: 14px;
+      }
+      .panel-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .setting-actions {
+        flex-wrap: wrap;
+      }
+      .setting-actions button {
+        flex: 1;
+      }
+      .form {
+        flex-direction: column;
+      }
+      .form button {
+        width: 100%;
+      }
+      .key-output {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .key-output button {
+        width: 100%;
+      }
+      .feature-groups, .settings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Live connection summary for the dedicated remote-control page. */
+    .control-connection-status {
+      display: grid;
+      grid-template-columns: minmax(180px, 1.1fr) minmax(170px, 0.9fr) minmax(220px, 1.4fr);
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #111b29;
+      border: 1px solid #1b2b40;
+      border-radius: 7px;
+    }
+
+    .control-connection-main,
+    .control-connection-key,
+    .control-connection-revision {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .control-status-label {
+      display: block;
+      margin-bottom: 3px;
+      color: #617b96;
+      font: 700 10px/1.2 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+      letter-spacing: .1em;
+    }
+
+    .control-connection-status strong,
+    .control-connection-status code {
+      color: #eaf2ff;
+      font-size: 12px;
+    }
+
+    .control-connection-status code {
+      color: #00b7ff;
+      font-family: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+      overflow-wrap: anywhere;
+    }
+
+    .control-client-state {
+      color: #afc1d5;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .control-connection-status .dot {
+      flex: 0 0 9px;
+    }
+
+    @media (max-width: 780px) {
+      .control-connection-status {
+        grid-template-columns: 1fr;
+      }
+      .control-connection-main,
+      .control-connection-key,
+      .control-connection-revision {
+        justify-content: space-between;
+      }
+    }
+
+    /* Mobile-first interaction layer: tuned for portrait phones and touch. */
+    @media (max-width: 600px) {
+      :root {
+        --mobile-gutter: 10px;
+        --mobile-panel-gap: 12px;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+        scroll-padding-top: 12px;
+      }
+
+      body {
+        overflow-x: hidden;
+        overscroll-behavior-x: none;
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: none;
+        padding: 10px var(--mobile-gutter) calc(28px + env(safe-area-inset-bottom));
+        gap: var(--mobile-panel-gap);
+      }
+
+      .hero-brand-panel {
+        padding: 14px 12px;
+        gap: 12px;
+        border-radius: 12px;
+      }
+
+      .hero-brand-panel::after {
+        left: 12px;
+        right: 12px;
+      }
+
+      .brand-cluster {
+        width: 100%;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .logo-img {
+        width: 74px;
+        height: 48px;
+        max-width: 74px;
+      }
+
+      .brand-title {
+        font-size: 1.05rem;
+        gap: 5px;
+      }
+
+      .brand-title .title-suffix {
+        font-size: 0.58rem;
+        letter-spacing: 0.04em;
+      }
+
+      .brand-subtitle-row {
+        gap: 5px;
+      }
+
+      .brand-caption {
+        display: none;
+      }
+
+      .badge-vip {
+        font-size: 0.58rem;
+        padding: 4px 6px;
+      }
+
+      .nav {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav a {
+        flex: 0 0 auto;
+        min-height: 44px;
+        padding: 10px 12px;
+        font-size: 0.68rem;
+      }
+
+      .panel {
+        padding: 14px 12px;
+        gap: 14px;
+        border-radius: 12px;
+      }
+
+      .panel-header {
+        gap: 12px;
+        padding-bottom: 12px;
+      }
+
+      .panel-header h2 {
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+
+      .panel-header .muted {
+        font-size: 0.76rem;
+        line-height: 1.45;
+      }
+
+      button,
+      .btn,
+      input[type="text"],
+      select {
+        min-height: 44px;
+      }
+
+      button,
+      .btn {
+        padding: 10px 13px;
+        touch-action: manipulation;
+      }
+
+      input[type="text"],
+      select {
+        font-size: 16px;
+        padding: 10px 12px;
+      }
+
+      .tab-btn,
+      .toggle,
+      input[type="range"] {
+        touch-action: manipulation;
+      }
+
+      .form {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form button {
+        width: 100%;
+      }
+
+      .setting-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .setting-actions button {
+        width: 100%;
+      }
+
+      .control-connection-status {
+        gap: 0;
+        padding: 4px 12px;
+        border-radius: 10px;
+      }
+
+      .control-connection-main,
+      .control-connection-key,
+      .control-connection-revision {
+        min-height: 48px;
+        padding: 8px 0;
+        gap: 9px;
+        border-bottom: 1px solid #1b2b40;
+      }
+
+      .control-connection-revision {
+        border-bottom: 0;
+      }
+
+      .control-connection-key {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+
+      .control-connection-key .control-status-label {
+        margin-bottom: 0;
+      }
+
+      .control-connection-status code,
+      .control-client-state {
+        max-width: 62vw;
+        text-align: right;
+        font-size: 11px;
+      }
+
+      .category-tabs {
+        margin: -2px 0;
+        padding: 4px;
+        gap: 4px;
+        border-radius: 9px;
+      }
+
+      .tab-btn {
+        min-height: 42px;
+        padding: 9px 12px;
+        font-size: 0.66rem;
+      }
+
+      .feature-groups,
+      .settings-grid,
+      .aim-panels {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .feature-group,
+      .aim-panel,
+      .setting-group {
+        padding: 12px;
+        border-radius: 10px;
+      }
+
+      .feature-group h3 {
+        font-size: 0.78rem;
+      }
+
+      .feature {
+        min-height: 52px;
+        padding: 9px 10px;
+        gap: 10px;
+      }
+
+      .feature-label {
+        font-size: 0.82rem;
+        line-height: 1.3;
+      }
+
+      .toggle {
+        /* Keep a 44px touch target while drawing a compact 30px switch. */
+        width: 54px;
+        height: 44px;
+        min-height: 44px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        display: block;
+        position: relative;
+      }
+
+      .toggle::before {
+        content: '';
+        position: absolute;
+        top: 7px;
+        right: 2px;
+        bottom: 7px;
+        left: 2px;
+        border: 1px solid #39516e;
+        border-radius: 999px;
+        background: #0b1421;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+        transition: background-color var(--ease-smooth), border-color var(--ease-smooth), box-shadow var(--ease-smooth);
+      }
+
+      .toggle::after {
+        width: 22px;
+        height: 22px;
+        top: 11px;
+        left: 6px;
+        z-index: 1;
+        background: #8c9caf;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+      }
+
+      .toggle:hover:not(:disabled),
+      .toggle:hover:not(:disabled)::after {
+        border-color: transparent;
+      }
+
+      .toggle:hover:not(:disabled)::after {
+        background: #aab8c8;
+      }
+
+      .toggle.on:hover:not(:disabled)::after {
+        background: #ffffff;
+      }
+
+      .toggle.on {
+        border-color: transparent;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .toggle.on::before {
+        border-color: #168fff;
+        background: linear-gradient(180deg, #1376c4 0%, #0d5c9d 100%);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(22, 143, 255, 0.12);
+      }
+
+      .toggle.on::after {
+        transform: translateX(20px);
+        background: #f7fbff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+      }
+
+      input[type="range"] {
+        height: 8px;
+        margin: 12px 0;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+      }
+
+      .color-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .color-grid label,
+      .setting label {
+        font-size: 0.78rem;
+      }
+
+      .mod-toolbar {
+        align-items: stretch;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .mod-toolbar label {
+        width: 100%;
+        justify-content: space-between;
+        font-size: 0.76rem;
+      }
+
+      .mod-toolbar select {
+        flex: 1;
+        max-width: 62%;
+      }
+
+      .mod-list {
+        grid-template-columns: 1fr;
+        max-height: 58vh;
+        gap: 8px;
+        padding-right: 0;
+      }
+
+      .mod-card {
+        min-height: 64px;
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .mod-card b {
+        font-size: 0.8rem;
+        line-height: 1.25;
+      }
+
+      .mod-card small {
+        font-size: 0.62rem;
+        overflow-wrap: anywhere;
+      }
+
+      .mod-card button {
+        min-height: 42px;
+        padding: 9px 10px;
+      }
+
+      .key-output {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .key-value {
+        display: block;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        font-size: 0.82rem;
+      }
+
+      .toast-container {
+        left: 10px;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+      }
+
+      .toast-msg {
+        width: 100%;
+        padding: 12px;
+        font-size: 0.78rem;
+      }
+    }
+
+    @media (hover: none) {
+      button:hover,
+      .btn:hover,
+      .feature:hover,
+      .mod-card:hover,
+      .panel:hover {
+        transform: none;
+      }
+    }
+  </style>
 </head>
-<body>
-<header class="top">
-  <div class="logo">✈</div>
-  <button class="botchip" onclick="openBot()"><span class="dot" id="hDot"></span><span><b id="hName">Bot chính</b><small id="hSub">Chưa kết nối</small></span><i>▾</i></button>
-  <button class="ib" onclick="openSheet('sh-log')" title="Nhật ký">🧾</button>
-  <button class="ib" onclick="cycleTheme()" id="hTheme">🌓</button>
-</header>
+<body class="landing-page">
+  <div class="toast-container" id="toast-container"></div>
 
-<main>
-<!-- HOME -->
-<section class="view on" id="v-home"><div id="homeBody"></div></section>
-
-<!-- SEND -->
-<section class="view" id="v-send">
-  <button class="card rcpt" onclick="openChats()"><span class="ic" id="rcAv">?</span><div><small>Gửi tới</small><b id="rcName">Chọn cuộc trò chuyện</b></div><em>Đổi</em></button>
-  <div class="chips" id="sendChips">
-    <button class="chip on" data-p="text" onclick="sendPanel('text')">📝 Văn bản</button>
-    <button class="chip" data-p="media" onclick="sendPanel('media')">🖼 Media</button>
-    <button class="chip" data-p="album" onclick="sendPanel('album')">🗂 Album</button>
-    <button class="chip" data-p="poll" onclick="sendPanel('poll')">📊 Bình chọn</button>
-    <button class="chip" data-p="loc" onclick="sendPanel('loc')">📍 Vị trí</button>
-    <button class="chip" data-p="contact" onclick="sendPanel('contact')">📞 Liên hệ</button>
-    <button class="chip" data-p="dice" onclick="sendPanel('dice')">🎲 Dice</button>
-  </div>
-  <details class="acc"><summary>⚙️ Tùy chọn gửi</summary><div>
-    <div class="row wrap" style="margin-bottom:10px">
-      <label class="tg"><input type="checkbox" id="oSil"><span>🔇 Im lặng</span></label>
-      <label class="tg"><input type="checkbox" id="oPro"><span>🔒 Chặn chuyển tiếp</span></label>
-      <label class="tg"><input type="checkbox" id="oNop"><span>🚫 Tắt xem trước link</span></label>
-    </div>
-    <div class="grid g2"><label class="fl">ID tin cần trả lời<input type="text" inputmode="numeric" id="oRep" placeholder="VD: 123"></label><label class="fl">ID Topic (nhóm diễn đàn)<input type="text" inputmode="numeric" id="oThr" placeholder="VD: 5"></label></div>
-  </div></details>
-
-  <div class="panel on" id="sp-text">
-    <div class="card">
-      <div class="tb" id="fmtBar"></div>
-      <textarea id="message" class="inp" style="min-height:130px;margin:0 0 6px" placeholder="Nhập nội dung tin nhắn… (Ctrl+Enter để gửi)" oninput="onMsg()"></textarea>
-      <div class="cnt" id="charCount">0 / 4096</div>
-      <div class="row wrap" style="margin-bottom:6px">
-        <select id="parseMode" class="inp grow" style="margin:0" onchange="onMsg();fmtBar()"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="">Văn bản thường</option></select>
-        <button class="btn" onclick="openEmoji('message')">😊</button>
-        <button class="btn" onclick="openVars()">{ }</button>
-        <button class="btn" onclick="openTpls()">📋</button>
+  <main class="wrap">
+    <!-- HEADER BRAND PANEL VỚI LOGO NOVA-LOGO.PNG ĐẶT TRÊN THANH ĐIỀU HƯỚNG TACTICAL -->
+    <header class="hero-brand-panel">
+      <div class="brand-cluster">
+        <div class="logo-container">
+          <img class="logo-img" src="/Nova-logo.png" alt="Nova-logo.png">
+        </div>
+        <div class="brand-text-block">
+          <h1 class="brand-title">
+            <span class="nova-glow">NOVA</span><span class="x-glow">X</span>
+            <span class="title-suffix">– MENU REMOTE</span>
+          </h1>
+          <div class="brand-subtitle-row">
+            <span class="badge-vip">FREE FIRE OB54 VIP SUITE</span>
+            <span class="brand-caption">Kênh điều khiển web &amp; sinh key bản quyền chính thức</span>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="card"><h3>⌨️ Nút bấm dưới tin <span class="sp"></span><button class="btn sm" onclick="addKbBtn()">+ Nút</button><button class="btn sm" onclick="addKbRow()">+ Hàng</button></h3><div id="kbEd"></div></div>
-    <div class="card"><h3>👁 Xem trước</h3><div class="bubble" id="prevB"></div><div class="pvk" id="prevK"></div></div>
-    <div class="dock"><button class="btn" onclick="schedDlg()">⏰</button><button class="btn" onclick="saveTpl()">💾</button><button class="btn p" onclick="run(this,sendText)">Gửi ➤</button></div>
-  </div>
 
-  <div class="panel" id="sp-media">
-    <div class="card">
-      <label class="fl">Loại<select id="mType"><option value="photo">📷 Ảnh</option><option value="document">📄 Tệp</option><option value="video">🎬 Video</option><option value="audio">🎵 Audio</option><option value="voice">🎤 Voice</option><option value="animation">🎞 GIF</option><option value="sticker">😊 Sticker</option></select></label>
-      <label class="fz" style="display:block;cursor:pointer" id="mDrop"><div id="mFname">📁 Chạm để chọn tệp hoặc <b>dán ảnh</b> (Ctrl+V)</div><input type="file" id="mFile" hidden onchange="onFile()"></label>
-      <label class="fl" style="margin-top:11px">…hoặc URL / file_id<input type="text" id="mUrl" placeholder="https://… hoặc file_id"></label>
-      <label class="fl">Chú thích<textarea id="mCap" style="min-height:70px" placeholder="Caption (tối đa 1024 ký tự)"></textarea></label>
-      <label class="fl">Parse mode<select id="mParse"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="">Thường</option></select></label>
-      <label class="tg"><input type="checkbox" id="mSpo"><span>🙈 Che spoiler</span></label>
-      <button class="btn p w" style="margin-top:12px" onclick="run(this,sendMedia)">Gửi media ➤</button>
-    </div>
-  </div>
+      <!-- THANH ĐIỀU HƯỚNG TACTICAL -->
+      <nav class="nav">
+        <a href="/getkey" class="active">
+          <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="m21 2-2 2m-3 3 2 2 3-3-4-4-6 6a6 6 0 1 0 3 3l5-5Z"></path></svg>
+          LẤY KEY (GETKEY)
+        </a>
+        <a href="#login-section">
+          <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg>
+          ĐĂNG NHẬP
+        </a>
+        <a href="/menu-control">
+          <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          ĐIỀU KHIỂN HACK
+        </a>
+      </nav>
+    </header>
 
-  <div class="panel" id="sp-album">
-    <div class="card">
-      <p class="mu" style="margin-bottom:10px">Gửi 2–10 ảnh/video/tệp trong một nhóm (album).</p>
-      <label class="fl">Loại<select id="aType"><option value="photo">📷 Ảnh</option><option value="video">🎬 Video</option><option value="document">📄 Tệp</option><option value="audio">🎵 Audio</option></select></label>
-      <label class="fz" style="display:block;cursor:pointer"><div id="aFname">📁 Chạm để chọn nhiều tệp</div><input type="file" id="aFiles" hidden multiple onchange="$('#aFname').textContent='📎 '+this.files.length+' tệp đã chọn'"></label>
-      <label class="fl" style="margin-top:11px">URL (mỗi dòng 1 link)<textarea id="aUrls" placeholder="https://…/1.jpg&#10;https://…/2.jpg"></textarea></label>
-      <label class="fl">Chú thích (gắn vào mục đầu)<input type="text" id="aCap"></label>
-      <button class="btn p w" onclick="run(this,sendAlbum)">Gửi album ➤</button>
-    </div>
-  </div>
+    <!-- SECTION 1: LẤY KEY (GETKEY) -->
+    <section class="panel getkey" id="getkey-section">
+      <!-- Tactical Stepper Indicator -->
+      <div class="tactical-stepper">
+        <div class="step-item active">
+          <span class="step-num">01</span>
+          <div class="step-meta">
+            <span class="step-title">KHỞI TẠO</span>
+            <span class="step-sub">Nhập mã iOS Key</span>
+          </div>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item">
+          <span class="step-num">02</span>
+          <div class="step-meta">
+            <span class="step-title">XÁC MINH</span>
+            <span class="step-sub">Kiểm tra hợp lệ</span>
+          </div>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item">
+          <span class="step-num">03</span>
+          <div class="step-meta">
+            <span class="step-title">CẤP PHÁT</span>
+            <span class="step-sub">Key 24h &amp; đồng bộ</span>
+          </div>
+        </div>
+      </div>
 
-  <div class="panel" id="sp-poll">
-    <div class="card">
-      <label class="fl">Câu hỏi<input type="text" id="pQ" maxlength="300"></label>
-      <label class="fl">Lựa chọn (mỗi dòng 1, tối đa 10)<textarea id="pOpts" placeholder="Có&#10;Không&#10;Để suy nghĩ"></textarea></label>
-      <div class="seg" id="pTypeSeg"><button class="on" onclick="pollType('regular')">Thường</button><button onclick="pollType('quiz')">Quiz</button></div>
-      <div id="pQuiz" style="display:none"><label class="fl">Đáp án đúng (số thứ tự, bắt đầu 1)<input type="number" id="pCorrect" value="1" min="1"></label><label class="fl">Giải thích<input type="text" id="pExp"></label></div>
-      <div class="row wrap" style="margin-bottom:11px"><label class="tg"><input type="checkbox" id="pAnon" checked><span>Ẩn danh</span></label><label class="tg"><input type="checkbox" id="pMulti"><span>Nhiều lựa chọn</span></label></div>
-      <label class="fl">Tự đóng sau (giây, 5–600, trống = không)<input type="number" id="pOpen" min="5" max="600"></label>
-      <button class="btn p w" onclick="run(this,sendPoll)">Gửi bình chọn ➤</button>
-    </div>
-  </div>
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24"><path d="m21 2-2 2m-3 3 2 2 3-3-4-4-6 6a6 6 0 1 0 3 3l5-5Z"></path></svg>
+            Lấy key điều khiển
+          </h2>
+          <p class="muted">Nhập mã NovaX iOS key của bạn để hệ thống cấp key auth-menu thời hạn 24h.</p>
+        </div>
+      </div>
 
-  <div class="panel" id="sp-loc">
-    <div class="card"><h3>📍 Vị trí</h3>
-      <div class="grid g2"><label class="fl">Vĩ độ<input type="number" step="any" id="lat" placeholder="21.0285"></label><label class="fl">Kinh độ<input type="number" step="any" id="lon" placeholder="105.8542"></label></div>
-      <div class="row"><button class="btn grow" onclick="myLoc()">🎯 Vị trí của tôi</button><button class="btn p grow" onclick="run(this,sendLoc)">Gửi ➤</button></div></div>
-    <div class="card"><h3>🏢 Địa điểm</h3>
-      <div class="grid g2"><label class="fl">Vĩ độ<input type="number" step="any" id="vLat"></label><label class="fl">Kinh độ<input type="number" step="any" id="vLon"></label></div>
-      <label class="fl">Tên<input type="text" id="vTitle" placeholder="Hồ Gươm"></label><label class="fl">Địa chỉ<input type="text" id="vAddr" placeholder="Hoàn Kiếm, Hà Nội"></label>
-      <button class="btn p w" onclick="run(this,sendVenue)">Gửi địa điểm ➤</button></div>
-  </div>
+      <div class="form">
+        <input id="ios-key" type="text" autocomplete="off" placeholder="Nhập mã NovaX iOS key (VD: NOVAX-XXXX-XXXX)...">
+        <button id="get-key" class="blue" type="button">
+          <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><path d="m21 2-2 2m-3 3 2 2 3-3-4-4-6 6a6 6 0 1 0 3 3l5-5Z"></path></svg>
+          LẤY KEY
+        </button>
+      </div>
 
-  <div class="panel" id="sp-contact"><div class="card">
-    <label class="fl">Số điện thoại<input type="tel" id="cPhone" placeholder="+84901234567"></label>
-    <div class="grid g2"><label class="fl">Tên<input type="text" id="cFirst"></label><label class="fl">Họ<input type="text" id="cLast"></label></div>
-    <button class="btn p w" onclick="run(this,sendContact)">Gửi liên hệ ➤</button></div></div>
+      <div id="getkey-result" class="notice"></div>
 
-  <div class="panel" id="sp-dice"><div class="card"><p class="mu" style="margin-bottom:10px">Chạm biểu tượng để gửi ngay.</p>
-    <div class="grid g3" id="diceGrid"></div><h3 style="margin-top:16px">Trạng thái chat</h3>
-    <div class="row wrap" id="actGrid"></div></div></div>
-</section>
+      <div id="key-output" class="key-output" hidden="">
+        <div>
+          <span class="badge-vip" style="margin-bottom:4px; display:inline-block;">AUTH-MENU KEY 24H</span>
+          <div><span id="generated-key" class="key-value"></span></div>
+        </div>
+        <button id="copy-key" class="light" type="button">
+          <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+          SAO CHÉP KEY
+        </button>
+      </div>
+    </section>
 
-<!-- INBOX -->
-<section class="view" id="v-inbox"><div id="inboxBody"></div></section>
+    <!-- SECTION 2: ĐĂNG NHẬP MENU HACK -->
+    <section class="panel" id="login-section">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg>
+            Đăng nhập menu hack
+          </h2>
+          <p class="muted">Không yêu cầu HWID trên web. Client trong game phải đang hoạt động với cùng key.</p>
+        </div>
+      </div>
 
-<!-- BROADCAST -->
-<section class="view" id="v-bc">
-  <div class="card"><h3>👥 Người nhận <span class="sp"></span><span class="tag" id="bcSelN">0</span></h3>
-    <div class="seg" id="bcSeg"><button class="on" onclick="bcFilter('all')">Tất cả</button><button onclick="bcFilter('private')">Người dùng</button><button onclick="bcFilter('group')">Nhóm</button></div>
-    <input class="inp" id="bcSearch" placeholder="🔍 Tìm theo tên / ID" oninput="renderBc()" style="margin-bottom:8px">
-    <div class="row wrap" style="margin-bottom:6px"><button class="btn sm" onclick="bcAll(true)">Chọn hết</button><button class="btn sm" onclick="bcAll(false)">Bỏ chọn</button><button class="btn sm" onclick="collectSubs()">📥 Thu thập</button><button class="btn sm" onclick="addSubDlg()">+ ID</button></div>
-    <div id="bcList" style="max-height:260px;overflow:auto"></div></div>
-  <div class="card"><h3>✉️ Nội dung</h3>
-    <textarea class="inp" id="bcMsg" style="margin:0 0 8px" placeholder="Xin chào {first}! …"></textarea>
-    <div class="row wrap" style="margin-bottom:10px"><button class="btn sm" onclick="openEmoji('bcMsg')">😊</button><button class="btn sm" onclick="openVars('bcMsg')">{ } Biến</button><button class="btn sm" onclick="openTpls('bcMsg')">📋 Mẫu</button></div>
-    <label class="fl">Ảnh đính kèm (URL, tùy chọn)<input type="url" id="bcImg" placeholder="https://…"></label>
-    <div class="grid g2"><label class="fl">Parse mode<select id="bcParse"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><label class="fl">Nghỉ giữa tin (ms)<input type="number" id="bcDelay" value="60" min="30"></label></div>
-    <div class="row wrap"><label class="tg"><input type="checkbox" id="bcSil"><span>🔇 Im lặng</span></label><label class="tg"><input type="checkbox" id="bcPro"><span>🔒 Chặn forward</span></label><label class="tg"><input type="checkbox" id="bcClean" checked><span>🧹 Xóa người đã chặn bot</span></label></div></div>
-  <div class="card" id="bcRun" style="display:none"><h3>📡 Tiến độ</h3><div class="bar"><i id="bcFill"></i></div><div class="mu" id="bcStat"></div><div id="bcFail"></div></div>
-  <div class="dock"><button class="btn d" id="bcStop" style="display:none" onclick="bcAbort=true">⏹ Dừng</button><button class="btn p" id="bcGo" onclick="startBc()">📢 Bắt đầu gửi</button></div>
-</section>
+      <div class="form">
+        <input id="menu-key" type="text" autocomplete="off" placeholder="Nhập key auth-menu để kết nối điều khiển...">
+        <button id="menu-login" class="blue" type="button">
+          <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          ĐĂNG NHẬP
+        </button>
+      </div>
 
-<!-- TOOLS -->
-<section class="view" id="v-tools"><div id="toolsBody"></div></section>
-</main>
+      <div class="status">
+        <span id="online-dot" class="dot"></span>
+        <span id="online-text">Chưa đăng nhập</span>
+      </div>
 
-<nav class="nav" id="nav">
-  <button class="on" data-v="home" onclick="go('home')"><i>🏠</i>Tổng quan</button>
-  <button data-v="send" onclick="go('send')"><i>✍️</i>Soạn tin</button>
-  <button data-v="inbox" onclick="go('inbox')"><i>💬</i>Hộp thư<em class="bdg" id="nbInbox">0</em></button>
-  <button data-v="bc" onclick="go('bc')"><i>📢</i>Hàng loạt</button>
-  <button data-v="tools" onclick="go('tools')"><i>🧰</i>Công cụ</button>
-</nav>
+      <div id="client-state-text" class="notice">Client chưa báo trạng thái.</div>
+    </section>
 
-<!-- ============ PAGES ============ -->
-<div class="page" id="pg-thread"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2 id="thTitle">Chat</h2><button class="btn sm" onclick="thPick()">Chọn gửi</button></div><div class="pb"><div class="thr" id="thBody"></div></div><div class="comp"><input id="thIn" placeholder="Nhắn tin…" onkeydown="if(event.key==='Enter')thSend()"><button class="btn p" onclick="thSend()">➤</button></div></div>
+    <!-- SECTION 3: BẢNG ĐIỀU KHIỂN CHỨC NĂNG (CONTROL PANEL) -->
+    <section id="control-panel" class="panel" style="display: none;">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Điều khiển chức năng
+          </h2>
+          <p class="muted">Mọi thay đổi trên giao diện web sẽ được gửi tức thì đến client đang online.</p>
+        </div>
 
-<div class="page" id="pg-rules"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🤖 Tự động trả lời</h2><button class="btn p sm" onclick="editRule()">+ Luật</button></div><div class="pb">
-  <div class="card"><div class="row"><div class="grow"><b>Nhận tin realtime</b><div class="mu">Luật chỉ chạy khi trang mở và đang nhận tin.</div></div><label class="sw"><input type="checkbox" id="pollSw2" onchange="togglePoll(this.checked)"><span></span></label></div></div>
-  <div id="rulesBody"></div></div></div>
+        <div class="setting-actions">
+          <button id="restore-default" class="light remote-control" type="button">
+            <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            KHÔI PHỤC MẶC ĐỊNH
+          </button>
+          <button id="reset-mod" class="danger remote-control" type="button">
+            <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+            KHÔI PHỤC MOD
+          </button>
+        </div>
+      </div>
 
-<div class="page" id="pg-sched"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>⏰ Hẹn giờ gửi</h2><button class="btn p sm" onclick="schedDlg()">+ Hẹn</button></div><div class="pb"><p class="mu" style="margin-bottom:10px">Tin hẹn giờ gửi khi trang này đang mở. Soạn tin ở tab “Soạn tin” rồi bấm ⏰.</p><div id="schedBody"></div></div></div>
+      <div id="control-connection-status" class="control-connection-status" aria-live="polite">
+        <div class="control-connection-main">
+          <span id="control-online-dot" class="dot"></span>
+          <div>
+            <span class="control-status-label">CLIENT CONNECTION</span>
+            <strong id="control-online-text">Chưa xác thực</strong>
+          </div>
+        </div>
+        <div class="control-connection-key">
+          <span class="control-status-label">KEY ĐANG KẾT NỐI</span>
+          <code id="control-key-value">—</code>
+        </div>
+        <div class="control-connection-revision">
+          <span class="control-status-label">TRẠNG THÁI CLIENT</span>
+          <span id="control-client-state" class="control-client-state">Đang chờ client...</span>
+        </div>
+      </div>
 
-<div class="page" id="pg-tpls"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>📋 Tin mẫu</h2><button class="btn p sm" onclick="newTpl()">+ Mẫu</button></div><div class="pb"><div id="tplBody"></div></div></div>
+      <!-- Quick Category Navigation Bar -->
+      <div class="category-tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-tab="all">TẤT CẢ TÍNH NĂNG</button>
+        <button type="button" class="tab-btn" data-tab="aim">HỆ THỐNG NGẮM</button>
+        <button type="button" class="tab-btn" data-tab="esp">ESP TÁC CHIẾN</button>
+        <button type="button" class="tab-btn" data-tab="hud">MÀU SẮC &amp; HUD</button>
+        <button type="button" class="tab-btn" data-tab="sliders">THÔNG SỐ CHỈNH</button>
+        <button type="button" class="tab-btn" data-tab="mod">MOD SKIN STUDIO</button>
+      </div>
 
-<div class="page" id="pg-manage"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🛠 Quản lý tin nhắn</h2></div><div class="pb">
-  <div class="card"><h3>✏️ Sửa tin</h3><label class="fl">ID tin nhắn<input id="edId" inputmode="numeric"></label><label class="fl">Nội dung mới<textarea id="edTx"></textarea></label><label class="fl">Parse mode<select id="edPm"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><button class="btn p w" onclick="run(this,editMsg)">Lưu chỉnh sửa</button></div>
-  <div class="card"><h3>🗑 Xóa tin</h3><label class="fl">ID tin nhắn (nhiều ID cách nhau dấu phẩy)<input id="delId"></label><button class="btn d w" onclick="run(this,delMsg)">Xóa</button></div>
-  <div class="card"><h3>➡️ Chuyển tiếp / Sao chép</h3><label class="fl">Từ Chat ID<input id="fwFrom"></label><label class="fl">ID tin nhắn<input id="fwId" inputmode="numeric"></label><div class="row"><button class="btn grow" onclick="run(this,fwdMsg)">Forward</button><button class="btn grow" onclick="run(this,copyMsg)">Copy</button></div></div>
-  <div class="card"><h3>📌 Ghim</h3><label class="fl">ID tin nhắn<input id="pinId" inputmode="numeric"></label><div class="row wrap"><button class="btn grow" onclick="run(this,pinMsg)">Ghim</button><button class="btn grow" onclick="run(this,unpinMsg)">Bỏ ghim</button><button class="btn d grow" onclick="run(this,unpinAll)">Bỏ tất cả</button></div></div>
-  <div class="card"><h3>📁 Thông tin tệp</h3><label class="fl">file_id<input id="fileId"></label><button class="btn w" onclick="run(this,getFileInfo)">Lấy link tải</button><div id="fileOut"></div></div>
-</div></div>
+      <div id="feature-groups" class="feature-groups"></div>
 
-<div class="page" id="pg-admin"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>👑 Quản trị nhóm</h2></div><div class="pb">
-  <p class="mu" style="margin-bottom:10px">Bot cần là admin trong nhóm đang chọn.</p>
-  <div class="card"><h3>ℹ️ Thông tin nhóm</h3><div class="grid g2"><button class="btn" onclick="run(this,chatInfo)">💬 Chi tiết</button><button class="btn" onclick="run(this,memberCount)">👥 Số thành viên</button><button class="btn" onclick="run(this,listAdmins)">👑 Danh sách admin</button><button class="btn" onclick="run(this,inviteLink)">🔗 Link mời</button></div><div id="admOut" style="margin-top:10px"></div></div>
-  <div class="card"><h3>👤 Thành viên</h3><label class="fl">User ID<input id="uid" inputmode="numeric"></label>
-    <label class="fl">Thời gian (Ban/Mute)<select id="uDur"><option value="0">Vĩnh viễn</option><option value="3600">1 giờ</option><option value="86400">1 ngày</option><option value="604800">7 ngày</option></select></label>
-    <div class="grid g2"><button class="btn d" onclick="run(this,()=>member('ban'))">🚫 Ban</button><button class="btn ok" onclick="run(this,()=>member('unban'))">✅ Unban</button><button class="btn" onclick="run(this,()=>member('mute'))">🔇 Mute</button><button class="btn" onclick="run(this,()=>member('unmute'))">🔊 Unmute</button><button class="btn" onclick="run(this,()=>member('promote'))">⬆️ Lên admin</button><button class="btn" onclick="run(this,()=>member('demote'))">⬇️ Hạ admin</button></div>
-    <button class="btn w" style="margin-top:8px" onclick="run(this,memberInfo)">🔎 Xem trạng thái</button></div>
-  <div class="card"><h3>✏️ Cài đặt nhóm</h3><label class="fl">Tên nhóm<input id="cTitle"></label><button class="btn w" onclick="run(this,setTitle)" style="margin-bottom:10px">Đổi tên</button><label class="fl">Mô tả<textarea id="cDesc" style="min-height:60px"></textarea></label><button class="btn w" onclick="run(this,setDesc)">Đổi mô tả</button></div>
-  <div class="card"><button class="btn d w" onclick="run(this,leaveChat)">🚪 Cho bot rời nhóm</button></div>
-</div></div>
+      <div class="settings-grid">
+        <div class="setting-group" data-category="aim">
+          <h3>
+            <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="22" x2="18" y1="12" y2="12"></line><line x1="6" x2="2" y1="12" y2="12"></line><line x1="12" x2="12" y1="6" y2="2"></line><line x1="12" x2="12" y1="22" y2="18"></line></svg>
+            Thông số ngắm
+          </h3>
+          <div class="setting">
+            <label for="fov-radius">Bán kính FOV</label>
+            <div>
+              <input id="fov-radius" class="remote-control" data-feature="esp.fovRadius" type="range" min="0" max="31" value="13">
+              <div id="fov-radius-value" class="range-value">13 / 31</div>
+            </div>
+          </div>
+          <div class="setting">
+            <label for="aim-target">Mục tiêu ngắm</label>
+            <select id="aim-target" class="remote-control" data-feature="aim.target">
+              <option value="0">Thân</option>
+              <option value="1">Đầu</option>
+              <option value="2">Hỗn hợp</option>
+            </select>
+          </div>
+          <div class="setting">
+            <label for="aim-head-rate">Tỉ lệ headshot</label>
+            <select id="aim-head-rate" class="remote-control" data-feature="aim.headRate">
+              <option value="0">0%</option>
+              <option value="1">25%</option>
+              <option value="2">50%</option>
+              <option value="3">75%</option>
+              <option value="4">100%</option>
+            </select>
+          </div>
+        </div>
 
-<div class="page" id="pg-botset"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🧩 Hồ sơ & lệnh bot</h2></div><div class="pb">
-  <div class="card"><h3>Lệnh /menu</h3><div id="cmdList"></div><div class="row wrap"><button class="btn sm" onclick="cmdAdd()">+ Lệnh</button><button class="btn sm" onclick="run(this,cmdLoad)">⬇ Lấy hiện tại</button><button class="btn sm p" onclick="run(this,cmdSave)">💾 Lưu lên bot</button><button class="btn sm d" onclick="run(this,cmdClear)">Xóa hết</button></div></div>
-  <div class="card"><h3>Tên & mô tả</h3><label class="fl">Tên hiển thị<input id="bsName" maxlength="64"></label><button class="btn w" style="margin-bottom:10px" onclick="run(this,()=>setProf('setMyName','name','bsName'))">Đổi tên</button>
-    <label class="fl">Mô tả (hiện khi mở chat)<textarea id="bsDesc" maxlength="512"></textarea></label><button class="btn w" style="margin-bottom:10px" onclick="run(this,()=>setProf('setMyDescription','description','bsDesc'))">Đổi mô tả</button>
-    <label class="fl">Mô tả ngắn (trang hồ sơ)<input id="bsShort" maxlength="120"></label><button class="btn w" onclick="run(this,()=>setProf('setMyShortDescription','short_description','bsShort'))">Đổi mô tả ngắn</button></div>
-</div></div>
+        <div class="setting-group" data-category="esp">
+          <h3>
+            <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            ESP nâng cao
+          </h3>
+          <div class="setting">
+            <label for="line-origin">Điểm bắt đầu đường kẻ</label>
+            <select id="line-origin" class="remote-control" data-feature="esp.lineOrigin">
+              <option value="0">Trên màn hình</option>
+              <option value="1">Tâm ngắm</option>
+              <option value="2">Dưới màn hình</option>
+            </select>
+          </div>
+          <div class="setting">
+            <label for="system-target">Mục tiêu hệ thống ngắm</label>
+            <select id="system-target" class="remote-control" data-feature="aim.systemHead">
+              <option value="0">Ngực</option>
+              <option value="1">Đầu</option>
+            </select>
+          </div>
+        </div>
 
-<div class="page" id="pg-webhook"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🔗 Webhook</h2></div><div class="pb">
-  <div class="card"><button class="btn w" onclick="run(this,getWebhook)">🔍 Kiểm tra webhook</button><div id="whBox" style="margin-top:10px"></div></div>
-  <div class="card"><label class="fl">URL webhook (HTTPS)<input type="url" id="whUrl" placeholder="https://…"></label><button class="btn p w" onclick="run(this,setWebhook)">Đặt webhook</button></div>
-  <div class="card"><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="whDrop"><span>Xóa luôn tin chờ xử lý</span></label><button class="btn d w" onclick="run(this,delWebhook)">Xóa webhook (để nhận tin trong app)</button></div>
-</div></div>
+        <div class="setting-group" data-category="hud">
+          <h3>
+            <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
+            Màu sắc ESP
+          </h3>
+          <div id="esp-colors" class="color-grid"><label>Màu vòng FOV<select class="remote-control" data-feature="colors.fov"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu đường kẻ<select class="remote-control" data-feature="colors.line"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu khung<select class="remote-control" data-feature="colors.box"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu xương<select class="remote-control" data-feature="colors.skeleton"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label></div>
+          <div class="setting-actions" style="margin-top: 8px;">
+            <button id="colors-rainbow" class="light remote-control" type="button">
+              <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+              CẦU VỒNG
+            </button>
+            <button id="colors-default" class="light remote-control" type="button">
+              <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              MẶC ĐỊNH
+            </button>
+          </div>
+        </div>
 
-<div class="page" id="pg-lab"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🧪 API Lab</h2></div><div class="pb">
-  <div class="chips" id="labChips"></div>
-  <div class="card"><label class="fl">Phương thức<input id="apiM" value="getMe" autocapitalize="off"></label><label class="fl">Tham số JSON <span class="mu">(dùng {chat} cho Chat ID hiện tại)</span><textarea id="apiP" spellcheck="false" style="font-family:ui-monospace,monospace;font-size:14px;min-height:110px">{}</textarea></label>
-    <div class="row"><button class="btn p grow" onclick="run(this,runApi)">▶ Chạy</button><button class="btn grow" onclick="copyOut()">📋 Sao chép</button></div><pre class="out" id="apiOut">Chưa chạy.</pre></div>
-</div></div>
+        <div class="setting-group" data-category="hud">
+          <h3>
+            <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            Màu sát thương HUD
+          </h3>
+          <div id="damage-colors" class="color-grid"><label>Headshot / critical<select class="remote-control" data-feature="damage.criticalColor"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Sát thương thường<select class="remote-control" data-feature="damage.normalColor"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Biểu tượng sát thương<select class="remote-control" data-feature="damage.iconColor"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label></div>
+        </div>
 
-<div class="page" id="pg-hist"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>📜 Lịch sử gửi</h2><button class="btn d sm" onclick="clearHist()">Xóa</button></div><div class="pb"><div id="histBody"></div></div></div>
+        <div class="setting-group" data-category="sliders" style="grid-column: 1 / -1;">
+          <h3>
+            <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
+            Thanh chỉnh thông số tính năng
+          </h3>
+          <div class="setting">
+            <label for="speed-level">Tốc độ di chuyển</label>
+            <div>
+              <input id="speed-level" class="remote-control" data-feature="misc.speedLevel" type="range" min="0" max="19" value="5">
+              <div id="speed-level-value" class="range-value">1.5x</div>
+            </div>
+          </div>
+          <div class="setting">
+            <label for="vision-level">Góc mở rộng tầm nhìn (Vision FOV)</label>
+            <div>
+              <input id="vision-level" class="remote-control" data-feature="misc.visionLevel" type="range" min="1" max="20" value="10">
+              <div id="vision-level-value" class="range-value">10</div>
+            </div>
+          </div>
+          <div class="setting">
+            <label for="spin-level">Tốc độ xoay nhân vật (Spin Speed)</label>
+            <div>
+              <input id="spin-level" class="remote-control" data-feature="misc.spinLevel" type="range" min="1" max="15" value="5">
+              <div id="spin-level-value" class="range-value">5x</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<div class="page" id="pg-set"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>⚙️ Cài đặt & sao lưu</h2></div><div class="pb">
-  <div class="card"><h3>Giao diện</h3><div class="seg" id="themeSeg"><button data-th="auto" onclick="setTheme('auto')">Tự động</button><button data-th="light" onclick="setTheme('light')">Sáng</button><button data-th="dark" onclick="setTheme('dark')">Tối</button></div>
-    <div class="row" style="margin-bottom:12px"><div class="grow"><b>Rung phản hồi</b><div class="mu">Rung nhẹ khi gửi thành công</div></div><label class="sw"><input type="checkbox" id="stHap" onchange="setOpt('haptic',this.checked)"><span></span></label></div>
-    <div class="row" style="margin-bottom:12px"><div class="grow"><b>Tự thu thập người dùng</b><div class="mu">Lưu chat khi có người nhắn bot</div></div><label class="sw"><input type="checkbox" id="stCol" onchange="setOpt('autoCollect',this.checked)"><span></span></label></div>
-    <div class="row"><div class="grow"><b>Tự trả lời nút bấm</b><div class="mu">Gửi answerCallbackQuery khi bấm nút</div></div><label class="sw"><input type="checkbox" id="stCb" onchange="setOpt('answerCb',this.checked)"><span></span></label></div></div>
-  <div class="card"><h3>Sao lưu</h3><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="bkTok"><span>Kèm Token bot (nhạy cảm!)</span></label><div class="grid g2"><button class="btn" onclick="exportAll()">💾 Xuất file</button><button class="btn" onclick="importAll()">📥 Khôi phục</button></div></div>
-  <div class="card"><button class="btn d w" onclick="resetAll()">🗑 Xóa toàn bộ dữ liệu</button><p class="mu" style="margin-top:8px">Token chỉ lưu trong trình duyệt của bạn và chỉ gửi tới api.telegram.org.</p></div>
-</div></div>
+      <div id="command-result" class="notice"></div>
+    </section>
 
-<!-- ============ SHEETS ============ -->
-<div class="bd" id="bd" onclick="closeOv()"></div>
+    <!-- SECTION 4: BẢNG MOD SKIN TRANG PHỤC -->
+    <section id="mod-panel" class="panel" style="display:none">
+      <div class="panel-header">
+        <div>
+          <h2>
+            <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path></svg>
+            Mod skin studio
+          </h2>
+          <p class="muted">Danh mục trang phục được đồng bộ trực tiếp từ server; bấm Áp Dụng để gửi lệnh tới client.</p>
+        </div>
+      </div>
+      <div class="mod-toolbar">
+        <label>Phân khu
+          <select id="mod-category" class="remote-control">
+            <option value="">Tất cả</option>
+            <option value="hair">Tóc</option>
+            <option value="top">Áo</option>
+            <option value="bottom">Quần</option>
+            <option value="shoes">Giày</option>
+            <option value="face">Mặt nạ</option>
+          </select>
+        </label>
+        <label>Giới tính
+          <select id="mod-gender" class="remote-control">
+            <option value="">Tất cả</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+            <option value="unisex">Dùng chung</option>
+          </select>
+        </label>
+      </div>
+      <div id="mod-list" class="mod-list">
+        <div class="empty">Đang tải danh sách mod...</div>
+      </div>
+    </section>
+  </main>
 
-<div class="sheet" id="sh-bot"><div class="grab"></div><div class="sh"><h2>🤖 Cấu hình bot</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
-  <label class="fl">Hồ sơ bot<select id="profSel" onchange="switchProfile()"></select></label>
-  <div class="row" style="margin-bottom:12px"><button class="btn sm grow" onclick="addProfile()">+ Hồ sơ</button><button class="btn sm grow" onclick="renameProfile()">✏️ Đổi tên</button><button class="btn sm d grow" onclick="delProfile()">Xóa</button></div>
-  <label class="fl">Token (từ @BotFather)<div class="row"><input class="inp grow" style="margin:5px 0 0" type="password" id="botToken" placeholder="123456:ABC-DEF…" oninput="saveBot()" autocomplete="off"><button class="btn" style="margin-top:5px" onclick="const i=$('#botToken');i.type=i.type==='password'?'text':'password'">👁</button></div></label>
-  <div class="grid g2"><label class="fl">Loại chat<select id="chatType" onchange="saveBot()"><option value="private">Cá nhân</option><option value="group">Nhóm / Kênh</option></select></label><label class="fl">Chat ID / @kênh<input id="chatId" oninput="saveBot()" placeholder="123456789"></label></div>
-  <div class="row"><button class="btn grow" onclick="openChats()">🔍 Tìm chat</button><button class="btn p grow" onclick="run(this,testBot)">⚡ Kiểm tra</button></div>
-  <div id="botInfo" style="margin-top:12px"></div>
-</div></div>
+  <script>
+    const SECRET = 'auth-menu';
+    const COLOR_NAMES = ['Cầu vồng', 'Mặc định', 'Đỏ', 'Xanh lá', 'Xanh dương', 'Vàng', 'Xanh ngọc', 'Hồng', 'Cam', 'Tím', 'Trắng'];
+    const FEATURE_LABELS = {
+      'esp.master': 'ESP', 'esp.box': 'Khung', 'esp.tracer': 'Đường kẻ',
+      'esp.health': 'Thanh máu', 'esp.name': 'Tên', 'esp.distance': 'Khoảng cách',
+      'esp.fov': 'Draw FOV', 'esp.skeleton': 'Khung xương', 'esp.enemy': 'Số lượng địch',
+      'esp.arrows': 'Mũi tên ESP', 'aim.silent': 'Ngắm im lặng', 'aim.system': 'Hệ thống ngắm',
+      'aim.systemHead': 'Ngắm đầu', 'aim.legit': 'Ngắm tự nhiên', 'aim.sniper': 'Bắn tỉa',
+      'misc.backJump': 'Nhảy lùi', 'misc.fastSwitch': 'Đổi súng nhanh', 'misc.speed': 'Tăng tốc',
+      'misc.vision': 'Tầm nhìn', 'misc.spin': 'Xoay nhân vật', 'misc.buff': 'Tăng sát thương',
+      'misc.sensitivity': 'Độ nhạy cao', 'misc.fps': 'Mở khóa FPS', 'misc.skill': 'Không hồi chiêu',
+      'misc.ammo': 'Tăng băng đạn', 'misc.damage': 'Màu sát thương'
+    };
 
-<div class="sheet" id="sh-chats"><div class="grab"></div><div class="sh"><h2>📨 Chọn người nhận</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
-  <div class="row" style="margin-bottom:10px"><input class="inp grow" style="margin:0" id="chManual" placeholder="Nhập Chat ID hoặc @kênh"><button class="btn p" onclick="pickChat($('#chManual').value.trim())">Dùng</button></div>
-  <input class="inp" id="chSearch" placeholder="🔍 Tìm…" oninput="renderChats()" style="margin-bottom:8px">
-  <div id="chList"></div>
-  <button class="btn w" style="margin-top:10px" onclick="run(this,findChats)">📥 Lấy chat mới từ bot (getUpdates)</button>
-</div></div>
+    let webToken = '', currentKey = '', online = false, mods = [], desiredCommands = [];
+    const pendingFeatures = new Set();
+    let statusRequestId = 0;
+    const CONTROL_PAGE = window.location.pathname === '/menu-control';
+    document.title = CONTROL_PAGE ? 'NovaX — Menu Remote' : 'NovaX — GetKey';
 
-<div class="sheet" id="sh-emoji"><div class="grab"></div><div class="sh"><h2>😊 Emoji</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb"><div class="emo" id="emoGrid"></div></div></div>
-<div class="sheet" id="sh-vars"><div class="grab"></div><div class="sh"><h2>{ } Biến tự điền</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="varsBody"></div></div>
-<div class="sheet" id="sh-tpl"><div class="grab"></div><div class="sh"><h2>📋 Chọn tin mẫu</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="tplPick"></div></div>
-<div class="sheet" id="sh-log"><div class="grab"></div><div class="sh"><h2>🧾 Nhật ký hoạt động</h2><button class="btn sm" onclick="LOG=[];renderLog()">Xóa</button></div><div class="sb" id="logBody"></div></div>
+    const groups = [
+      ['ESP', [
+        ['Bật ESP', 'esp.master'],
+        ['Khung người chơi', 'esp.box'],
+        ['Đường kẻ', 'esp.tracer'],
+        ['Thanh máu', 'esp.health'],
+        ['Tên người chơi', 'esp.name'],
+        ['Khoảng cách', 'esp.distance'],
+        ['Khung xương', 'esp.skeleton'],
+        ['Số lượng địch', 'esp.enemy'],
+        ['Mũi tên ESP 360°', 'esp.arrows']
+      ]],
+      ['NGẮM', [
+        ['Ngắm im lặng', 'aim.silent'],
+        ['Hệ thống ngắm', 'aim.system'],
+        ['Hỗ trợ ngắm tự nhiên', 'aim.legit'],
+        ['Ngắm bắn tỉa', 'aim.sniper'],
+        ['Vòng FOV / Draw FOV', 'esp.fov']
+      ]],
+      ['KHÁC', [
+        ['Nhảy lùi', 'misc.backJump'],
+        ['Đổi súng nhanh', 'misc.fastSwitch'],
+        ['Tăng tốc', 'misc.speed'],
+        ['Mở rộng tầm nhìn', 'misc.vision'],
+        ['Xoay nhân vật', 'misc.spin'],
+        ['Tăng sát thương', 'misc.buff'],
+        ['Độ nhạy cao', 'misc.sensitivity'],
+        ['Mở khóa FPS', 'misc.fps'],
+        ['Không hồi chiêu', 'misc.skill'],
+        ['Tăng băng đạn', 'misc.ammo'],
+        ['Màu sát thương HUD', 'misc.damage']
+      ]]
+    ];
 
-<div class="sheet" id="sh-rule"><div class="grab"></div><div class="sh"><h2 id="ruleTitle">Luật mới</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
-  <label class="fl">Tên luật<input id="rName" placeholder="VD: Chào mừng"></label>
-  <label class="fl">Từ khóa <span class="mu">(nhiều từ cách nhau |, trống = mọi tin)</span><input id="rKw" placeholder="xin chào|hello|/start"></label>
-  <label class="fl">Kiểu khớp<select id="rMode"><option value="contains">Có chứa</option><option value="exact">Khớp chính xác</option><option value="starts">Bắt đầu bằng</option><option value="regex">Regex</option></select></label>
-  <label class="fl">Nội dung trả lời <span class="mu">(biến: {name} {first} {username} {date} {time})</span><textarea id="rReply"></textarea></label>
-  <div class="grid g2"><label class="fl">Parse mode<select id="rPm"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><label class="fl">Chờ giữa 2 lần (giây)<input type="number" id="rCd" value="0" min="0"></label></div>
-  <div class="row wrap" style="margin-bottom:12px"><label class="tg"><input type="checkbox" id="rPriv" checked><span>Chỉ chat riêng</span></label><label class="tg"><input type="checkbox" id="rQuote" checked><span>Trả lời trích dẫn</span></label></div>
-  <button class="btn p w" onclick="saveRule()">Lưu luật</button>
-</div></div>
+    const GROUP_ICONS = {
+      'ESP': '<svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+      'NGẮM': '<svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></svg>',
+      'KHÁC': '<svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+    };
 
-<div class="dlg" id="dlg"></div>
-<div class="toast" id="toast"></div>
+    const byId = id => document.getElementById(id);
 
-<script>
-"use strict";
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const hm=(t=Date.now())=>new Date(t).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
-const KEY='tgs2',DKEY='tgs2_draft';
-const newProf=n=>({name:n,token:'',chatId:'',chatType:'private',subs:[],inbox:{},offset:0,me:null});
-let S={profiles:[newProf('Bot chính')],cur:0,tpls:[],hist:[],rules:[],sched:[],set:{theme:'auto',haptic:true,autoCollect:true,answerCb:true}};
-let kb=[],LOG=[],OV=[],bcSel=new Set(),bcType='all',bcAbort=false,ruleEdit=-1,tplTarget='message',emoTarget='message',threadId=null,cooldown={},poll={on:false,ctl:null},saveT=null,lastOut='',cmds=[];
-const P=()=>S.profiles[S.cur]||S.profiles[0];
+    function showToast(text) {
+      const container = byId('toast-container');
+      if (!container || !text) return;
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.textContent = text;
+      container.append(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
 
-/* ---------- storage ---------- */
-function load(){
-  try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);S={...S,...d,set:{...S.set,...(d.set||{})}};S.profiles.forEach(p=>Object.assign(p,{...newProf(p.name),...p}))}else migrate()}catch(e){}
-  if(S.cur>=S.profiles.length)S.cur=0;
-  const now=Date.now();S.sched.forEach(s=>{if(s.at<now-300000)s.missed=true});
-}
-function migrate(){
-  try{const old=localStorage.getItem('tg_profiles');if(!old)return;
-    S.profiles=JSON.parse(old).map(p=>({...newProf(p.name),token:p.token||'',chatId:p.chatId||'',chatType:p.chatType||'private'}));
-    S.cur=parseInt(localStorage.getItem('tg_curProfile')||'0')||0;
-    S.profiles[0].subs=JSON.parse(localStorage.getItem('tg_subs')||'[]');
-    S.tpls=JSON.parse(localStorage.getItem('tg_tpls')||'[]');
-    S.hist=(JSON.parse(localStorage.getItem('tg_hist')||'[]')).map(h=>({id:h.msgId,act:h.action,chat:h.chatId,text:h.text,t:h.time}));
-    const ar=JSON.parse(localStorage.getItem('tg_autoreply')||'null');
-    if(ar&&ar.reply)S.rules.push({id:Date.now(),name:'Luật cũ',on:true,kw:ar.keyword||'',mode:ar.match==='starts'?'starts':ar.match==='exact'?'exact':'contains',reply:ar.reply,pm:'',cd:0,priv:ar.privateOnly!==false,quote:true});
-  }catch(e){}
-}
-function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Bộ nhớ đầy, hãy xóa bớt dữ liệu','err')}},250)}
+    function setStatus(text, isOnline) {
+      online = !!isOnline;
+      const onlineText = byId('online-text');
+      const onlineDot = byId('online-dot');
+      const controlText = byId('control-online-text');
+      const controlDot = byId('control-online-dot');
+      const controlKey = byId('control-key-value');
+      if (onlineText) onlineText.textContent = text;
+      if (onlineDot) onlineDot.classList.toggle('online', online);
+      if (controlText) controlText.textContent = text;
+      if (controlDot) controlDot.classList.toggle('online', online);
+      if (controlKey) controlKey.textContent = currentKey || '—';
+      document.querySelectorAll('.remote-control').forEach(x => x.disabled = !online);
+    }
 
-/* ---------- ui helpers ---------- */
-let toastT;
-function toast(m,t=''){const e=$('#toast');e.textContent=m;e.className='toast on '+t;clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2600)}
-function vib(n=12){if(S.set.haptic&&navigator.vibrate)try{navigator.vibrate(n)}catch(e){}}
-function lg(m,t=''){LOG.unshift({t:Date.now(),m,k:t});if(LOG.length>120)LOG.pop();if($('#sh-log').classList.contains('on'))renderLog()}
-function renderLog(){$('#logBody').innerHTML=LOG.length?LOG.map(l=>`<div class="log ${l.k}"><time>${hm(l.t)}</time><span>${esc(l.m)}</span></div>`).join(''):'<div class="empty"><i>🧾</i>Chưa có hoạt động</div>'}
-async function run(b,f){if(b&&b.disabled)return;if(b){b.disabled=true;b.classList.add('ld')}try{await f()}catch(e){toast('Lỗi: '+e.message,'err');lg('Lỗi: '+e.message,'err')}finally{if(b){b.disabled=false;b.classList.remove('ld')}}}
-async function copy(t){try{await navigator.clipboard.writeText(t)}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove()}toast('Đã sao chép','ok')}
-function dlg(o){return new Promise(res=>{
-  const f=(o.fields||[]).map((x,i)=>`<label class="fl">${esc(x.label)}${x.type==='select'?`<select id="df${i}">${x.opts.map(a=>`<option value="${esc(a[0])}" ${a[0]==x.value?'selected':''}>${esc(a[1])}</option>`).join('')}</select>`:x.area?`<textarea id="df${i}" placeholder="${esc(x.ph||'')}">${esc(x.value||'')}</textarea>`:`<input id="df${i}" type="${x.type||'text'}" value="${esc(x.value||'')}" placeholder="${esc(x.ph||'')}">`}</label>`).join('');
-  const el=$('#dlg');el.innerHTML=`<div class="dbox"><h3>${esc(o.title||'')}</h3>${o.msg?`<p>${o.msg}</p>`:''}${f}<div class="drow"><button class="btn" id="dNo">Hủy</button><button class="btn ${o.danger?'d':'p'}" id="dOk">${esc(o.ok||'OK')}</button></div></div>`;
-  el.classList.add('on');const end=v=>{el.classList.remove('on');el.innerHTML='';res(v)};
-  $('#dNo').onclick=()=>end(null);$('#dOk').onclick=()=>end((o.fields||[]).length?o.fields.map((x,i)=>$('#df'+i).value):true);
-  el.onclick=e=>{if(e.target===el)end(null)};const f0=$('#df0');if(f0)setTimeout(()=>f0.focus(),50);
-})}
-/* overlay stack with Android back support */
-function openOv(id){if(OV.includes(id))return;OV.push(id);history.pushState({o:id},'');showOv(id,true)}
-function showOv(id,on){const e=$('#'+id);if(!e)return;e.classList.toggle('on',on);$('#bd').classList.toggle('on',OV.some(x=>x.startsWith('sh-')))}
-function closeOv(){if(OV.length)history.back()}
-window.addEventListener('popstate',()=>{const id=OV.pop();if(id)showOv(id,false)});
-const openSheet=id=>{if(id==='sh-log')renderLog();openOv(id)};
-const openPage=id=>{refreshPage(id);openOv(id)};
-function go(v){$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));if(v==='home')renderHome();if(v==='send')renderSend();if(v==='inbox')renderInbox();if(v==='bc')renderBc();if(v==='tools')renderTools();scrollTo({top:0})}
-function refreshPage(id){({'pg-rules':renderRules,'pg-sched':renderSched,'pg-tpls':renderTpls,'pg-hist':renderHist,'pg-set':renderSet,'pg-botset':()=>{},'pg-lab':renderLab}[id]||(()=>{}))()}
+    function forceLogoutToGetKey(message) {
+      statusRequestId++;
+      webToken = '';
+      currentKey = '';
+      online = false;
+      localStorage.removeItem('novax.authMenuToken');
+      localStorage.removeItem('novax.authMenuKey');
+      setStatus(message || 'Key không còn hợp lệ, vui lòng lấy key mới', false);
+      if (byId('control-panel')) byId('control-panel').style.display = 'none';
+      if (byId('mod-panel')) byId('mod-panel').style.display = 'none';
+      if (CONTROL_PAGE) window.location.replace('/getkey');
+    }
 
-/* ---------- theme ---------- */
-function applyTheme(){const t=S.set.theme;const dark=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.dataset.t=dark?'dark':'light';$('#metaTheme').content=dark?'#0b121b':'#2aabee';$('#hTheme').textContent=t==='auto'?'🌓':dark?'🌙':'☀️';$$('#themeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.th===t))}
-function setTheme(t){S.set.theme=t;save();applyTheme()}
-function cycleTheme(){setTheme({auto:'light',light:'dark',dark:'auto'}[S.set.theme]);toast('Giao diện: '+{auto:'Tự động',light:'Sáng',dark:'Tối'}[S.set.theme])}
-function setOpt(k,v){S.set[k]=v;save()}
+    function setResult(text) {
+      byId('command-result').textContent = text;
+      showToast(text);
+    }
 
-/* ---------- API ---------- */
-async function api(method,body,isForm,o={}){
-  const p=o.p||P();if(!p.token){if(!o.quiet){toast('Chưa nhập Token bot','err');openSheet('sh-bot')}return{ok:false,description:'Chưa có token'}}
-  try{const q={method:'POST',signal:o.signal};if(isForm)q.body=body;else if(body){q.headers={'Content-Type':'application/json'};q.body=JSON.stringify(body)}
-    const r=await fetch(`https://api.telegram.org/bot${p.token}/${method}`,q);return await r.json()}
-  catch(e){if(e.name==='AbortError')return{ok:false,aborted:true};return{ok:false,description:'Lỗi kết nối: '+e.message}}
-}
-function addHist(id,act,chat,text){S.hist.unshift({id,act,chat:String(chat||''),text:(text||'').slice(0,90),t:Date.now()});if(S.hist.length>100)S.hist.pop();save()}
-function done(r,act,txt){
-  if(r&&r.ok){const mid=r.result?.message_id??(Array.isArray(r.result)?r.result[0]?.message_id:'');toast(`✅ ${act}${mid?' · #'+mid:''}`,'ok');lg(act+' thành công','ok');vib();if(mid)addHist(mid,act,P().chatId,txt);return true}
-  if(r&&!r.aborted){toast('❌ '+(r.description||'Lỗi'),'err');lg(act+': '+(r.description||'lỗi'),'err');vib(40)}return false}
-function chatId(){const c=P().chatId;if(!c){toast('Hãy chọn người nhận trước','err');openChats();return null}return c}
-function fdAppend(fd,o){for(const[k,v]of Object.entries(o)){if(v==null)continue;fd.append(k,typeof v==='object'?JSON.stringify(v):String(v))}return fd}
-function extra(){const o={};if($('#oSil').checked)o.disable_notification=true;if($('#oPro').checked)o.protect_content=true;const r=parseInt($('#oRep').value);if(r)o.reply_parameters={message_id:r};const t=parseInt($('#oThr').value);if(t)o.message_thread_id=t;return o}
+    function renderClientStatus(status, serverRevision) {
+      const out = byId('client-state-text');
+      const controlOut = byId('control-client-state');
+      if (!status) {
+        if (out) out.textContent = 'Client chưa báo trạng thái.';
+        if (controlOut) controlOut.textContent = 'Chưa nhận trạng thái từ client';
+        return;
+      }
+      const names = (status.active_features || []).map(x => FEATURE_LABELS[x] || x);
+      const synced = Number(status.applied_revision) >= Number(serverRevision || 0);
+      const message = `Client revision ${status.applied_revision}/${serverRevision || 0} · ${synced ? 'đã đồng bộ' : 'đang đồng bộ'} · Đang bật: ${names.length ? names.join(', ') : 'không có'} · Cập nhật ${new Date(status.received_at).toLocaleTimeString()}`;
+      if (out) out.textContent = message;
+      if (controlOut) controlOut.textContent = message;
+    }
 
-/* ---------- profile / bot ---------- */
-function saveBot(){const p=P();p.token=$('#botToken').value.trim();p.chatId=$('#chatId').value.trim();p.chatType=$('#chatType').value;save();renderHeader();renderRcpt()}
-function openBot(){const p=P();$('#profSel').innerHTML=S.profiles.map((x,i)=>`<option value="${i}" ${i===S.cur?'selected':''}>${esc(x.name)}</option>`).join('');$('#botToken').value=p.token;$('#chatId').value=p.chatId;$('#chatType').value=p.chatType;renderBotInfo();openSheet('sh-bot')}
-function renderBotInfo(){const m=P().me;$('#botInfo').innerHTML=m?`<div class="card" style="margin:0"><div class="row"><span class="av">🤖</span><div><b>${esc(m.name)}</b><div class="mu">@${esc(m.username)} · ID ${m.id}</div><div class="mu">Vào nhóm: ${m.join?'✅':'❌'} · Đọc mọi tin nhóm: ${m.readAll?'✅':'❌'}</div></div></div></div>`:''}
-function switchProfile(){stopPoll();S.cur=parseInt($('#profSel').value)||0;save();openBotRefill();renderAll();if(P().token)testBot(true)}
-function openBotRefill(){const p=P();$('#botToken').value=p.token;$('#chatId').value=p.chatId;$('#chatType').value=p.chatType;renderBotInfo()}
-async function addProfile(){const r=await dlg({title:'Hồ sơ mới',fields:[{label:'Tên hồ sơ',value:'Bot '+(S.profiles.length+1)}],ok:'Tạo'});if(!r||!r[0].trim())return;S.profiles.push(newProf(r[0].trim()));S.cur=S.profiles.length-1;save();stopPoll();openBot();renderAll()}
-async function renameProfile(){const r=await dlg({title:'Đổi tên hồ sơ',fields:[{label:'Tên',value:P().name}]});if(!r||!r[0].trim())return;P().name=r[0].trim();save();openBot();renderAll()}
-async function delProfile(){if(S.profiles.length<=1)return toast('Phải giữ lại ít nhất 1 hồ sơ','err');if(!await dlg({title:'Xóa hồ sơ?',msg:`Xóa “${esc(P().name)}” cùng danh sách người dùng và hộp thư của nó.`,danger:true,ok:'Xóa'}))return;stopPoll();S.profiles.splice(S.cur,1);S.cur=0;save();openBot();renderAll()}
-async function testBot(quiet){const r=await api('getMe',null,false,{quiet:quiet===true});if(r?.ok){const u=r.result;P().me={name:u.first_name,username:u.username,id:u.id,join:u.can_join_groups,readAll:u.can_read_all_group_messages};save();renderHeader();renderBotInfo();renderHome();if(quiet!==true)toast('✅ Kết nối @'+u.username,'ok');lg('Kết nối @'+u.username,'ok')}else if(!quiet&&r){P().me=null;save();renderHeader();toast('❌ '+(r.description||'Token sai'),'err')}}
-function renderHeader(){const p=P(),m=p.me;$('#hName').textContent=m?m.name:p.name;$('#hSub').textContent=m?'@'+m.username+(poll.on?' · đang nhận tin':''):(p.token?'Chưa xác thực':'Chưa nhập token');$('#hDot').className='dot'+(m?' on':'')+(poll.on?' live':'')}
-function renderRcpt(){const c=P().chatId,k=chatCtx(c);$('#rcName').textContent=c?((k?.name||k?.username||'Chat')+' · '+c):'Chọn cuộc trò chuyện';$('#rcAv').textContent=c?((k?.name||'#')[0].toUpperCase()):'?'}
+    function updateRangeLabel(feature, value) {
+      if (feature === 'esp.fovRadius' && byId('fov-radius-value')) byId('fov-radius-value').textContent = value + ' / 31';
+      if (feature === 'misc.speedLevel' && byId('speed-level-value')) byId('speed-level-value').textContent = (1 + Number(value) / 10).toFixed(1) + 'x';
+      if (feature === 'misc.visionLevel' && byId('vision-level-value')) byId('vision-level-value').textContent = value;
+      if (feature === 'misc.spinLevel' && byId('spin-level-value')) byId('spin-level-value').textContent = value + 'x';
+    }
 
-/* ---------- known chats ---------- */
-function known(){const p=P(),m=new Map();p.subs.forEach(s=>m.set(String(s.id),{...s}));Object.values(p.inbox).forEach(x=>{const k=String(x.chat.id);if(!m.has(k))m.set(k,{...x.chat,id:k})});return[...m.values()]}
-function chatCtx(id){return known().find(k=>String(k.id)===String(id))||null}
-function chatInfo2(c){const name=c.title||[c.first_name,c.last_name].filter(Boolean).join(' ')||c.username||String(c.id);return{id:String(c.id),type:c.type,name,username:c.username||'',first:c.first_name||c.title||''}}
-function addSub(c){const p=P(),i=chatInfo2(c),old=p.subs.find(s=>s.id===i.id);if(old){Object.assign(old,i);return false}p.subs.push({...i,at:Date.now()});return true}
-function openChats(){$('#chSearch').value='';renderChats();openSheet('sh-chats')}
-function renderChats(){const q=$('#chSearch').value.toLowerCase(),cur=String(P().chatId),l=known().filter(k=>!q||(k.name+k.username+k.id).toLowerCase().includes(q));
-  $('#chList').innerHTML=l.length?l.map(k=>`<button class="ci" onclick="pickChat('${esc(k.id)}')"><span class="av ${k.type==='private'?'':'g'}">${esc((k.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(k.name)}</b><small>${k.username?'@'+esc(k.username)+' · ':''}${esc(k.id)} · ${esc(k.type)}</small></span>${String(k.id)===cur?'<span class="tag">Đang chọn</span>':''}</button>`).join(''):'<div class="empty"><i>🔍</i>Chưa có chat nào.<br>Nhắn tin cho bot rồi bấm “Lấy chat mới”.</div>'}
-function pickChat(id){if(!id)return;const p=P(),k=chatCtx(id);p.chatId=String(id);p.chatType=k&&k.type&&k.type!=='private'?'group':'private';save();renderRcpt();closeOv();toast('Đã chọn '+(k?.name||id),'ok')}
-async function findChats(){const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok)return toast('❌ '+(r?.description||'Lỗi'),'err');let n=0;(r.result||[]).forEach(u=>{const c=(u.message||u.edited_message||u.channel_post||u.my_chat_member||{}).chat;if(c&&addSub(c))n++});save();renderChats();toast(`Thêm ${n} chat mới`,n?'ok':'')}
+    function resetControlView() {
+      document.querySelectorAll('.toggle').forEach(button => button.classList.remove('on'));
+      const defaults = {
+        'esp.fovRadius': 13, 'aim.target': 0, 'aim.headRate': 0, 'esp.lineOrigin': 0, 'aim.systemHead': 0,
+        'misc.speedLevel': 5, 'misc.visionLevel': 10, 'misc.spinLevel': 5,
+        'colors.fov': 1, 'colors.line': 1, 'colors.box': 1, 'colors.skeleton': 1,
+        'damage.criticalColor': 1, 'damage.normalColor': 1, 'damage.iconColor': 1
+      };
+      Object.entries(defaults).forEach(([feature, val]) => {
+        const input = document.querySelector(`[data-feature="${feature}"]`);
+        if (input) {
+          input.value = val;
+          updateRangeLabel(feature, val);
+        }
+      });
+    }
 
-/* ---------- compose ---------- */
-const FM={HTML:{b:['<b>','</b>'],i:['<i>','</i>'],u:['<u>','</u>'],s:['<s>','</s>'],code:['<code>','</code>'],pre:['<pre>','</pre>'],link:['<a href="https://">','</a>'],spo:['<tg-spoiler>','</tg-spoiler>'],quote:['<blockquote>','</blockquote>']},Markdown:{b:['*','*'],i:['_','_'],code:['`','`'],pre:['```\n','\n```'],link:['[','](https://)']},MarkdownV2:{b:['*','*'],i:['_','_'],u:['__','__'],s:['~','~'],code:['`','`'],pre:['```\n','\n```'],link:['[','](https://)'],spo:['||','||'],quote:['>','']}};
-function fmtBar(){const m=$('#parseMode').value;const L={b:'B',i:'I',u:'U',s:'S',code:'‹›',pre:'▤',link:'🔗',spo:'👁‍🗨',quote:'❝'};$('#fmtBar').innerHTML=m?Object.keys(L).map(k=>`<button onclick="fmt('${k}')" style="${k==='b'?'font-weight:900':k==='i'?'font-style:italic':k==='u'?'text-decoration:underline':k==='s'?'text-decoration:line-through':''}">${L[k]}</button>`).join('')+(m==='MarkdownV2'?'<button onclick="escV2()">🛡 Thoát</button>':''):'<span class="mu">Chế độ văn bản thường: không định dạng.</span>'}
-function wrap(id,a,b){const t=$('#'+id),s=t.selectionStart,e=t.selectionEnd,v=t.value;t.value=v.slice(0,s)+a+v.slice(s,e)+b+v.slice(e);t.focus();t.selectionStart=s+a.length;t.selectionEnd=e+a.length;t.dispatchEvent(new Event('input'))}
-function fmt(k){const m=$('#parseMode').value,f=FM[m]?.[k];if(!f)return toast('Chế độ này không hỗ trợ định dạng đó','err');wrap('message',f[0],f[1])}
-function escV2(){const t=$('#message');t.value=t.value.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g,'\\$1');onMsg()}
-function ins(id,txt){wrap(id,txt,'')}
-function tg(t,mode){let h=esc(t);
-  if(mode==='HTML')h=h.replace(/&lt;(\/?)(b|strong|i|em|u|ins|s|strike|del|code|pre|blockquote)&gt;/g,'<$1$2>').replace(/&lt;tg-spoiler&gt;/g,'<span class="spo">').replace(/&lt;\/tg-spoiler&gt;/g,'</span>').replace(/&lt;a href=&quot;(https?:\/\/[^&"<>]+)&quot;&gt;/g,'<a href="$1" target="_blank" rel="noopener">').replace(/&lt;\/a&gt;/g,'</a>');
-  else if(mode==='Markdown'||mode==='MarkdownV2'){h=h.replace(/```([\s\S]+?)```/g,'<pre>$1</pre>').replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|[^_])_([^_\n]+)_/g,'$1<i>$2</i>');
-    if(mode==='MarkdownV2')h=h.replace(/__([^_\n]+)__/g,'<u>$1</u>').replace(/~([^~\n]+)~/g,'<s>$1</s>').replace(/\|\|([^|\n]+)\|\|/g,'<span class="spo">$1</span>').replace(/\\(.)/g,'$1')}
-  return h.replace(/\n/g,'<br>')}
-function vars(t,c={},mode=''){const d=new Date(),x=v=>mode==='HTML'?esc(v):v;const m={name:x(c.name||''),first:x(c.first||c.name||''),username:c.username?'@'+x(c.username):'',id:c.id||'',date:d.toLocaleDateString('vi-VN'),time:hm(),day:d.toLocaleDateString('vi-VN',{weekday:'long'})};return t.replace(/\{(\w+)\}/g,(s,k)=>k in m?m[k]:s)}
-function onMsg(){const t=$('#message').value,l=t.length,e=$('#charCount');e.textContent=l+' / 4096';e.className='cnt'+(l>4096?' e':l>3500?' w':'');try{localStorage.setItem(DKEY,t)}catch(x){}renderPrev()}
-function renderPrev(){const m=$('#parseMode').value,t=$('#message').value||'Nội dung xem trước…';$('#prevB').innerHTML=tg(vars(t,chatCtx(P().chatId)||{},''),m)+`<time>${hm()}</time>`;$('#prevK').innerHTML=kb.filter(r=>r.length).map(r=>`<div>${r.map(b=>`<span>${esc(b.text)}</span>`).join('')}</div>`).join('')}
-async function addKbBtn(){const r=await dlg({title:'Thêm nút',fields:[{label:'Chữ trên nút',ph:'Mở website'},{label:'Link (https://…) hoặc dữ liệu callback',ph:'https://… hoặc btn_1'}]});if(!r||!r[0].trim()||!r[1].trim())return;if(!/^https?:|^tg:/.test(r[1].trim())&&new Blob([r[1]]).size>64)return toast('Callback tối đa 64 byte','err');if(!kb.length)kb.push([]);kb[kb.length-1].push({text:r[0].trim(),data:r[1].trim()});renderKb()}
-function addKbRow(){if(!kb.length||kb[kb.length-1].length)kb.push([]);renderKb()}
-function rmKb(r,b){kb[r].splice(b,1);renderKb()}
-function renderKb(){kb=kb.filter((r,i)=>r.length||i===kb.length-1);$('#kbEd').innerHTML=kb.filter(r=>r.length).map((r,ri)=>`<div class="kbr">${r.map((b,bi)=>`<span class="kbb">${esc(b.text)}<em>${/^(https?|tg):/.test(b.data)?'🔗':'⚡'}</em><button onclick="rmKb(${ri},${bi})">×</button></span>`).join('')}</div>`).join('')||'<div class="mu">Chưa có nút. Thêm nút link hoặc nút callback.</div>';renderPrev()}
-function kbMarkup(){const rows=kb.filter(r=>r.length).map(r=>r.map(b=>/^(https?|tg):/.test(b.data)?{text:b.text,url:b.data}:{text:b.text,callback_data:b.data}));return rows.length?{inline_keyboard:rows}:null}
-function ctxFor(c){return{...(chatCtx(c)||{}),id:c}}
-async function sendText(){const c=chatId();if(!c)return;let t=$('#message').value.trim();if(!t)return toast('Hãy nhập nội dung','err');const pm=$('#parseMode').value;t=vars(t,ctxFor(c),pm);
-  const d={chat_id:c,text:t,...extra()};if(pm)d.parse_mode=pm;if($('#oNop').checked)d.link_preview_options={is_disabled:true};const km=kbMarkup();if(km)d.reply_markup=km;
-  const r=await api('sendMessage',d);if(done(r,'Gửi tin',t)){$('#message').value='';kb=[];renderKb();onMsg()}}
-async function schedDlg(){const c=chatId();if(!c)return;const t=$('#message').value.trim();if(!t)return toast('Hãy soạn nội dung ở tab Soạn tin trước','err');const d=new Date(Date.now()+10*60000);d.setSeconds(0);const loc=new Date(d-d.getTimezoneOffset()*60000).toISOString().slice(0,16);
-  const r=await dlg({title:'⏰ Hẹn giờ gửi',msg:'Trang cần mở lúc đến giờ.',fields:[{label:'Thời điểm',type:'datetime-local',value:loc}],ok:'Hẹn'});if(!r)return;const at=new Date(r[0]).getTime();if(!at||at<Date.now()+5000)return toast('Hãy chọn thời điểm trong tương lai','err');
-  S.sched.push({id:Date.now(),at,chat:c,pi:S.cur,text:vars(t,{id:c,...(chatCtx(c)||{})},$('#parseMode').value),pm:$('#parseMode').value,kb:kbMarkup(),ex:extra(),nop:$('#oNop').checked,fails:0});save();toast('Đã hẹn lúc '+new Date(at).toLocaleString('vi-VN'),'ok');renderSched()}
-function saveTpl(){const t=$('#message').value.trim();if(!t)return toast('Chưa có nội dung','err');dlg({title:'Lưu thành mẫu',fields:[{label:'Tên mẫu',value:'Mẫu '+(S.tpls.length+1)}],ok:'Lưu'}).then(r=>{if(!r||!r[0].trim())return;S.tpls.push({name:r[0].trim(),text:t,pm:$('#parseMode').value});save();toast('Đã lưu mẫu','ok')})}
-/* emoji + vars + template pickers */
-const EMO='😀😁😂🤣😊😍😘😎🤔😅😢😭😡🥳🤩😴👍👎👏🙏💪🤝👋✌️🔥✨⭐🌟💯✅❌⚠️❗❓💬📢📣🔔🎉🎁🏆🎯🚀💡📌📎📅⏰💰💳🛒📦🚚🏠📍📞✉️🔒🔑⚙️🛠📊📈📉🌐❤️💙💚💛🧡💜🖤🤍🍀🌹☕🍕🎵📷🎬'.match(/\p{Extended_Pictographic}(\uFE0F|\u200D\p{Extended_Pictographic})*/gu)||[];
-function openEmoji(id){emoTarget=id;$('#emoGrid').innerHTML=EMO.map(e=>`<button onclick="ins(emoTarget,'${e}')">${e}</button>`).join('');openSheet('sh-emoji')}
-function openVars(id){tplTarget=id||'message';const V=[['{name}','Tên đầy đủ'],['{first}','Tên'],['{username}','@username'],['{id}','Chat ID'],['{date}','Ngày hôm nay'],['{time}','Giờ hiện tại'],['{day}','Thứ trong tuần']];$('#varsBody').innerHTML=V.map(v=>`<button class="lrow" onclick="ins(tplTarget,'${v[0]}');closeOv()"><span class="ic">{ }</span><span><b>${v[0]}</b><small>${v[1]}</small></span></button>`).join('')+'<p class="mu" style="margin-top:8px">Biến được thay bằng thông tin người nhận khi gửi.</p>';openSheet('sh-vars')}
-function openTpls(id){tplTarget=id||'message';$('#tplPick').innerHTML=S.tpls.length?S.tpls.map((t,i)=>`<button class="lrow" onclick="useTpl(${i})"><span class="ic">📋</span><span style="min-width:0"><b>${esc(t.name)}</b><small>${esc(t.text.slice(0,60))}</small></span></button>`).join(''):'<div class="empty"><i>📋</i>Chưa có mẫu nào</div>';openSheet('sh-tpl')}
-function useTpl(i){const t=S.tpls[i];$('#'+tplTarget).value=t.text;if(tplTarget==='message'){if(t.pm!=null)$('#parseMode').value=t.pm;onMsg()}closeOv();toast('Đã nạp “'+t.name+'”','ok')}
+    function applyFeatureState(feature, enabled, value) {
+      const button = document.querySelector(`.toggle[data-feature="${feature}"]`);
+      if (button) button.classList.toggle('on', !!enabled);
+      const input = document.querySelector(`[data-feature="${feature}"]:not(.toggle)`);
+      if (input && value !== undefined && value !== null) {
+        input.value = value;
+        updateRangeLabel(feature, value);
+      }
+    }
 
-/* ---------- send panels ---------- */
-function sendPanel(n){$$('#sendChips .chip').forEach(c=>c.classList.toggle('on',c.dataset.p===n));$$('.panel').forEach(p=>p.classList.toggle('on',p.id==='sp-'+n))}
-function renderSend(){renderRcpt();renderKb();fmtBar();onMsg()}
-function onFile(){const f=$('#mFile').files[0];$('#mFname').innerHTML=f?`📎 <b>${esc(f.name)}</b> (${(f.size/1024).toFixed(1)} KB)`:'📁 Chạm để chọn tệp hoặc <b>dán ảnh</b> (Ctrl+V)'}
-document.addEventListener('paste',e=>{if(!$('#sp-media').classList.contains('on')||!$('#v-send').classList.contains('on'))return;const f=[...(e.clipboardData?.files||[])][0];if(f){const dt=new DataTransfer();dt.items.add(f);$('#mFile').files=dt.files;onFile();toast('Đã dán ảnh','ok')}});
-async function sendMedia(){const c=chatId();if(!c)return;const type=$('#mType').value,f=$('#mFile').files[0],url=$('#mUrl').value.trim();if(!f&&!url)return toast('Chọn tệp hoặc nhập URL','err');
-  const cap=vars($('#mCap').value.trim(),ctxFor(c),$('#mParse').value),pm=$('#mParse').value,m={photo:'sendPhoto',document:'sendDocument',video:'sendVideo',audio:'sendAudio',voice:'sendVoice',animation:'sendAnimation',sticker:'sendSticker'}[type],o={chat_id:c,...extra()};
-  if(cap&&type!=='sticker'){o.caption=cap;if(pm)o.parse_mode=pm}if($('#mSpo').checked&&['photo','video','animation'].includes(type))o.has_spoiler=true;
-  let r;if(f){const fd=fdAppend(new FormData(),o);fd.append(type,f);r=await api(m,fd,true)}else r=await api(m,{...o,[type]:url});done(r,'Gửi '+type,cap)}
-async function sendAlbum(){const c=chatId();if(!c)return;const type=$('#aType').value,files=[...$('#aFiles').files],urls=$('#aUrls').value.split('\n').map(s=>s.trim()).filter(Boolean),n=files.length+urls.length;if(n<2||n>10)return toast('Cần 2–10 mục (hiện có '+n+')','err');
-  const media=[],fd=new FormData();urls.forEach(u=>media.push({type,media:u}));files.forEach((f,i)=>{media.push({type,media:'attach://f'+i});fd.append('f'+i,f)});const cap=$('#aCap').value.trim();if(cap)media[0].caption=cap;
-  fdAppend(fd,{chat_id:c,media,...extra()});done(await api('sendMediaGroup',fd,true),'Gửi album ('+n+')',cap)}
-function pollType(t){$$('#pTypeSeg button').forEach((b,i)=>b.classList.toggle('on',(i===1)===(t==='quiz')));$('#pQuiz').style.display=t==='quiz'?'block':'none';$('#pTypeSeg').dataset.t=t}
-async function sendPoll(){const c=chatId();if(!c)return;const q=$('#pQ').value.trim(),o=$('#pOpts').value.split('\n').map(s=>s.trim()).filter(Boolean);if(!q||o.length<2)return toast('Cần câu hỏi và ≥ 2 lựa chọn','err');if(o.length>10)return toast('Tối đa 10 lựa chọn','err');
-  const type=$('#pTypeSeg').dataset.t||'regular',d={chat_id:c,question:q,options:o.map(text=>({text})),is_anonymous:$('#pAnon').checked,type,...extra()};if(type==='quiz'){const k=(parseInt($('#pCorrect').value)||1)-1;if(k<0||k>=o.length)return toast('Đáp án đúng ngoài phạm vi','err');d.correct_option_id=k;if($('#pExp').value.trim())d.explanation=$('#pExp').value.trim()}else d.allows_multiple_answers=$('#pMulti').checked;
-  const op=parseInt($('#pOpen').value);if(op)d.open_period=Math.min(600,Math.max(5,op));done(await api('sendPoll',d),'Gửi bình chọn',q)}
-function myLoc(){if(!navigator.geolocation)return toast('Thiết bị không hỗ trợ','err');navigator.geolocation.getCurrentPosition(p=>{$('#lat').value=p.coords.latitude.toFixed(6);$('#lon').value=p.coords.longitude.toFixed(6);toast('Đã lấy vị trí','ok')},e=>toast('Không lấy được vị trí: '+e.message,'err'),{enableHighAccuracy:true,timeout:10000})}
-async function sendLoc(){const c=chatId();if(!c)return;const a=parseFloat($('#lat').value),b=parseFloat($('#lon').value);if(isNaN(a)||isNaN(b))return toast('Tọa độ không hợp lệ','err');done(await api('sendLocation',{chat_id:c,latitude:a,longitude:b,...extra()}),'Gửi vị trí')}
-async function sendVenue(){const c=chatId();if(!c)return;const a=parseFloat($('#vLat').value),b=parseFloat($('#vLon').value),t=$('#vTitle').value.trim(),ad=$('#vAddr').value.trim();if(isNaN(a)||isNaN(b)||!t||!ad)return toast('Điền đủ thông tin','err');done(await api('sendVenue',{chat_id:c,latitude:a,longitude:b,title:t,address:ad,...extra()}),'Gửi địa điểm')}
-async function sendContact(){const c=chatId();if(!c)return;const ph=$('#cPhone').value.trim(),f=$('#cFirst').value.trim();if(!ph||!f)return toast('Cần SĐT và tên','err');const d={chat_id:c,phone_number:ph,first_name:f,...extra()};if($('#cLast').value.trim())d.last_name=$('#cLast').value.trim();done(await api('sendContact',d),'Gửi liên hệ')}
-async function sendDice(e){const c=chatId();if(!c)return;done(await api('sendDice',{chat_id:c,emoji:e,...extra()}),'Gửi '+e)}
-async function sendAct(a){const c=chatId();if(!c)return;const r=await api('sendChatAction',{chat_id:c,action:a});toast(r?.ok?'Đã gửi trạng thái “'+a+'”':'❌ '+(r?.description||''),r?.ok?'ok':'err')}
+    function applyServerDesired(commands, serverRevision) {
+      if (!Array.isArray(commands)) return;
+      desiredCommands = commands;
+      resetControlView();
+      commands.forEach(cmd => {
+        if (!cmd || !cmd.feature) return;
+        applyFeatureState(cmd.feature, cmd.enabled, cmd.value);
+      });
+      document.querySelectorAll('.remote-control').forEach(ctrl => {
+        const f = ctrl.dataset.feature;
+        if (f) ctrl.disabled = !online || pendingFeatures.has(f);
+      });
+    }
 
-/* ---------- poller / inbox ---------- */
-function togglePoll(on){on?startPoll():stopPoll();$$('#pollSw,#pollSw2').forEach(x=>x&&(x.checked=poll.on))}
-function startPoll(){if(poll.on)return;if(!P().token){toast('Nhập token trước','err');openSheet('sh-bot');togglePollUI();return}poll.on=true;lg('Bắt đầu nhận tin','ok');renderHeader();togglePollUI();pollLoop()}
-function stopPoll(){if(!poll.on)return;poll.on=false;try{poll.ctl?.abort()}catch(e){}lg('Dừng nhận tin');renderHeader();togglePollUI()}
-function togglePollUI(){$$('#pollSw,#pollSw2').forEach(x=>x&&(x.checked=poll.on));const b=$('#inboxLive');if(b)b.textContent=poll.on?'⏹ Dừng nhận tin':'▶ Bắt đầu nhận tin'}
-async function pollLoop(){const p=P();let fails=0;
-  while(poll.on&&P()===p){poll.ctl=new AbortController();
-    const r=await api('getUpdates',{offset:p.offset||undefined,timeout:20,allowed_updates:['message','edited_message','channel_post','callback_query','my_chat_member']},false,{signal:poll.ctl.signal,quiet:true,p});
-    if(!poll.on||P()!==p)break;if(r.aborted)continue;
-    if(r.ok){fails=0;let any=false;for(const u of r.result){p.offset=u.update_id+1;try{ingest(u,p)}catch(e){lg('ingest: '+e.message,'err')}any=true}if(any){save();renderUnread();if($('#v-inbox').classList.contains('on'))renderInbox();if($('#v-home').classList.contains('on'))renderHome();if(threadId&&$('#pg-thread').classList.contains('on'))renderThread()}}
-    else{lg('Nhận tin lỗi: '+r.description,'err');if(/webhook|conflict/i.test(r.description||'')){stopPoll();toast('Bot đang dùng Webhook hoặc app khác đang nhận tin. Hãy xóa Webhook.','err');break}if(++fails>4){stopPoll();toast('Mất kết nối, đã dừng nhận tin','err');break}await sleep(2500)}}
-}
-function ingest(u,p){
-  if(u.callback_query){const q=u.callback_query,c=q.message?.chat;if(c)pushMsg(p,c,{id:q.message.message_id,from:q.from.first_name,text:'🔘 Bấm nút: '+q.data,date:Date.now(),out:false});if(S.set.answerCb)api('answerCallbackQuery',{callback_query_id:q.id,text:'Đã nhận ✅'},false,{quiet:true,p});lg('Callback '+q.data,'ok');return}
-  if(u.my_chat_member){if(S.set.autoCollect&&u.my_chat_member.chat.type!=='private')addSub(u.my_chat_member.chat);return}
-  const m=u.message||u.edited_message||u.channel_post||u.edited_channel_post;if(!m)return;const kind=m.photo?'🖼 Ảnh':m.video?'🎬 Video':m.document?'📄 Tệp':m.voice?'🎤 Voice':m.sticker?'😊 Sticker':m.location?'📍 Vị trí':m.contact?'📞 Liên hệ':m.audio?'🎵 Audio':m.animation?'🎞 GIF':m.poll?'📊 Poll':'';
-  const text=(kind?kind+' ':'')+(m.text||m.caption||'');pushMsg(p,m.chat,{id:m.message_id,from:m.from?.first_name||m.chat.title||'',text,date:(m.date||0)*1000,out:false});
-  if(S.set.autoCollect)addSub(m.chat);if(u.message&&m.text&&!m.from?.is_bot)runRules(m,p)}
-function pushMsg(p,c,msg){const k=String(c.id);let b=p.inbox[k];if(!b)b=p.inbox[k]={chat:chatInfo2(c),msgs:[],unread:0,last:0};b.chat=chatInfo2(c);if(!msg.out&&!(threadId===k&&$('#pg-thread').classList.contains('on')))b.unread++;b.msgs.push(msg);if(b.msgs.length>60)b.msgs.shift();b.last=msg.date||Date.now();
-  const ks=Object.keys(p.inbox);if(ks.length>60){ks.sort((a,b)=>p.inbox[a].last-p.inbox[b].last);delete p.inbox[ks[0]]}}
-function renderUnread(){const n=Object.values(P().inbox).reduce((a,b)=>a+(b.unread||0),0),e=$('#nbInbox');e.textContent=n>99?'99+':n;e.classList.toggle('on',n>0);document.title=(n?`(${n}) `:'')+'Bot Studio'}
-function renderInbox(){const l=Object.values(P().inbox).sort((a,b)=>b.last-a.last);
-  $('#inboxBody').innerHTML=`<div class="card"><div class="row"><div class="grow"><b>Nhận tin realtime</b><div class="mu">Xem tin nhắn gửi tới bot và trả lời ngay.</div></div><label class="sw"><input type="checkbox" id="pollSw" onchange="togglePoll(this.checked)" ${poll.on?'checked':''}><span></span></label></div></div>`+
-  (l.length?`<div class="card" style="padding:4px 12px">${l.map(b=>`<button class="ci" onclick="openThread('${esc(b.chat.id)}')"><span class="av ${b.chat.type==='private'?'':'g'}">${esc((b.chat.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(b.chat.name)}</b><small>${esc((b.msgs[b.msgs.length-1]?.out?'Bạn: ':'')+(b.msgs[b.msgs.length-1]?.text||''))}</small></span><span class="r"><span>${hm(b.last)}</span>${b.unread?`<span class="ub">${b.unread}</span>`:''}</span></button>`).join('')}</div><button class="btn d w" onclick="clearInbox()">🧹 Xóa hộp thư</button>`:'<div class="empty card"><i>💬</i>Chưa có tin nhắn.<br>Bật “Nhận tin realtime” rồi nhắn thử cho bot.</div>')}
-async function clearInbox(){if(!await dlg({title:'Xóa hộp thư?',msg:'Chỉ xóa bản lưu trong app.',danger:true,ok:'Xóa'}))return;P().inbox={};save();renderInbox();renderUnread()}
-function openThread(id){threadId=String(id);const b=P().inbox[threadId];if(b)b.unread=0;save();renderUnread();$('#thTitle').textContent=b?.chat.name||id;renderThread();openPage('pg-thread');setTimeout(()=>scrollTo(0,document.body.scrollHeight),50)}
-function renderThread(){const b=P().inbox[threadId];if(!b)return;b.unread=0;$('#thBody').innerHTML=b.msgs.map(m=>`<div class="msg ${m.out?'o':''}">${!m.out&&b.chat.type!=='private'?`<span class="fr">${esc(m.from)}</span>`:''}${esc(m.text).replace(/\n/g,'<br>')}<small>${hm(m.date)} · #${m.id}</small></div>`).join('');$('#pg-thread').scrollTo({top:99999})}
-function thPick(){pickChatSilent(threadId)}
-function pickChatSilent(id){const p=P(),k=chatCtx(id);p.chatId=String(id);p.chatType=k&&k.type!=='private'?'group':'private';save();renderRcpt();toast('Đã chọn làm người nhận','ok')}
-async function thSend(){const t=$('#thIn').value.trim();if(!t||!threadId)return;$('#thIn').value='';const r=await api('sendMessage',{chat_id:threadId,text:t});if(r?.ok){pushMsg(P(),P().inbox[threadId].chat,{id:r.result.message_id,from:'Bot',text:t,date:Date.now(),out:true});save();renderThread();vib()}else toast('❌ '+(r?.description||'Lỗi'),'err')}
+    async function apiRequest(url, options = {}) {
+      const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+      if (webToken) headers['x-web-token'] = webToken;
+      return fetch(url, { credentials: 'same-origin', ...options, headers });
+    }
 
-/* ---------- auto reply rules ---------- */
-function ruleHit(r,txt){const k=(r.kw||'').trim();if(!k)return true;if(r.mode==='regex'){try{return new RegExp(k,'i').test(txt)}catch(e){return false}}const a=txt.toLocaleLowerCase('vi');return k.split('|').map(s=>s.trim().toLocaleLowerCase('vi')).filter(Boolean).some(w=>r.mode==='exact'?a===w:r.mode==='starts'?a.startsWith(w):a.includes(w))}
-async function runRules(m,p){for(const r of S.rules){if(!r.on||!r.reply)continue;if(r.priv&&m.chat.type!=='private')continue;if(!ruleHit(r,m.text.trim()))continue;
-  const ck=r.id+'_'+m.chat.id;if(r.cd&&Date.now()-(cooldown[ck]||0)<r.cd*1000)return;cooldown[ck]=Date.now();
-  const ci=chatInfo2(m.from?{...m.from,type:'private'}:m.chat),text=vars(r.reply,{name:[m.from?.first_name,m.from?.last_name].filter(Boolean).join(' '),first:m.from?.first_name,username:m.from?.username,id:m.chat.id},r.pm);
-  const d={chat_id:m.chat.id,text};if(r.pm)d.parse_mode=r.pm;if(r.quote)d.reply_parameters={message_id:m.message_id};
-  const o=await api('sendMessage',d,false,{quiet:true,p});if(o.ok){pushMsg(p,m.chat,{id:o.result.message_id,from:'Bot',text,date:Date.now(),out:true});lg(`Luật “${r.name}” → ${m.chat.id}`,'ok')}else lg('Luật lỗi: '+o.description,'err');return}}
-function renderRules(){$('#pollSw2').checked=poll.on;$('#rulesBody').innerHTML=S.rules.length?S.rules.map((r,i)=>`<div class="card"><div class="row"><div class="grow"><b>${esc(r.name||'Luật '+(i+1))}</b><div class="mu">${r.kw?esc(r.mode==='regex'?'/'+r.kw+'/':r.kw):'Mọi tin nhắn'} · ${esc({contains:'chứa',exact:'chính xác',starts:'bắt đầu',regex:'regex'}[r.mode])}${r.priv?' · chat riêng':''}</div></div><label class="sw"><input type="checkbox" ${r.on?'checked':''} onchange="S.rules[${i}].on=this.checked;save()"><span></span></label></div><div class="bubble" style="margin:10px 0">${tg(r.reply,r.pm)}</div><div class="row"><button class="btn sm grow" onclick="editRule(${i})">✏️ Sửa</button><button class="btn sm grow" onclick="dupRule(${i})">⧉ Nhân bản</button><button class="btn sm d" onclick="delRule(${i})">Xóa</button></div></div>`).join(''):'<div class="empty card"><i>🤖</i>Chưa có luật nào.<br>Luật đầu tiên khớp sẽ được dùng.</div>'}
-function editRule(i=-1){ruleEdit=i;const r=i>=0?S.rules[i]:{name:'',kw:'',mode:'contains',reply:'',pm:'HTML',cd:0,priv:true,quote:true};$('#ruleTitle').textContent=i>=0?'Sửa luật':'Luật mới';$('#rName').value=r.name;$('#rKw').value=r.kw;$('#rMode').value=r.mode;$('#rReply').value=r.reply;$('#rPm').value=r.pm||'';$('#rCd').value=r.cd||0;$('#rPriv').checked=!!r.priv;$('#rQuote').checked=!!r.quote;openSheet('sh-rule')}
-function saveRule(){const reply=$('#rReply').value.trim();if(!reply)return toast('Nhập nội dung trả lời','err');const r={id:ruleEdit>=0?S.rules[ruleEdit].id:Date.now(),on:ruleEdit>=0?S.rules[ruleEdit].on:true,name:$('#rName').value.trim()||'Luật mới',kw:$('#rKw').value,mode:$('#rMode').value,reply,pm:$('#rPm').value,cd:parseInt($('#rCd').value)||0,priv:$('#rPriv').checked,quote:$('#rQuote').checked};if(r.mode==='regex'){try{new RegExp(r.kw)}catch(e){return toast('Regex không hợp lệ','err')}}ruleEdit>=0?S.rules[ruleEdit]=r:S.rules.push(r);save();closeOv();renderRules();toast('Đã lưu luật','ok')}
-function dupRule(i){S.rules.splice(i+1,0,{...S.rules[i],id:Date.now(),name:S.rules[i].name+' (bản sao)'});save();renderRules()}
-async function delRule(i){if(!await dlg({title:'Xóa luật?',danger:true,ok:'Xóa'}))return;S.rules.splice(i,1);save();renderRules()}
+    async function postCommand(feature, enabled, value = 0) {
+      const response = await apiRequest('/api/menu/command', {
+        method: 'POST',
+        body: JSON.stringify({ secret: SECRET, key: currentKey, feature, enabled: !!enabled, value: Number(value) })
+      });
+      const data = await response.json().catch(() => ({}));
+      if ((!response.ok || !data.success) && (data.logout || data.code === 'key_revoked' || response.status === 401)) {
+        forceLogoutToGetKey(data.message);
+      }
+      if (!response.ok || !data.success) throw new Error(data.message || 'Không thể gửi lệnh');
+      return data;
+    }
 
-/* ---------- scheduler ---------- */
-function renderSched(){const l=[...S.sched].sort((a,b)=>a.at-b.at);$('#schedBody').innerHTML=l.length?l.map(s=>`<div class="card"><div class="row"><span class="tag" style="${s.missed?'background:#fff3cd;color:#92400e':''}">${s.missed?'Lỡ hẹn':new Date(s.at).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</span><span class="mu grow">→ ${esc(s.chat)}${s.fails?' · lỗi '+s.fails+'/3':''}</span></div><div class="bubble" style="margin:10px 0">${tg(s.text,s.pm)}</div><div class="row"><button class="btn sm p grow" onclick="schedNow(${s.id})">Gửi ngay</button><button class="btn sm d grow" onclick="schedDel(${s.id})">Hủy</button></div></div>`).join(''):'<div class="empty card"><i>⏰</i>Chưa có tin hẹn giờ</div>'}
-function schedDel(id){S.sched=S.sched.filter(s=>s.id!==id);save();renderSched()}
-async function schedSend(s){const p=S.profiles[s.pi]||P(),d={chat_id:s.chat,text:s.text,...(s.ex||{})};if(s.pm)d.parse_mode=s.pm;if(s.kb)d.reply_markup=s.kb;if(s.nop)d.link_preview_options={is_disabled:true};const r=await api('sendMessage',d,false,{quiet:true,p});
-  if(r.ok){S.sched=S.sched.filter(x=>x.id!==s.id);addHist(r.result.message_id,'Hẹn giờ',s.chat,s.text);toast('⏰ Đã gửi tin hẹn giờ','ok');lg('Hẹn giờ → '+s.chat,'ok');vib([20,40,20])}else{s.fails=(s.fails||0)+1;if(s.fails>=3){s.missed=true}lg('Hẹn giờ lỗi: '+r.description,'err')}save();if($('#pg-sched').classList.contains('on'))renderSched()}
-async function schedNow(id){const s=S.sched.find(x=>x.id===id);if(s)await schedSend(s)}
-setInterval(()=>{const now=Date.now();S.sched.filter(s=>!s.missed&&s.at<=now&&!s.busy).forEach(async s=>{s.busy=true;await schedSend(s);s.busy=false})},3000);
+    async function sendCommand(button, feature) {
+      if (!webToken || !online || pendingFeatures.has(feature)) return;
+      const wasEnabled = button.classList.contains('on');
+      const enabled = !wasEnabled;
+      pendingFeatures.add(feature);
+      button.disabled = true;
+      button.classList.toggle('on', enabled);
+      try {
+        await postCommand(feature, enabled, 0);
+        setResult(`Đã gửi ${enabled ? 'bật' : 'tắt'}: ${feature}`);
+      } catch (e) {
+        button.classList.toggle('on', wasEnabled);
+        setResult(e.message);
+      } finally {
+        pendingFeatures.delete(feature);
+        button.disabled = !online;
+        await checkStatus();
+      }
+    }
 
-/* ---------- templates page ---------- */
-function renderTpls(){$('#tplBody').innerHTML=S.tpls.length?S.tpls.map((t,i)=>`<div class="card"><b>${esc(t.name)}</b><div class="bubble" style="margin:8px 0">${tg(t.text,t.pm)}</div><div class="row"><button class="btn sm p grow" onclick="useTplGo(${i})">Dùng để soạn</button><button class="btn sm d" onclick="S.tpls.splice(${i},1);save();renderTpls()">Xóa</button></div></div>`).join(''):'<div class="empty card"><i>📋</i>Chưa có tin mẫu</div>'}
-function useTplGo(i){const t=S.tpls[i];$('#message').value=t.text;$('#parseMode').value=t.pm||'';closeOv();setTimeout(()=>{go('send');sendPanel('text');onMsg();fmtBar()},120)}
-async function newTpl(){const r=await dlg({title:'Mẫu mới',fields:[{label:'Tên'},{label:'Nội dung',area:true}],ok:'Lưu'});if(!r||!r[0].trim()||!r[1].trim())return;S.tpls.push({name:r[0].trim(),text:r[1].trim(),pm:'HTML'});save();renderTpls()}
+    async function sendValue(feature, value, label, control) {
+      if (!webToken || !online || pendingFeatures.has(feature)) return;
+      const oldValue = control.value;
+      pendingFeatures.add(feature);
+      control.disabled = true;
+      try {
+        await postCommand(feature, true, value);
+        setResult(`Đã cập nhật ${label}: ${value}`);
+      } catch (e) {
+        control.value = oldValue;
+        updateRangeLabel(feature, oldValue);
+        setResult(e.message);
+      } finally {
+        pendingFeatures.delete(feature);
+        control.disabled = !online;
+        await checkStatus();
+      }
+    }
 
-/* ---------- broadcast ---------- */
-function bcFilter(t){bcType=t;$$('#bcSeg button').forEach((b,i)=>b.classList.toggle('on',['all','private','group'][i]===t));renderBc()}
-function bcList(){const q=($('#bcSearch')?.value||'').toLowerCase();return P().subs.filter(s=>(bcType==='all'||(bcType==='private'?s.type==='private':s.type!=='private'))&&(!q||(s.name+s.username+s.id).toLowerCase().includes(q)))}
-function renderBc(){const l=bcList();$('#bcList').innerHTML=l.length?l.map(s=>`<label class="ci"><span class="av ${s.type==='private'?'':'g'}">${esc((s.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(s.name||s.id)}</b><small>${s.username?'@'+esc(s.username)+' · ':''}${esc(s.id)}</small></span><span class="sw"><input type="checkbox" ${bcSel.has(s.id)?'checked':''} onchange="bcTog('${esc(s.id)}',this.checked)"><span></span></span></label>`).join(''):'<div class="empty"><i>👥</i>Chưa có người nhận.<br>Bấm “Thu thập” sau khi họ /start bot.</div>';$('#bcSelN').textContent=[...bcSel].filter(id=>P().subs.some(s=>s.id===id)).length+' / '+P().subs.length}
-function bcTog(id,on){on?bcSel.add(id):bcSel.delete(id);$('#bcSelN').textContent=[...bcSel].filter(i=>P().subs.some(s=>s.id===i)).length+' / '+P().subs.length}
-function bcAll(on){bcList().forEach(s=>on?bcSel.add(s.id):bcSel.delete(s.id));renderBc()}
-async function collectSubs(){const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok)return toast('❌ '+(r?.description||'Lỗi'),'err');let n=0;(r.result||[]).forEach(u=>{const c=(u.message||u.edited_message||u.channel_post||u.my_chat_member||u.callback_query?.message||{}).chat;if(c&&addSub(c))n++});save();renderBc();renderHome();toast(`Thêm ${n} · Tổng ${P().subs.length}`,'ok')}
-async function addSubDlg(){const r=await dlg({title:'Thêm người nhận',fields:[{label:'Chat ID'},{label:'Loại',type:'select',opts:[['private','Người dùng'],['group','Nhóm / kênh']],value:'private'},{label:'Tên gợi nhớ (tùy chọn)'}]});if(!r||!r[0].trim())return;addSub({id:r[0].trim(),type:r[1],title:r[2].trim()||undefined,first_name:r[2].trim()||undefined});save();renderBc();toast('Đã thêm','ok')}
-async function startBc(){const text=$('#bcMsg').value.trim(),img=$('#bcImg').value.trim();if(!text&&!img)return toast('Nhập nội dung hoặc ảnh','err');const list=P().subs.filter(s=>bcSel.has(s.id));if(!list.length)return toast('Chưa chọn người nhận','err');
-  if(!await dlg({title:'Xác nhận gửi hàng loạt',msg:`Gửi tới <b>${list.length}</b> cuộc trò chuyện?`,ok:'Gửi'}))return;
-  bcAbort=false;$('#bcGo').style.display='none';$('#bcStop').style.display='';$('#bcRun').style.display='block';$('#bcFail').innerHTML='';
-  const delay=Math.max(30,parseInt($('#bcDelay').value)||60),pm=$('#bcParse').value,clean=$('#bcClean').checked;let ok=0,fail=0,failed=[];
-  for(let i=0;i<list.length;i++){if(bcAbort)break;const s=list[i],t=vars(text,s,pm);const d={chat_id:s.id};if($('#bcSil').checked)d.disable_notification=true;if($('#bcPro').checked)d.protect_content=true;
-    let m;if(img){m='sendPhoto';d.photo=img;if(t){d.caption=t;if(pm)d.parse_mode=pm}}else{m='sendMessage';d.text=t;if(pm)d.parse_mode=pm}
-    let r=await api(m,d);if(!r.ok&&r.parameters?.retry_after){await sleep(r.parameters.retry_after*1000+200);r=await api(m,d)}
-    if(r.ok)ok++;else{fail++;failed.push({s,e:r.description||''});if(clean&&/blocked|deactivated|chat not found/i.test(r.description||'')){const p=P();p.subs=p.subs.filter(x=>x.id!==s.id);bcSel.delete(s.id)}}
-    $('#bcFill').style.width=Math.round((i+1)/list.length*100)+'%';$('#bcStat').textContent=`${i+1}/${list.length} · ✅ ${ok} · ❌ ${fail}`;if(i<list.length-1)await sleep(delay)}
-  save();$('#bcGo').style.display='';$('#bcStop').style.display='none';renderBc();renderHome();vib([30,50,30]);toast(`Xong: ✅ ${ok} · ❌ ${fail}`,fail?'':'ok');lg(`Broadcast ${ok} OK, ${fail} lỗi`,fail?'err':'ok');
-  if(failed.length){$('#bcFail').innerHTML=`<details class="acc" style="margin-top:8px"><summary>Chi tiết ${failed.length} lỗi</summary><div>${failed.map(f=>`<div class="log err"><span>${esc(f.s.id)}: ${esc(f.e)}</span></div>`).join('')}</div></details>`}}
+    async function sendColorPreset(value, label) {
+      if (!webToken || !online) return;
+      const features = ['colors.fov', 'colors.line', 'colors.box', 'colors.skeleton'];
+      features.forEach(feature => pendingFeatures.add(feature));
+      try {
+        for (const feature of features) await postCommand(feature, true, value);
+        setResult(`Đã áp dụng màu ${label}`);
+      } catch (e) {
+        setResult(e.message);
+      } finally {
+        features.forEach(feature => pendingFeatures.delete(feature));
+        await checkStatus();
+      }
+    }
 
-/* ---------- manage / admin ---------- */
-async function editMsg(){const c=chatId();if(!c)return;const id=parseInt($('#edId').value),t=$('#edTx').value.trim();if(!id||!t)return toast('Nhập ID và nội dung','err');const d={chat_id:c,message_id:id,text:t};if($('#edPm').value)d.parse_mode=$('#edPm').value;done(await api('editMessageText',d),'Sửa tin',t)}
-async function delMsg(){const c=chatId();if(!c)return;const ids=$('#delId').value.split(',').map(s=>parseInt(s)).filter(Boolean);if(!ids.length)return toast('Nhập ID','err');if(!await dlg({title:'Xóa '+ids.length+' tin?',danger:true,ok:'Xóa'}))return;done(await api(ids.length>1?'deleteMessages':'deleteMessage',ids.length>1?{chat_id:c,message_ids:ids}:{chat_id:c,message_id:ids[0]}),'Xóa tin')}
-async function fwdMsg(){const c=chatId();if(!c)return;const f=$('#fwFrom').value.trim(),id=parseInt($('#fwId').value);if(!f||!id)return toast('Nhập đủ thông tin','err');done(await api('forwardMessage',{chat_id:c,from_chat_id:f,message_id:id}),'Forward')}
-async function copyMsg(){const c=chatId();if(!c)return;const f=$('#fwFrom').value.trim(),id=parseInt($('#fwId').value);if(!f||!id)return toast('Nhập đủ thông tin','err');done(await api('copyMessage',{chat_id:c,from_chat_id:f,message_id:id}),'Copy')}
-async function pinMsg(){const c=chatId();if(!c)return;const id=parseInt($('#pinId').value);if(!id)return toast('Nhập ID','err');done(await api('pinChatMessage',{chat_id:c,message_id:id}),'Ghim')}
-async function unpinMsg(){const c=chatId();if(!c)return;const id=parseInt($('#pinId').value),d={chat_id:c};if(id)d.message_id=id;done(await api('unpinChatMessage',d),'Bỏ ghim')}
-async function unpinAll(){const c=chatId();if(!c)return;done(await api('unpinAllChatMessages',{chat_id:c}),'Bỏ ghim tất cả')}
-async function getFileInfo(){const f=$('#fileId').value.trim();if(!f)return toast('Nhập file_id','err');const r=await api('getFile',{file_id:f});if(r?.ok){const x=r.result,l=x.file_path?`https://api.telegram.org/file/bot${P().token}/${x.file_path}`:'';$('#fileOut').innerHTML=`<div class="mu" style="margin-top:8px">Dung lượng: ${x.file_size?(x.file_size/1024).toFixed(1)+' KB':'?'}</div>${l?`<a class="btn p w" style="margin-top:8px;text-decoration:none" href="${l}" target="_blank" rel="noopener">⬇ Tải xuống</a>`:''}`}else toast('❌ '+(r?.description||''),'err')}
-const out=h=>$('#admOut').innerHTML=h;
-async function chatInfo(){const c=chatId();if(!c)return;const r=await api('getChat',{chat_id:c});if(!r?.ok)return toast('❌ '+(r?.description||''),'err');const x=r.result;out(`<div class="mu">Tên: <b>${esc(x.title||x.first_name||'')}</b><br>Loại: ${esc(x.type)} · ID: ${x.id}${x.username?'<br>@'+esc(x.username):''}${x.description?'<br>'+esc(x.description):''}</div>`)}
-async function memberCount(){const c=chatId();if(!c)return;const r=await api('getChatMemberCount',{chat_id:c});r?.ok?out(`<b style="font-size:20px">${r.result}</b> thành viên`):toast('❌ '+(r?.description||''),'err')}
-async function listAdmins(){const c=chatId();if(!c)return;const r=await api('getChatAdministrators',{chat_id:c});if(!r?.ok)return toast('❌ '+(r?.description||''),'err');out(r.result.map(a=>`<div class="ci"><span class="av">${esc((a.user.first_name||'?')[0])}</span><span class="m"><b>${esc(a.user.first_name||'')}</b><small>${a.user.username?'@'+esc(a.user.username)+' · ':''}${a.user.id} · ${esc(a.status)}</small></span></div>`).join(''))}
-async function inviteLink(){const c=chatId();if(!c)return;const r=await api('exportChatInviteLink',{chat_id:c});r?.ok?(out(`<div class="row"><input class="inp grow" style="margin:0" readonly value="${esc(r.result)}"><button class="btn" onclick="copy('${esc(r.result)}')">📋</button></div>`),toast('Đã tạo link mời','ok')):toast('❌ '+(r?.description||''),'err')}
-async function member(a){const c=chatId();if(!c)return;const u=parseInt($('#uid').value);if(!u)return toast('Nhập User ID','err');const dur=parseInt($('#uDur').value)||0,until=dur?Math.floor(Date.now()/1000)+dur:0;let r;
-  const full={can_send_messages:true,can_send_audios:true,can_send_documents:true,can_send_photos:true,can_send_videos:true,can_send_video_notes:true,can_send_voice_notes:true,can_send_polls:true,can_send_other_messages:true,can_add_web_page_previews:true};
-  if(a==='ban'){if(!await dlg({title:'Ban '+u+'?',danger:true,ok:'Ban'}))return;r=await api('banChatMember',{chat_id:c,user_id:u,...(until?{until_date:until}:{})})}
-  else if(a==='unban')r=await api('unbanChatMember',{chat_id:c,user_id:u,only_if_banned:true});
-  else if(a==='mute')r=await api('restrictChatMember',{chat_id:c,user_id:u,permissions:{can_send_messages:false},...(until?{until_date:until}:{})});
-  else if(a==='unmute')r=await api('restrictChatMember',{chat_id:c,user_id:u,permissions:full});
-  else{const on=a==='promote';r=await api('promoteChatMember',{chat_id:c,user_id:u,can_manage_chat:on,can_delete_messages:on,can_manage_video_chats:on,can_restrict_members:on,can_promote_members:false,can_change_info:on,can_invite_users:on,can_pin_messages:on})}
-  done(r,{ban:'Ban',unban:'Unban',mute:'Mute',unmute:'Unmute',promote:'Lên admin',demote:'Hạ admin'}[a])}
-async function memberInfo(){const c=chatId();if(!c)return;const u=parseInt($('#uid').value);if(!u)return toast('Nhập User ID','err');const r=await api('getChatMember',{chat_id:c,user_id:u});r?.ok?out(`<div class="mu">Trạng thái: <b>${esc(r.result.status)}</b><br>${esc(r.result.user.first_name||'')} ${esc(r.result.user.last_name||'')} ${r.result.user.username?'· @'+esc(r.result.user.username):''}</div>`):toast('❌ '+(r?.description||''),'err')}
-async function setTitle(){const c=chatId();if(!c)return;const t=$('#cTitle').value.trim();if(!t)return toast('Nhập tên','err');done(await api('setChatTitle',{chat_id:c,title:t}),'Đổi tên nhóm')}
-async function setDesc(){const c=chatId();if(!c)return;done(await api('setChatDescription',{chat_id:c,description:$('#cDesc').value.trim()}),'Đổi mô tả')}
-async function leaveChat(){const c=chatId();if(!c)return;if(!await dlg({title:'Cho bot rời chat?',danger:true,ok:'Rời'}))return;done(await api('leaveChat',{chat_id:c}),'Rời chat')}
+    async function sendOneShot(feature, label) {
+      if (!webToken || !online || pendingFeatures.has(feature)) return;
+      pendingFeatures.add(feature);
+      try {
+        await postCommand(feature, true, 0);
+        setResult(`Đã thực hiện: ${label}`);
+      } catch (e) {
+        setResult(e.message);
+      } finally {
+        pendingFeatures.delete(feature);
+        await checkStatus();
+      }
+    }
 
-/* ---------- bot settings (commands/profile) ---------- */
-function cmdRender(){$('#cmdList').innerHTML=cmds.length?cmds.map((c,i)=>`<div class="row" style="margin-bottom:8px"><input class="inp" style="margin:0;width:38%" value="${esc(c.command)}" placeholder="start" oninput="cmds[${i}].command=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')"><input class="inp grow" style="margin:0" value="${esc(c.description)}" placeholder="Mô tả" oninput="cmds[${i}].description=this.value"><button class="btn sm d" onclick="cmds.splice(${i},1);cmdRender()">×</button></div>`).join(''):'<div class="mu" style="margin-bottom:10px">Chưa có lệnh.</div>'}
-function cmdAdd(){cmds.push({command:'',description:''});cmdRender()}
-async function cmdLoad(){const r=await api('getMyCommands');if(r?.ok){cmds=r.result;cmdRender();toast('Đã tải '+cmds.length+' lệnh','ok')}else toast('❌ '+(r?.description||''),'err')}
-async function cmdSave(){const l=cmds.filter(c=>c.command&&c.description);done(await api('setMyCommands',{commands:l}),'Lưu lệnh')}
-async function cmdClear(){if(!await dlg({title:'Xóa toàn bộ lệnh?',danger:true,ok:'Xóa'}))return;const r=await api('deleteMyCommands');if(done(r,'Xóa lệnh')){cmds=[];cmdRender()}}
-async function setProf(m,k,id){done(await api(m,{[k]:$('#'+id).value.trim()}),'Cập nhật hồ sơ bot')}
+    function renderFeatures() {
+      const host = byId('feature-groups');
+      host.replaceChildren();
+      groups.forEach(([title, features]) => {
+        const box = document.createElement('div');
+        box.className = 'feature-group';
+        box.dataset.category = title === 'NGẮM' ? 'aim' : (title === 'ESP' ? 'esp' : 'misc');
+        const heading = document.createElement('h3');
+        heading.innerHTML = (GROUP_ICONS[title] || '') + ' ' + title;
+        box.append(heading);
+        features.forEach(([label, feature]) => {
+          const row = document.createElement('div');
+          row.className = 'feature';
+          const text = document.createElement('span');
+          text.className = 'feature-label';
+          text.textContent = label;
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'toggle remote-control';
+          button.dataset.feature=feature;
+          button.setAttribute('aria-label', label);
+          button.addEventListener('click', () => sendCommand(button, feature));
+          row.append(text, button);
+          box.append(row);
+        });
+        host.append(box);
+      });
+      arrangeAimPanels();
+    }
 
-/* ---------- webhook ---------- */
-async function getWebhook(){const r=await api('getWebhookInfo');if(!r?.ok)return toast('❌ '+(r?.description||''),'err');const w=r.result;$('#whBox').innerHTML=`<div class="mu">URL: <b>${esc(w.url||'(trống — dùng được getUpdates)')}</b><br>Tin chờ: <b>${w.pending_update_count}</b>${w.last_error_message?`<br><span style="color:var(--er)">Lỗi: ${esc(w.last_error_message)}</span>`:''}</div>`}
-async function setWebhook(){const u=$('#whUrl').value.trim();if(!/^https:\/\//.test(u))return toast('URL phải bắt đầu bằng https://','err');if(!await dlg({title:'Đặt webhook?',msg:'Khi đặt webhook, chức năng nhận tin trong app sẽ ngừng hoạt động.',ok:'Đặt'}))return;stopPoll();done(await api('setWebhook',{url:u}),'Đặt webhook')}
-async function delWebhook(){done(await api('deleteWebhook',{drop_pending_updates:$('#whDrop').checked}),'Xóa webhook')}
+    function arrangeAimPanels() {
+      const host = byId('feature-groups');
+      if (!host) return;
+      const labels = {
+        'aim.silent': 'NGẮM IM LẶNG',
+        'aim.system': 'HỆ THỐNG NGẮM',
+        'aim.legit': 'NGẮM TỰ NHIÊN',
+        'aim.sniper': 'NGẮM BẮN TỈA',
+        'esp.fov': 'VÒNG FOV / DRAW FOV'
+      };
+      const AIM_ICONS = {
+        'aim.silent': '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></svg>',
+        'aim.system': '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        'aim.legit': '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>',
+        'aim.sniper': '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" x2="12" y1="2" y2="6"/><line x1="12" x2="12" y1="18" y2="22"/><line x1="2" x2="6" y1="12" y2="12"/><line x1="18" x2="22" y1="12" y2="12"/></svg>',
+        'esp.fov': '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>'
+      };
+      const rows = Array.from(host.querySelectorAll('.feature')).filter(row => {
+        const button = row.querySelector('button[data-feature]');
+        return button && labels[button.dataset.feature];
+      });
+      if (!rows.length) return;
+      const zone = document.createElement('div');
+      zone.className = 'aim-panels';
+      zone.dataset.category = 'aim';
+      rows.forEach(row => {
+        const button = row.querySelector('button[data-feature]');
+        const card = document.createElement('div');
+        card.className = 'feature-group aim-panel';
+        const title = document.createElement('h3');
+        title.innerHTML = (AIM_ICONS[button.dataset.feature] || '') + ' ' + labels[button.dataset.feature];
+        card.append(title, row);
+        zone.append(card);
+      });
+      host.prepend(zone);
+      Array.from(host.querySelectorAll('.feature-group')).forEach(group => {
+        if (!group.querySelector('.feature')) group.remove();
+      });
+      const fovPanel = byId('fov-radius')?.closest('.setting-group');
+      if (fovPanel) fovPanel.classList.add('aim-panel');
+    }
 
-/* ---------- API lab ---------- */
-const PRESETS=[['getMe','{}'],['getChat','{"chat_id":"{chat}"}'],['getChatMemberCount','{"chat_id":"{chat}"}'],['getChatAdministrators','{"chat_id":"{chat}"}'],['getUpdates','{"limit":5,"timeout":0}'],['getWebhookInfo','{}'],['getMyCommands','{}'],['getMyName','{}'],['getMyDescription','{}'],['sendMessage','{"chat_id":"{chat}","text":"Xin chào 👋"}'],['getUserProfilePhotos','{"user_id":0,"limit":1}']];
-function renderLab(){$('#labChips').innerHTML=PRESETS.map((p,i)=>`<button class="chip" onclick="labPick(${i})">${p[0]}</button>`).join('')}
-function labPick(i){$('#apiM').value=PRESETS[i][0];$('#apiP').value=PRESETS[i][1]}
-async function runApi(){const m=$('#apiM').value.trim();if(!/^[A-Za-z]\w*$/.test(m))return toast('Tên phương thức sai','err');let b;try{b=JSON.parse($('#apiP').value.replace(/\{chat\}/g,P().chatId||'')||'{}')}catch(e){return toast('JSON lỗi: '+e.message,'err')}
-  $('#apiOut').textContent='Đang gọi '+m+'…';const r=await api(m,b);lastOut=JSON.stringify(r,null,2);$('#apiOut').textContent=lastOut;lg('API '+m,r.ok?'ok':'err')}
-function copyOut(){copy(lastOut||$('#apiOut').textContent)}
+    function makeColorControls(hostId, rows) {
+      const host = byId(hostId);
+      rows.forEach(([label, feature]) => {
+        const row = document.createElement('label');
+        row.textContent = label;
+        const select = document.createElement('select');
+        select.className = 'remote-control';
+        select.dataset.feature = feature;
+        COLOR_NAMES.forEach((name, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = name;
+          select.append(option);
+        });
+        select.addEventListener('change', () => sendValue(feature, select.value, label, select));
+        row.append(select);
+        host.append(row);
+      });
+    }
 
-/* ---------- history / settings ---------- */
-function renderHist(){$('#histBody').innerHTML=S.hist.length?S.hist.map(h=>`<div class="card" style="padding:12px"><div class="row"><b onclick="copy('${h.id}')">#${h.id}</b><span class="tag">${esc(h.act)}</span><span class="mu grow" style="text-align:right">${new Date(h.t).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</span></div>${h.text?`<div class="mu" style="margin:6px 0">${esc(h.text)}</div>`:''}<div class="mu">Chat ${esc(h.chat)}</div><div class="row" style="margin-top:8px"><button class="btn sm grow" onclick="histTo('edId','${h.id}')">✏️ Sửa</button><button class="btn sm d grow" onclick="histTo('delId','${h.id}')">🗑 Xóa</button><button class="btn sm grow" onclick="histTo('pinId','${h.id}')">📌 Ghim</button></div></div>`).join(''):'<div class="empty card"><i>📜</i>Chưa có lịch sử</div>'}
-function histTo(f,id){closeOv();setTimeout(()=>{$('#'+f).value=id;openPage('pg-manage')},150)}
-async function clearHist(){if(!await dlg({title:'Xóa lịch sử gửi?',danger:true,ok:'Xóa'}))return;S.hist=[];save();renderHist()}
-function renderSet(){$('#stHap').checked=S.set.haptic;$('#stCol').checked=S.set.autoCollect;$('#stCb').checked=S.set.answerCb;applyTheme()}
-function exportAll(){const d=JSON.parse(JSON.stringify(S));if(!$('#bkTok').checked)d.profiles.forEach(p=>p.token='');d.profiles.forEach(p=>{p.inbox={};p.me=null});const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='bot-studio-backup.json';a.click();toast('Đã xuất sao lưu','ok')}
-function importAll(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.profiles||!Array.isArray(d.profiles))throw new Error('File không đúng định dạng');S={...S,...d,set:{...S.set,...(d.set||{})}};S.profiles.forEach(p=>Object.assign(p,{...newProf(p.name),...p}));S.cur=Math.min(S.cur||0,S.profiles.length-1);save();renderAll();toast('Khôi phục thành công','ok')}catch(x){toast('Lỗi: '+x.message,'err')}};r.readAsText(f)};i.click()}
-async function resetAll(){if(!await dlg({title:'Xóa toàn bộ?',msg:'Mọi hồ sơ, token, mẫu, luật, lịch sử sẽ bị xóa.',danger:true,ok:'Xóa hết'}))return;stopPoll();localStorage.clear();location.reload()}
+    async function loadMods() {
+      if (!currentKey) return;
+      try {
+        const response = await fetch('/api/client/mod-items?key=' + encodeURIComponent(currentKey));
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error(data.message || 'Không tải được danh mục mod');
+        const decoded = atob(data.payload || '');
+        mods = decoded ? JSON.parse(decoded) : [];
+        renderMods();
+      } catch (e) {
+        byId('mod-list').innerHTML = `<div class="empty">${e.message}</div>`;
+      }
+    }
 
-/* ---------- home / tools ---------- */
-function renderHome(){const p=P(),m=p.me,today=new Date().toDateString(),sent=S.hist.filter(h=>new Date(h.t).toDateString()===today).length,priv=p.subs.filter(s=>s.type==='private').length,grp=p.subs.length-priv,pend=S.sched.filter(s=>!s.missed).length;
-  const Q=[['✍️','Soạn tin',"go('send')"],['📢','Gửi hàng loạt',"go('bc')"],['🤖','Tự trả lời',"openPage('pg-rules')"],['📊','Bình chọn',"go('send');sendPanel('poll')"],['⏰','Hẹn giờ',"openPage('pg-sched')"],['🗂','Album',"go('send');sendPanel('album')"],['📍','Vị trí',"go('send');sendPanel('loc')"],['🧪','API Lab',"openPage('pg-lab')"]];
-  $('#homeBody').innerHTML=`<div class="card hero"><h2>${m?esc(m.name):'Chào mừng 👋'}</h2><p>${m?'@'+esc(m.username)+' · ID '+m.id:'Nhập token từ @BotFather để bắt đầu.'}</p><div class="row"><button class="btn" onclick="openBot()">⚙️ ${m?'Cấu hình':'Kết nối bot'}</button>${p.token?'<button class="btn" onclick="run(this,testBot)">⚡ Kiểm tra</button>':''}</div></div>
-  <div class="grid g4" style="margin-bottom:12px"><div class="stat"><b>${priv}</b><span>Người dùng</span></div><div class="stat"><b>${grp}</b><span>Nhóm</span></div><div class="stat"><b>${sent}</b><span>Gửi hôm nay</span></div><div class="stat"><b>${pend}</b><span>Hẹn giờ</span></div></div>
-  <div class="card"><div class="row"><div class="grow"><b>📡 Nhận tin realtime</b><div class="mu">${poll.on?'Đang nhận tin từ bot…':'Bật để xem tin nhắn và chạy luật tự trả lời'}</div></div><label class="sw"><input type="checkbox" id="pollSw" onchange="togglePoll(this.checked)" ${poll.on?'checked':''}><span></span></label></div></div>
-  <div class="card"><h3>⚡ Truy cập nhanh</h3><div class="grid g4">${Q.map(q=>`<button class="tile" onclick="${q[2]}"><i>${q[0]}</i>${q[1]}</button>`).join('')}</div></div>
-  <div class="card"><h3>🕘 Gần đây <span class="sp"></span><button class="btn sm" onclick="openPage('pg-hist')">Tất cả</button></h3>${S.hist.slice(0,4).map(h=>`<div class="lrow" style="padding:8px 0"><span class="ic">${h.act.includes('Hẹn')?'⏰':'✉️'}</span><span style="min-width:0"><b>${esc(h.act)} · #${h.id}</b><small>${esc(h.text||h.chat)}</small></span></div>`).join('')||'<div class="mu">Chưa gửi tin nào.</div>'}</div>`}
-function renderTools(){const T=[['🤖','Tự động trả lời','Luật từ khóa, regex, chờ giữa 2 lần',"openPage('pg-rules')"],['⏰','Hẹn giờ gửi','Lên lịch tin nhắn',"openPage('pg-sched')"],['📋','Tin mẫu','Lưu & dùng lại nội dung',"openPage('pg-tpls')"],['🛠','Quản lý tin nhắn','Sửa, xóa, ghim, forward, copy',"openPage('pg-manage')"],['👑','Quản trị nhóm','Ban, mute, admin, link mời',"openPage('pg-admin')"],['🧩','Hồ sơ & lệnh bot','Lệnh /menu, tên, mô tả',"openPage('pg-botset');cmdRender()"],['🔗','Webhook','Xem / đặt / xóa webhook',"openPage('pg-webhook')"],['🧪','API Lab','Gọi bất kỳ phương thức Bot API',"openPage('pg-lab')"],['📜','Lịch sử gửi','Tin đã gửi gần đây',"openPage('pg-hist')"],['⚙️','Cài đặt & sao lưu','Giao diện, rung, sao lưu',"openPage('pg-set')"]];
-  $('#toolsBody').innerHTML=`<div class="card" style="padding:4px 14px">${T.map(t=>`<button class="lrow" onclick="${t[3]}"><span class="ic">${t[0]}</span><span><b>${t[1]}</b><small>${t[2]}</small></span><span class="ar">›</span></button>`).join('')}</div><p class="mu" style="text-align:center">Bot Studio · dữ liệu lưu cục bộ trên thiết bị</p>`}
-function renderAll(){renderHeader();renderHome();renderRcpt();renderUnread();togglePollUI();const v=($('.view.on')||{}).id;if(v==='v-send')renderSend();if(v==='v-inbox')renderInbox();if(v==='v-bc')renderBc();if(v==='v-tools')renderTools()}
+    function renderMods() {
+      const category = byId('mod-category').value, gender = byId('mod-gender').value;
+      const list = mods.filter(x => (!category || x.category === category) && (!gender || x.gender === gender));
+      const host = byId('mod-list');
+      host.replaceChildren();
+      if (!list.length) {
+        host.innerHTML = '<div class="empty">Không có mod phù hợp.</div>';
+        return;
+      }
+      list.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'mod-card';
+        const text = document.createElement('div');
+        text.innerHTML = '<b>' + item.name.replace(/[&<>]/g, '') + '</b><small>' + item.category + ' · ' + item.gender + ' · ' + item.itemId + '</small>';
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'light remote-control';
+        button.disabled = !online;
+        button.innerHTML = '<svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ÁP DỤNG';
+        button.addEventListener('click', () => sendValue('mod.' + item.category, item.itemId, item.name, button));
+        card.append(text, button);
+        host.append(card);
+      });
+    }
 
-/* ---------- init ---------- */
-document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter'&&$('#v-send').classList.contains('on')&&$('#sp-text').classList.contains('on'))sendText()});
-matchMedia('(prefers-color-scheme:dark)').addEventListener?.('change',applyTheme);
-window.addEventListener('beforeunload',e=>{if(S.sched.some(s=>!s.missed)||poll.on){e.preventDefault();e.returnValue=''}});
-$('#diceGrid').innerHTML=['🎲','🎯','🏀','⚽','🎳','🎰'].map(e=>`<button class="tile" onclick="sendDice('${e}')"><i>${e}</i></button>`).join('');
-$('#actGrid').innerHTML=['typing','upload_photo','record_video','record_voice','upload_document','find_location'].map(a=>`<button class="btn sm" onclick="sendAct('${a}')">${a}</button>`).join('');
-load();try{$('#message').value=localStorage.getItem(DKEY)||'Xin chào {first}! 👋\nĐây là <b>Bot Studio</b> 🚀'}catch(e){}
-applyTheme();renderAll();if(P().token)testBot(true);
-</script>
-</body>
-</html>
+    function bindRange(id, feature, label) {
+      const input = byId(id);
+      input.addEventListener('input', () => updateRangeLabel(feature, input.value));
+      input.addEventListener('change', () => sendValue(feature, input.value, label, input));
+    }
+
+    async function checkStatus() {
+      if (!currentKey || !webToken) return;
+      const requestId = ++statusRequestId;
+      try {
+        const response = await apiRequest('/api/menu/status?secret=' + encodeURIComponent(SECRET) + '&key=' + encodeURIComponent(currentKey));
+        const data = await response.json();
+        if (requestId !== statusRequestId) return;
+        if (!response.ok || !data.success) {
+          if (data.logout || data.code === 'key_revoked' || response.status === 401) {
+            forceLogoutToGetKey(data.message);
+            return;
+          }
+          setStatus(data.message || 'Mất kết nối', false);
+          return;
+        }
+        const clientOnline = data.client_online ?? data.online;
+        setStatus(clientOnline ? `Key ${currentKey} đang online` : `Key ${currentKey} offline (chờ game)`, clientOnline);
+        renderClientStatus(data.client_status, data.server_revision);
+        applyServerDesired(data.desired_commands, data.server_revision);
+      } catch (e) {
+        if (requestId === statusRequestId) setStatus('Lỗi mạng', false);
+      }
+    }
+
+    async function loginKey(key) {
+      if (!key) {
+        setStatus('Vui lòng nhập key', false);
+        return;
+      }
+      setStatus('Đang xác thực...', false);
+      try {
+        const response = await fetch('/api/menu/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, secret: SECRET })
+        });
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          setStatus(data.message || 'Đăng nhập thất bại', false);
+          return;
+        }
+        webToken = data.web_token;
+        currentKey = key;
+        localStorage.setItem('novax.authMenuToken', webToken);
+        localStorage.setItem('novax.authMenuKey', currentKey);
+        byId('control-panel').style.display = 'flex';
+        byId('mod-panel').style.display = 'flex';
+        renderFeatures();
+        const clientOnline = data.client_online ?? data.online;
+        setStatus(clientOnline ? `Key ${key} đang online` : `Key ${key} offline (chờ game)`, clientOnline);
+        renderClientStatus(data.client_status, data.server_revision);
+        applyServerDesired(data.desired_commands, data.server_revision);
+        loadMods();
+        if (window.location.pathname === '/getkey' && window.location.protocol.startsWith('http')) {
+          window.location.href = '/menu-control';
+        }
+      } catch (e) {
+        setStatus('Lỗi kết nối máy chủ', false);
+      }
+    }
+
+    byId('get-key').addEventListener('click', async () => {
+      const iosKey = byId('ios-key').value.trim();
+      const resultBox = byId('getkey-result');
+      const outputBox = byId('key-output');
+      const keyVal = byId('generated-key');
+
+      resultBox.textContent = '';
+      outputBox.hidden = true;
+
+      if (!iosKey) {
+        resultBox.textContent = 'Vui lòng nhập mã NovaX iOS key.';
+        return;
+      }
+
+      byId('get-key').disabled = true;
+      resultBox.textContent = 'Đang kiểm tra và sinh key...';
+
+      try {
+        const resp = await fetch('/api/getkey?key=' + encodeURIComponent(iosKey));
+        const data = await resp.json();
+
+        if (data.success && data.key) {
+          resultBox.textContent = data.already_claimed
+            ? 'Key hiện tại vẫn còn hiệu lực 24 giờ. Bạn có thể lấy key mới sau khi hết 24 giờ:'
+            : 'Đã sinh key điều khiển thành công (hiệu lực 24h):';
+          keyVal.textContent = data.key;
+          outputBox.hidden = false;
+          byId('menu-key').value = data.key;
+          localStorage.setItem('novax.authMenuKey', data.key);
+        } else {
+          resultBox.textContent = data.message || 'Không thể sinh key. Vui lòng kiểm tra lại iOS key.';
+        }
+      } catch (err) {
+        resultBox.textContent = 'Lỗi kết nối máy chủ khi lấy key.';
+      } finally {
+        byId('get-key').disabled = false;
+      }
+    });
+
+    byId('copy-key').addEventListener('click', () => {
+      const keyText = byId('generated-key').textContent;
+      if (!keyText) return;
+      navigator.clipboard.writeText(keyText).then(() => {
+        const btn = byId('copy-key');
+        const origHTML = btn.innerHTML;
+        btn.innerHTML = '<svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ĐÃ SAO CHÉP!';
+        showToast('Đã sao chép key vào bộ nhớ tạm!');
+        setTimeout(() => btn.innerHTML = origHTML, 2000);
+      }).catch(() => {
+        alert('Đã chọn key: ' + keyText);
+      });
+    });
+
+    byId('menu-login').addEventListener('click', () => {
+      loginKey(byId('menu-key').value.trim());
+    });
+
+    byId('restore-default').addEventListener('click', () => sendOneShot('settings.restore', 'Khôi phục mặc định'));
+    byId('reset-mod').addEventListener('click', () => sendOneShot('mod.reset', 'Khôi phục mod'));
+
+    bindRange('fov-radius', 'esp.fovRadius', 'FOV');
+    bindRange('speed-level', 'misc.speedLevel', 'tốc độ');
+    bindRange('vision-level', 'misc.visionLevel', 'tầm nhìn');
+    bindRange('spin-level', 'misc.spinLevel', 'tốc độ xoay');
+
+    byId('aim-target').addEventListener('change', () => sendValue('aim.target', byId('aim-target').value, 'mục tiêu', byId('aim-target')));
+    byId('aim-head-rate').addEventListener('change', () => sendValue('aim.headRate', byId('aim-head-rate').value, 'tỉ lệ headshot', byId('aim-head-rate')));
+    byId('line-origin').addEventListener('change', () => sendValue('esp.lineOrigin', byId('line-origin').value, 'điểm bắt đầu đường kẻ', byId('line-origin')));
+    byId('system-target').addEventListener('change', () => sendValue('aim.systemHead', byId('system-target').value, 'mục tiêu hệ thống', byId('system-target')));
+
+    byId('mod-category').addEventListener('change', renderMods);
+    byId('mod-gender').addEventListener('change', renderMods);
+
+    byId('colors-rainbow').addEventListener('click', () => sendColorPreset(0, 'cầu vồng'));
+    byId('colors-default').addEventListener('click', () => sendColorPreset(1, 'mặc định'));
+
+    makeColorControls('esp-colors', [
+      ['Màu vòng FOV', 'colors.fov'],
+      ['Màu đường kẻ', 'colors.line'],
+      ['Màu khung', 'colors.box'],
+      ['Màu xương', 'colors.skeleton']
+    ]);
+    makeColorControls('damage-colors', [
+      ['Headshot / critical', 'damage.criticalColor'],
+      ['Sát thương thường', 'damage.normalColor'],
+      ['Biểu tượng sát thương', 'damage.iconColor']
+    ]);
+
+    // Tab Category Filter Interactivity
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        
+        const featureHost = byId('feature-groups');
+        const settingGroups = document.querySelectorAll('.setting-group');
+        const modPanel = byId('mod-panel');
+
+        if (tab === 'all') {
+          featureHost.style.display = 'grid';
+          document.querySelectorAll('.feature-group, .aim-panels').forEach(el => el.style.display = '');
+          settingGroups.forEach(g => g.style.display = '');
+          if (modPanel) modPanel.style.display = '';
+        } else if (tab === 'aim') {
+          featureHost.style.display = 'grid';
+          document.querySelectorAll('.feature-group, .aim-panels').forEach(el => {
+            el.style.display = (el.dataset.category === 'aim' || el.classList.contains('aim-panels') || el.classList.contains('aim-panel')) ? '' : 'none';
+          });
+          settingGroups.forEach(g => g.style.display = g.dataset.category === 'aim' ? '' : 'none');
+          if (modPanel) modPanel.style.display = 'none';
+        } else if (tab === 'esp') {
+          featureHost.style.display = 'grid';
+          document.querySelectorAll('.feature-group, .aim-panels').forEach(el => {
+            el.style.display = el.dataset.category === 'esp' ? '' : 'none';
+          });
+          settingGroups.forEach(g => g.style.display = g.dataset.category === 'esp' ? '' : 'none');
+          if (modPanel) modPanel.style.display = 'none';
+        } else if (tab === 'hud') {
+          featureHost.style.display = 'none';
+          settingGroups.forEach(g => g.style.display = g.dataset.category === 'hud' ? '' : 'none');
+          if (modPanel) modPanel.style.display = 'none';
+        } else if (tab === 'sliders') {
+          featureHost.style.display = 'none';
+          settingGroups.forEach(g => g.style.display = g.dataset.category === 'sliders' ? '' : 'none');
+          if (modPanel) modPanel.style.display = 'none';
+        } else if (tab === 'mod') {
+          featureHost.style.display = 'none';
+          settingGroups.forEach(g => g.style.display = 'none');
+          if (modPanel) modPanel.style.display = 'flex';
+        }
+      });
+    });
+
+    const savedMenuKey = localStorage.getItem('novax.authMenuKey');
+    if (savedMenuKey) {
+      byId('menu-key').value = savedMenuKey;
+    }
+
+    const navHack = document.querySelector('.nav a[href="#control-panel"]');
+    if (navHack && window.location.protocol.startsWith('http')) {
+      navHack.href = '/menu-control';
+    }
+
+    const pagePanels = document.querySelectorAll('main > section.panel');
+    if (CONTROL_PAGE) {
+      document.body.classList.add('control-page');
+      if (navHack) navHack.classList.add('active');
+      const getKeyNav = document.querySelector('.nav a[href="/getkey"]');
+      if (getKeyNav) getKeyNav.classList.remove('active');
+      if (pagePanels[0]) pagePanels[0].style.display = 'none';
+      if (pagePanels[1]) pagePanels[1].style.display = 'none';
+      byId('control-panel').style.display = 'flex';
+      byId('mod-panel').style.display = 'flex';
+      const savedToken = localStorage.getItem('novax.authMenuToken'), savedKey = localStorage.getItem('novax.authMenuKey');
+      if (!savedToken || !savedKey) {
+        window.location.replace('/getkey');
+      } else {
+        webToken = savedToken;
+        currentKey = savedKey;
+        renderFeatures();
+        setStatus('Đang kiểm tra client...', false);
+        checkStatus();
+        loadMods();
+      }
+    } else {
+      document.body.classList.add('landing-page');
+      // The public page only contains GetKey and Login. The remote controls
+      // become visible for one frame after a successful login, then redirect
+      // to /menu-control where the authenticated dashboard is rendered.
+      byId('control-panel').style.display = 'none';
+      byId('mod-panel').style.display = 'none';
+    }
+
+    // periodic status poll
+    setInterval(checkStatus, 2500);
+  </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;5c67c404b51543b8a68c63305a12722f&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+</body></html>
