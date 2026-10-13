@@ -2,7 +2,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#070B12">
-  <title>NovaX — GetKey</title>
+  <title>NovaX — Menu Remote</title>
   <link rel="icon" type="image/png" href="/Nova-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -1616,7 +1616,7 @@
     }
   </style>
 </head>
-<body class="landing-page">
+<body class="control-page">
   <div class="toast-container" id="toast-container"></div>
 
   <main class="wrap">
@@ -1640,7 +1640,7 @@
 
       <!-- THANH ĐIỀU HƯỚNG TACTICAL -->
       <nav class="nav">
-        <a href="/getkey" class="active">
+        <a href="/getkey" class="">
           <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="m21 2-2 2m-3 3 2 2 3-3-4-4-6 6a6 6 0 1 0 3 3l5-5Z"></path></svg>
           LẤY KEY (GETKEY)
         </a>
@@ -1648,7 +1648,7 @@
           <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg>
           ĐĂNG NHẬP
         </a>
-        <a href="/menu-control">
+        <a href="/menu-control" class="active">
           <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           ĐIỀU KHIỂN HACK
         </a>
@@ -1656,7 +1656,7 @@
     </header>
 
     <!-- SECTION 1: LẤY KEY (GETKEY) -->
-    <section class="panel getkey" id="getkey-section">
+    <section class="panel getkey" id="getkey-section" style="display: none;">
       <!-- Tactical Stepper Indicator -->
       <div class="tactical-stepper">
         <div class="step-item active">
@@ -1717,7 +1717,7 @@
     </section>
 
     <!-- SECTION 2: ĐĂNG NHẬP MENU HACK -->
-    <section class="panel" id="login-section">
+    <section class="panel" id="login-section" style="display: none;">
       <div class="panel-header">
         <div>
           <h2>
@@ -1738,14 +1738,14 @@
 
       <div class="status">
         <span id="online-dot" class="dot"></span>
-        <span id="online-text">Chưa đăng nhập</span>
+        <span id="online-text">Đang kiểm tra client...</span>
       </div>
 
       <div id="client-state-text" class="notice">Client chưa báo trạng thái.</div>
     </section>
 
     <!-- SECTION 3: BẢNG ĐIỀU KHIỂN CHỨC NĂNG (CONTROL PANEL) -->
-    <section id="control-panel" class="panel" style="display: none;">
+    <section id="control-panel" class="panel" style="display: flex;">
       <div class="panel-header">
         <div>
           <h2>
@@ -1756,11 +1756,11 @@
         </div>
 
         <div class="setting-actions">
-          <button id="restore-default" class="light remote-control" type="button">
+          <button id="restore-default" class="light remote-control" type="button" disabled="">
             <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
             KHÔI PHỤC MẶC ĐỊNH
           </button>
-          <button id="reset-mod" class="danger remote-control" type="button">
+          <button id="reset-mod" class="danger remote-control" type="button" disabled="">
             <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
             KHÔI PHỤC MOD
           </button>
@@ -1772,12 +1772,12 @@
           <span id="control-online-dot" class="dot"></span>
           <div>
             <span class="control-status-label">CLIENT CONNECTION</span>
-            <strong id="control-online-text">Chưa xác thực</strong>
+            <strong id="control-online-text">Đang kiểm tra client...</strong>
           </div>
         </div>
         <div class="control-connection-key">
           <span class="control-status-label">KEY ĐANG KẾT NỐI</span>
-          <code id="control-key-value">—</code>
+          <code id="control-key-value">IOS-XE2T-71WC-07FT-32CZ</code>
         </div>
         <div class="control-connection-revision">
           <span class="control-status-label">TRẠNG THÁI CLIENT</span>
@@ -1795,10 +1795,10 @@
         <button type="button" class="tab-btn" data-tab="mod">MOD SKIN STUDIO</button>
       </div>
 
-      <div id="feature-groups" class="feature-groups"></div>
+      <div id="feature-groups" class="feature-groups"><div class="aim-panels" data-category="aim"><div class="feature-group aim-panel"><h3><svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="22" x2="18" y1="12" y2="12"></line><line x1="6" x2="2" y1="12" y2="12"></line><line x1="12" x2="12" y1="6" y2="2"></line><line x1="12" x2="12" y1="22" y2="18"></line></svg> NGẮM IM LẶNG</h3><div class="feature"><span class="feature-label">Ngắm im lặng</span><button type="button" class="toggle remote-control" data-feature="aim.silent" aria-label="Ngắm im lặng" disabled=""></button></div></div><div class="feature-group aim-panel"><h3><svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> HỆ THỐNG NGẮM</h3><div class="feature"><span class="feature-label">Hệ thống ngắm</span><button type="button" class="toggle remote-control" data-feature="aim.system" aria-label="Hệ thống ngắm" disabled=""></button></div></div><div class="feature-group aim-panel"><h3><svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"></path></svg> NGẮM TỰ NHIÊN</h3><div class="feature"><span class="feature-label">Hỗ trợ ngắm tự nhiên</span><button type="button" class="toggle remote-control" data-feature="aim.legit" aria-label="Hỗ trợ ngắm tự nhiên" disabled=""></button></div></div><div class="feature-group aim-panel"><h3><svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" x2="12" y1="2" y2="6"></line><line x1="12" x2="12" y1="18" y2="22"></line><line x1="2" x2="6" y1="12" y2="12"></line><line x1="18" x2="22" y1="12" y2="12"></line></svg> NGẮM BẮN TỈA</h3><div class="feature"><span class="feature-label">Ngắm bắn tỉa</span><button type="button" class="toggle remote-control" data-feature="aim.sniper" aria-label="Ngắm bắn tỉa" disabled=""></button></div></div><div class="feature-group aim-panel"><h3><svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle></svg> VÒNG FOV / DRAW FOV</h3><div class="feature"><span class="feature-label">Vòng FOV / Draw FOV</span><button type="button" class="toggle remote-control" data-feature="esp.fov" aria-label="Vòng FOV / Draw FOV" disabled=""></button></div></div></div><div class="feature-group" data-category="esp"><h3><svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg> ESP</h3><div class="feature"><span class="feature-label">Bật ESP</span><button type="button" class="toggle remote-control" data-feature="esp.master" aria-label="Bật ESP" disabled=""></button></div><div class="feature"><span class="feature-label">Khung người chơi</span><button type="button" class="toggle remote-control" data-feature="esp.box" aria-label="Khung người chơi" disabled=""></button></div><div class="feature"><span class="feature-label">Đường kẻ</span><button type="button" class="toggle remote-control" data-feature="esp.tracer" aria-label="Đường kẻ" disabled=""></button></div><div class="feature"><span class="feature-label">Thanh máu</span><button type="button" class="toggle remote-control" data-feature="esp.health" aria-label="Thanh máu" disabled=""></button></div><div class="feature"><span class="feature-label">Tên người chơi</span><button type="button" class="toggle remote-control" data-feature="esp.name" aria-label="Tên người chơi" disabled=""></button></div><div class="feature"><span class="feature-label">Khoảng cách</span><button type="button" class="toggle remote-control" data-feature="esp.distance" aria-label="Khoảng cách" disabled=""></button></div><div class="feature"><span class="feature-label">Khung xương</span><button type="button" class="toggle remote-control" data-feature="esp.skeleton" aria-label="Khung xương" disabled=""></button></div><div class="feature"><span class="feature-label">Số lượng địch</span><button type="button" class="toggle remote-control" data-feature="esp.enemy" aria-label="Số lượng địch" disabled=""></button></div><div class="feature"><span class="feature-label">Mũi tên ESP 360°</span><button type="button" class="toggle remote-control" data-feature="esp.arrows" aria-label="Mũi tên ESP 360°" disabled=""></button></div></div><div class="feature-group" data-category="misc"><h3><svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> KHÁC</h3><div class="feature"><span class="feature-label">Nhảy lùi</span><button type="button" class="toggle remote-control" data-feature="misc.backJump" aria-label="Nhảy lùi" disabled=""></button></div><div class="feature"><span class="feature-label">Đổi súng nhanh</span><button type="button" class="toggle remote-control" data-feature="misc.fastSwitch" aria-label="Đổi súng nhanh" disabled=""></button></div><div class="feature"><span class="feature-label">Tăng tốc</span><button type="button" class="toggle remote-control" data-feature="misc.speed" aria-label="Tăng tốc" disabled=""></button></div><div class="feature"><span class="feature-label">Mở rộng tầm nhìn</span><button type="button" class="toggle remote-control" data-feature="misc.vision" aria-label="Mở rộng tầm nhìn" disabled=""></button></div><div class="feature"><span class="feature-label">Xoay nhân vật</span><button type="button" class="toggle remote-control" data-feature="misc.spin" aria-label="Xoay nhân vật" disabled=""></button></div><div class="feature"><span class="feature-label">Tăng sát thương</span><button type="button" class="toggle remote-control" data-feature="misc.buff" aria-label="Tăng sát thương" disabled=""></button></div><div class="feature"><span class="feature-label">Độ nhạy cao</span><button type="button" class="toggle remote-control" data-feature="misc.sensitivity" aria-label="Độ nhạy cao" disabled=""></button></div><div class="feature"><span class="feature-label">Mở khóa FPS</span><button type="button" class="toggle remote-control" data-feature="misc.fps" aria-label="Mở khóa FPS" disabled=""></button></div><div class="feature"><span class="feature-label">Không hồi chiêu</span><button type="button" class="toggle remote-control" data-feature="misc.skill" aria-label="Không hồi chiêu" disabled=""></button></div><div class="feature"><span class="feature-label">Tăng băng đạn</span><button type="button" class="toggle remote-control" data-feature="misc.ammo" aria-label="Tăng băng đạn" disabled=""></button></div><div class="feature"><span class="feature-label">Màu sát thương HUD</span><button type="button" class="toggle remote-control" data-feature="misc.damage" aria-label="Màu sát thương HUD" disabled=""></button></div></div></div>
 
       <div class="settings-grid">
-        <div class="setting-group" data-category="aim">
+        <div class="setting-group aim-panel" data-category="aim">
           <h3>
             <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="22" x2="18" y1="12" y2="12"></line><line x1="6" x2="2" y1="12" y2="12"></line><line x1="12" x2="12" y1="6" y2="2"></line><line x1="12" x2="12" y1="22" y2="18"></line></svg>
             Thông số ngắm
@@ -1806,13 +1806,13 @@
           <div class="setting">
             <label for="fov-radius">Bán kính FOV</label>
             <div>
-              <input id="fov-radius" class="remote-control" data-feature="esp.fovRadius" type="range" min="0" max="31" value="13">
+              <input id="fov-radius" class="remote-control" data-feature="esp.fovRadius" type="range" min="0" max="31" value="13" disabled="">
               <div id="fov-radius-value" class="range-value">13 / 31</div>
             </div>
           </div>
           <div class="setting">
             <label for="aim-target">Mục tiêu ngắm</label>
-            <select id="aim-target" class="remote-control" data-feature="aim.target">
+            <select id="aim-target" class="remote-control" data-feature="aim.target" disabled="">
               <option value="0">Thân</option>
               <option value="1">Đầu</option>
               <option value="2">Hỗn hợp</option>
@@ -1820,7 +1820,7 @@
           </div>
           <div class="setting">
             <label for="aim-head-rate">Tỉ lệ headshot</label>
-            <select id="aim-head-rate" class="remote-control" data-feature="aim.headRate">
+            <select id="aim-head-rate" class="remote-control" data-feature="aim.headRate" disabled="">
               <option value="0">0%</option>
               <option value="1">25%</option>
               <option value="2">50%</option>
@@ -1837,7 +1837,7 @@
           </h3>
           <div class="setting">
             <label for="line-origin">Điểm bắt đầu đường kẻ</label>
-            <select id="line-origin" class="remote-control" data-feature="esp.lineOrigin">
+            <select id="line-origin" class="remote-control" data-feature="esp.lineOrigin" disabled="">
               <option value="0">Trên màn hình</option>
               <option value="1">Tâm ngắm</option>
               <option value="2">Dưới màn hình</option>
@@ -1845,7 +1845,7 @@
           </div>
           <div class="setting">
             <label for="system-target">Mục tiêu hệ thống ngắm</label>
-            <select id="system-target" class="remote-control" data-feature="aim.systemHead">
+            <select id="system-target" class="remote-control" data-feature="aim.systemHead" disabled="">
               <option value="0">Ngực</option>
               <option value="1">Đầu</option>
             </select>
@@ -1857,13 +1857,13 @@
             <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
             Màu sắc ESP
           </h3>
-          <div id="esp-colors" class="color-grid"><label>Màu vòng FOV<select class="remote-control" data-feature="colors.fov"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu đường kẻ<select class="remote-control" data-feature="colors.line"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu khung<select class="remote-control" data-feature="colors.box"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu xương<select class="remote-control" data-feature="colors.skeleton"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label></div>
+          <div id="esp-colors" class="color-grid"><label>Màu vòng FOV<select class="remote-control" data-feature="colors.fov" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu đường kẻ<select class="remote-control" data-feature="colors.line" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu khung<select class="remote-control" data-feature="colors.box" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Màu xương<select class="remote-control" data-feature="colors.skeleton" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label></div>
           <div class="setting-actions" style="margin-top: 8px;">
-            <button id="colors-rainbow" class="light remote-control" type="button">
+            <button id="colors-rainbow" class="light remote-control" type="button" disabled="">
               <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
               CẦU VỒNG
             </button>
-            <button id="colors-default" class="light remote-control" type="button">
+            <button id="colors-default" class="light remote-control" type="button" disabled="">
               <svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
               MẶC ĐỊNH
             </button>
@@ -1875,7 +1875,7 @@
             <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
             Màu sát thương HUD
           </h3>
-          <div id="damage-colors" class="color-grid"><label>Headshot / critical<select class="remote-control" data-feature="damage.criticalColor"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Sát thương thường<select class="remote-control" data-feature="damage.normalColor"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Biểu tượng sát thương<select class="remote-control" data-feature="damage.iconColor"><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label></div>
+          <div id="damage-colors" class="color-grid"><label>Headshot / critical<select class="remote-control" data-feature="damage.criticalColor" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Sát thương thường<select class="remote-control" data-feature="damage.normalColor" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label><label>Biểu tượng sát thương<select class="remote-control" data-feature="damage.iconColor" disabled=""><option value="0">Cầu vồng</option><option value="1">Mặc định</option><option value="2">Đỏ</option><option value="3">Xanh lá</option><option value="4">Xanh dương</option><option value="5">Vàng</option><option value="6">Xanh ngọc</option><option value="7">Hồng</option><option value="8">Cam</option><option value="9">Tím</option><option value="10">Trắng</option></select></label></div>
         </div>
 
         <div class="setting-group" data-category="sliders" style="grid-column: 1 / -1;">
@@ -1886,21 +1886,21 @@
           <div class="setting">
             <label for="speed-level">Tốc độ di chuyển</label>
             <div>
-              <input id="speed-level" class="remote-control" data-feature="misc.speedLevel" type="range" min="0" max="19" value="5">
+              <input id="speed-level" class="remote-control" data-feature="misc.speedLevel" type="range" min="0" max="19" value="5" disabled="">
               <div id="speed-level-value" class="range-value">1.5x</div>
             </div>
           </div>
           <div class="setting">
             <label for="vision-level">Góc mở rộng tầm nhìn (Vision FOV)</label>
             <div>
-              <input id="vision-level" class="remote-control" data-feature="misc.visionLevel" type="range" min="1" max="20" value="10">
+              <input id="vision-level" class="remote-control" data-feature="misc.visionLevel" type="range" min="1" max="20" value="10" disabled="">
               <div id="vision-level-value" class="range-value">10</div>
             </div>
           </div>
           <div class="setting">
             <label for="spin-level">Tốc độ xoay nhân vật (Spin Speed)</label>
             <div>
-              <input id="spin-level" class="remote-control" data-feature="misc.spinLevel" type="range" min="1" max="15" value="5">
+              <input id="spin-level" class="remote-control" data-feature="misc.spinLevel" type="range" min="1" max="15" value="5" disabled="">
               <div id="spin-level-value" class="range-value">5x</div>
             </div>
           </div>
@@ -1911,7 +1911,7 @@
     </section>
 
     <!-- SECTION 4: BẢNG MOD SKIN TRANG PHỤC -->
-    <section id="mod-panel" class="panel" style="display:none">
+    <section id="mod-panel" class="panel" style="display: flex;">
       <div class="panel-header">
         <div>
           <h2>
@@ -1923,7 +1923,7 @@
       </div>
       <div class="mod-toolbar">
         <label>Phân khu
-          <select id="mod-category" class="remote-control">
+          <select id="mod-category" class="remote-control" disabled="">
             <option value="">Tất cả</option>
             <option value="hair">Tóc</option>
             <option value="top">Áo</option>
@@ -1933,7 +1933,7 @@
           </select>
         </label>
         <label>Giới tính
-          <select id="mod-gender" class="remote-control">
+          <select id="mod-gender" class="remote-control" disabled="">
             <option value="">Tất cả</option>
             <option value="male">Nam</option>
             <option value="female">Nữ</option>
