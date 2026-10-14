@@ -26,8 +26,54 @@ button{cursor:pointer;border:0;background:none}
 @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(22,163,74,0)}}
 .ib{width:38px;height:38px;border-radius:11px;background:var(--card);border:1px solid var(--bd);display:grid;place-items:center;font-size:16px;flex:none;position:relative}
 main{padding:12px 12px calc(var(--nav) + var(--sa) + 24px);max-width:720px;margin:0 auto}
-.view{display:none}.view.on{display:block;animation:up .22s ease}
-@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.view{display:none}.view.on{display:block;animation:up .32s cubic-bezier(.16,1,.3,1)}
+@keyframes up{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes shake{10%,90%{transform:translate(-50%,0) translateX(-1px)}20%,80%{transform:translate(-50%,0) translateX(2px)}30%,50%,70%{transform:translate(-50%,0) translateX(-4px)}40%,60%{transform:translate(-50%,0) translateX(4px)}}
+@keyframes glow{0%,100%{box-shadow:0 4px 12px rgba(42,171,238,.4)}50%{box-shadow:0 4px 22px rgba(108,99,255,.55)}}
+@keyframes shimmer{to{background-position:200% 0}}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes confetti{to{transform:translateY(60px) rotate(260deg);opacity:0}}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:rip .5s ease-out;pointer-events:none}
+[data-t=dark] .ripple{background:rgba(255,255,255,.18)}
+@keyframes rip{to{transform:scale(2.6);opacity:0}}
+.btn,.tile,.chip,.ci,.lrow,.tb button,.nav button{position:relative;overflow:hidden}
+.btn{transition:transform .12s,box-shadow .2s}
+.btn:active{transform:scale(.96)}
+.logo{animation:glow 3.2s ease-in-out infinite}
+.skel{background:linear-gradient(90deg,var(--in) 25%,var(--bd) 37%,var(--in) 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite;border-radius:10px}
+.errd{background:rgba(225,29,72,.08);border:1px solid #fecdd6;border-radius:12px;padding:10px 12px;margin-top:8px;font-size:12.5px;animation:popIn .2s ease}
+[data-t=dark] .errd{background:rgba(225,29,72,.12);border-color:#5b1f2e}
+.errd b{color:var(--er);display:block;margin-bottom:3px}
+.conf-wrap{position:fixed;inset:0;pointer-events:none;z-index:150;overflow:hidden}
+.conf{position:absolute;top:-10px;width:8px;height:8px;border-radius:2px;animation:confetti 1.1s ease-in forwards}
+.stat,.tile,.card{transition:transform .15s,box-shadow .15s}
+.hero h2,.hero p{animation:up .4s ease both}
+.badge-pulse{animation:pulse 1.6s infinite}
+/* ---------- icon sizing (replaces emoji icons everywhere) ---------- */
+.icn{width:17px;height:17px;flex:none;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+button .icn,.btn .icn,.tag .icn{margin-right:3px}
+h3 .icn{margin-right:5px;width:15px;height:15px}
+.nav button i{display:flex;align-items:center;justify-content:center}
+.nav button i .icn{width:21px;height:21px;stroke-width:1.7}
+.tile i{display:flex;align-items:center;justify-content:center}
+.tile i .icn{width:22px;height:22px;stroke-width:1.6}
+.lrow .ic .icn,.rcpt .ic .icn{width:19px;height:19px}
+.empty .icn{width:40px;height:40px;stroke-width:1.3;color:var(--mu);margin:0 auto 6px}
+.ib .icn{width:18px;height:18px}
+.ph .ib .icn,.sh .ib .icn{width:17px;height:17px}
+.toast{display:flex;align-items:center;gap:8px;justify-content:center}
+.toast .icn{width:16px;height:16px;stroke-width:2.2}
+.logo{animation:none;box-shadow:0 4px 14px rgba(42,171,238,.35)}
+.logo .icn{width:19px;height:19px;stroke:#fff;stroke-width:2}
+.hero:after{content:none}
+.hero{background:linear-gradient(135deg,#1f7fc9,#1b5fb0 55%,#5847d9);position:relative}
+.hero:before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 26px);pointer-events:none}
+.compact .card{padding:10px}
+.compact main{padding:8px 8px calc(var(--nav) + var(--sa) + 16px)}
+.compact .lrow{padding:8px 4px}
+.star-btn{color:var(--mu)}
+.star-btn.on{color:#f59e0b}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
 .card h3{font-size:13px;color:var(--mu);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.4px}
 .card h3 .sp{flex:1}
@@ -90,7 +136,8 @@ textarea{resize:vertical;min-height:90px}
 .ph{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--st)) 12px 8px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
 .ph h2{font-size:17px;flex:1}.pb{padding:12px 12px calc(30px + var(--sa));max-width:720px;margin:0 auto}
 .toast{position:fixed;left:50%;bottom:calc(var(--nav) + var(--sa) + 76px);transform:translate(-50%,20px);background:#0e1621;color:#fff;padding:11px 16px;border-radius:14px;font-size:13.5px;z-index:99;opacity:0;pointer-events:none;transition:.22s;max-width:90vw;box-shadow:0 8px 24px rgba(0,0,0,.35);text-align:center}
-.toast.on{opacity:1;transform:translate(-50%,0)}.toast.ok{background:#0f7a3a}.toast.err{background:#be123c}
+.toast.on{opacity:1;transform:translate(-50%,0)}.toast.ok{background:#0f7a3a}.toast.err{background:#be123c;animation:shake .4s ease}
+.toast .tbtn{margin-left:8px;background:rgba(255,255,255,.18);border-radius:8px;padding:3px 8px;font-size:11.5px;font-weight:700}
 .dlg{position:fixed;inset:0;z-index:100;background:rgba(5,12,20,.55);display:none;align-items:center;justify-content:center;padding:18px}.dlg.on{display:flex}
 .dbox{background:var(--card);border-radius:20px;padding:18px;width:100%;max-width:420px;max-height:86vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
 .dbox h3{font-size:17px;margin-bottom:6px}.dbox p{color:var(--mu);font-size:14px;margin-bottom:12px}.drow{display:flex;gap:8px;margin-top:6px}.drow .btn{flex:1}
@@ -116,10 +163,11 @@ details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;bac
 </head>
 <body>
 <header class="top">
-  <div class="logo">✈</div>
+  <div class="logo"><svg viewBox="0 0 24 24" class="icn"><path d="M3 11 21 3l-8 18-2-7-8-3Z"/></svg></div>
   <button class="botchip" onclick="openBot()"><span class="dot" id="hDot"></span><span><b id="hName">Bot chính</b><small id="hSub">Chưa kết nối</small></span><i>▾</i></button>
-  <button class="ib" onclick="openSheet('sh-log')" title="Nhật ký">🧾</button>
-  <button class="ib" onclick="cycleTheme()" id="hTheme">🌓</button>
+  <button class="ib" onclick="openGlobalSearch()" title="Tìm kiếm"><svg viewBox="0 0 24 24" class="icn"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+  <button class="ib" onclick="openSheet('sh-log')" title="Nhật ký"><svg viewBox="0 0 24 24" class="icn"><path d="M4 5h16v11H8l-4 4V5Z"/></svg></button>
+  <button class="ib" onclick="cycleTheme()" id="hTheme"></button>
 </header>
 
 <main>
@@ -130,19 +178,20 @@ details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;bac
 <section class="view" id="v-send">
   <button class="card rcpt" onclick="openChats()"><span class="ic" id="rcAv">?</span><div><small>Gửi tới</small><b id="rcName">Chọn cuộc trò chuyện</b></div><em>Đổi</em></button>
   <div class="chips" id="sendChips">
-    <button class="chip on" data-p="text" onclick="sendPanel('text')">📝 Văn bản</button>
-    <button class="chip" data-p="media" onclick="sendPanel('media')">🖼 Media</button>
-    <button class="chip" data-p="album" onclick="sendPanel('album')">🗂 Album</button>
-    <button class="chip" data-p="poll" onclick="sendPanel('poll')">📊 Bình chọn</button>
-    <button class="chip" data-p="loc" onclick="sendPanel('loc')">📍 Vị trí</button>
-    <button class="chip" data-p="contact" onclick="sendPanel('contact')">📞 Liên hệ</button>
-    <button class="chip" data-p="dice" onclick="sendPanel('dice')">🎲 Dice</button>
+    <button class="chip on" data-p="text" onclick="sendPanel('text')"><svg viewBox="0 0 24 24" class="icn"><path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>Văn bản</button>
+    <button class="chip" data-p="media" onclick="sendPanel('media')"><svg viewBox="0 0 24 24" class="icn"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5L5 21"/></svg>Media</button>
+    <button class="chip" data-p="album" onclick="sendPanel('album')"><svg viewBox="0 0 24 24" class="icn"><rect x="3" y="3" width="8" height="8" rx="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.6"/><rect x="13" y="13" width="8" height="8" rx="1.6"/></svg>Album</button>
+    <button class="chip" data-p="poll" onclick="sendPanel('poll')"><svg viewBox="0 0 24 24" class="icn"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="14" width="4" height="6" rx="1"/></svg>Bình chọn</button>
+    <button class="chip" data-p="loc" onclick="sendPanel('loc')"><svg viewBox="0 0 24 24" class="icn"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>Vị trí</button>
+    <button class="chip" data-p="contact" onclick="sendPanel('contact')"><svg viewBox="0 0 24 24" class="icn"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.2c1.1.4 2.3.6 3.6.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1c0 1.3.2 2.5.6 3.6a1 1 0 0 1-.2 1l-2.2 2.2Z"/></svg>Liên hệ</button>
+    <button class="chip" data-p="dice" onclick="sendPanel('dice')"><svg viewBox="0 0 24 24" class="icn"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="12" cy="12" r="1.3"/></svg>Dice</button>
+    <button class="chip" data-p="user" onclick="sendPanel('user')"><svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>Username</button>
   </div>
-  <details class="acc"><summary>⚙️ Tùy chọn gửi</summary><div>
+  <details class="acc"><summary>Tùy chọn gửi</summary><div>
     <div class="row wrap" style="margin-bottom:10px">
-      <label class="tg"><input type="checkbox" id="oSil"><span>🔇 Im lặng</span></label>
-      <label class="tg"><input type="checkbox" id="oPro"><span>🔒 Chặn chuyển tiếp</span></label>
-      <label class="tg"><input type="checkbox" id="oNop"><span>🚫 Tắt xem trước link</span></label>
+      <label class="tg"><input type="checkbox" id="oSil"><span>Im lặng</span></label>
+      <label class="tg"><input type="checkbox" id="oPro"><span>Chặn chuyển tiếp</span></label>
+      <label class="tg"><input type="checkbox" id="oNop"><span>Tắt xem trước link</span></label>
     </div>
     <div class="grid g2"><label class="fl">ID tin cần trả lời<input type="text" inputmode="numeric" id="oRep" placeholder="VD: 123"></label><label class="fl">ID Topic (nhóm diễn đàn)<input type="text" inputmode="numeric" id="oThr" placeholder="VD: 5"></label></div>
   </div></details>
@@ -154,36 +203,36 @@ details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;bac
       <div class="cnt" id="charCount">0 / 4096</div>
       <div class="row wrap" style="margin-bottom:6px">
         <select id="parseMode" class="inp grow" style="margin:0" onchange="onMsg();fmtBar()"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="">Văn bản thường</option></select>
-        <button class="btn" onclick="openEmoji('message')">😊</button>
+        <button class="btn" onclick="openEmoji('message')"><svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8 14a4 4 0 0 0 8 0"/></svg></button>
         <button class="btn" onclick="openVars()">{ }</button>
-        <button class="btn" onclick="openTpls()">📋</button>
+        <button class="btn" onclick="openTpls()"><svg viewBox="0 0 24 24" class="icn"><path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></button>
       </div>
     </div>
-    <div class="card"><h3>⌨️ Nút bấm dưới tin <span class="sp"></span><button class="btn sm" onclick="addKbBtn()">+ Nút</button><button class="btn sm" onclick="addKbRow()">+ Hàng</button></h3><div id="kbEd"></div></div>
-    <div class="card"><h3>👁 Xem trước</h3><div class="bubble" id="prevB"></div><div class="pvk" id="prevK"></div></div>
-    <div class="dock"><button class="btn" onclick="schedDlg()">⏰</button><button class="btn" onclick="saveTpl()">💾</button><button class="btn p" onclick="run(this,sendText)">Gửi ➤</button></div>
+    <div class="card"><h3>Nút bấm dưới tin <span class="sp"></span><button class="btn sm" onclick="addKbBtn()">+ Nút</button><button class="btn sm" onclick="addKbRow()">+ Hàng</button></h3><div id="kbEd"></div></div>
+    <div class="card"><h3>Xem trước</h3><div class="bubble" id="prevB"></div><div class="pvk" id="prevK"></div></div>
+    <div class="dock"><button class="btn" onclick="schedDlg()" title="Hẹn giờ"><svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="12" r="9"/><line x1="12" y1="12" x2="12" y2="7"/><line x1="12" y1="12" x2="16" y2="14"/></svg></button><button class="btn" onclick="saveTpl()" title="Lưu mẫu"><svg viewBox="0 0 24 24" class="icn"><path d="M5 4h11l3 3v13H5V4Z"/><path d="M8 4v5h7V4"/><rect x="8" y="13" width="8" height="6"/></svg></button><button class="btn p" onclick="run(this,sendText)">Gửi</button></div>
   </div>
 
   <div class="panel" id="sp-media">
     <div class="card">
-      <label class="fl">Loại<select id="mType"><option value="photo">📷 Ảnh</option><option value="document">📄 Tệp</option><option value="video">🎬 Video</option><option value="audio">🎵 Audio</option><option value="voice">🎤 Voice</option><option value="animation">🎞 GIF</option><option value="sticker">😊 Sticker</option></select></label>
-      <label class="fz" style="display:block;cursor:pointer" id="mDrop"><div id="mFname">📁 Chạm để chọn tệp hoặc <b>dán ảnh</b> (Ctrl+V)</div><input type="file" id="mFile" hidden onchange="onFile()"></label>
+      <label class="fl">Loại<select id="mType"><option value="photo">Ảnh</option><option value="document">Tệp</option><option value="video">Video</option><option value="audio">Audio</option><option value="voice">Voice</option><option value="animation">GIF</option><option value="sticker">Sticker</option></select></label>
+      <label class="fz" style="display:block;cursor:pointer" id="mDrop"><div id="mFname">Chạm để chọn tệp hoặc <b>dán ảnh</b> (Ctrl+V)</div><input type="file" id="mFile" hidden onchange="onFile()"></label>
       <label class="fl" style="margin-top:11px">…hoặc URL / file_id<input type="text" id="mUrl" placeholder="https://… hoặc file_id"></label>
       <label class="fl">Chú thích<textarea id="mCap" style="min-height:70px" placeholder="Caption (tối đa 1024 ký tự)"></textarea></label>
       <label class="fl">Parse mode<select id="mParse"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="MarkdownV2">MarkdownV2</option><option value="">Thường</option></select></label>
-      <label class="tg"><input type="checkbox" id="mSpo"><span>🙈 Che spoiler</span></label>
-      <button class="btn p w" style="margin-top:12px" onclick="run(this,sendMedia)">Gửi media ➤</button>
+      <label class="tg"><input type="checkbox" id="mSpo"><span>Che spoiler</span></label>
+      <button class="btn p w" style="margin-top:12px" onclick="run(this,sendMedia)">Gửi media</button>
     </div>
   </div>
 
   <div class="panel" id="sp-album">
     <div class="card">
       <p class="mu" style="margin-bottom:10px">Gửi 2–10 ảnh/video/tệp trong một nhóm (album).</p>
-      <label class="fl">Loại<select id="aType"><option value="photo">📷 Ảnh</option><option value="video">🎬 Video</option><option value="document">📄 Tệp</option><option value="audio">🎵 Audio</option></select></label>
-      <label class="fz" style="display:block;cursor:pointer"><div id="aFname">📁 Chạm để chọn nhiều tệp</div><input type="file" id="aFiles" hidden multiple onchange="$('#aFname').textContent='📎 '+this.files.length+' tệp đã chọn'"></label>
+      <label class="fl">Loại<select id="aType"><option value="photo">Ảnh</option><option value="video">Video</option><option value="document">Tệp</option><option value="audio">Audio</option></select></label>
+      <label class="fz" style="display:block;cursor:pointer"><div id="aFname">Chạm để chọn nhiều tệp</div><input type="file" id="aFiles" hidden multiple onchange="$('#aFname').textContent=this.files.length+' tệp đã chọn'"></label>
       <label class="fl" style="margin-top:11px">URL (mỗi dòng 1 link)<textarea id="aUrls" placeholder="https://…/1.jpg&#10;https://…/2.jpg"></textarea></label>
       <label class="fl">Chú thích (gắn vào mục đầu)<input type="text" id="aCap"></label>
-      <button class="btn p w" onclick="run(this,sendAlbum)">Gửi album ➤</button>
+      <button class="btn p w" onclick="run(this,sendAlbum)">Gửi album</button>
     </div>
   </div>
 
@@ -195,28 +244,49 @@ details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;bac
       <div id="pQuiz" style="display:none"><label class="fl">Đáp án đúng (số thứ tự, bắt đầu 1)<input type="number" id="pCorrect" value="1" min="1"></label><label class="fl">Giải thích<input type="text" id="pExp"></label></div>
       <div class="row wrap" style="margin-bottom:11px"><label class="tg"><input type="checkbox" id="pAnon" checked><span>Ẩn danh</span></label><label class="tg"><input type="checkbox" id="pMulti"><span>Nhiều lựa chọn</span></label></div>
       <label class="fl">Tự đóng sau (giây, 5–600, trống = không)<input type="number" id="pOpen" min="5" max="600"></label>
-      <button class="btn p w" onclick="run(this,sendPoll)">Gửi bình chọn ➤</button>
+      <button class="btn p w" onclick="run(this,sendPoll)">Gửi bình chọn</button>
     </div>
   </div>
 
   <div class="panel" id="sp-loc">
-    <div class="card"><h3>📍 Vị trí</h3>
+    <div class="card"><h3>Vị trí</h3>
       <div class="grid g2"><label class="fl">Vĩ độ<input type="number" step="any" id="lat" placeholder="21.0285"></label><label class="fl">Kinh độ<input type="number" step="any" id="lon" placeholder="105.8542"></label></div>
-      <div class="row"><button class="btn grow" onclick="myLoc()">🎯 Vị trí của tôi</button><button class="btn p grow" onclick="run(this,sendLoc)">Gửi ➤</button></div></div>
-    <div class="card"><h3>🏢 Địa điểm</h3>
+      <div class="row"><button class="btn grow" onclick="myLoc()">Vị trí của tôi</button><button class="btn p grow" onclick="run(this,sendLoc)">Gửi</button></div></div>
+    <div class="card"><h3>Địa điểm</h3>
       <div class="grid g2"><label class="fl">Vĩ độ<input type="number" step="any" id="vLat"></label><label class="fl">Kinh độ<input type="number" step="any" id="vLon"></label></div>
       <label class="fl">Tên<input type="text" id="vTitle" placeholder="Hồ Gươm"></label><label class="fl">Địa chỉ<input type="text" id="vAddr" placeholder="Hoàn Kiếm, Hà Nội"></label>
-      <button class="btn p w" onclick="run(this,sendVenue)">Gửi địa điểm ➤</button></div>
+      <button class="btn p w" onclick="run(this,sendVenue)">Gửi địa điểm</button></div>
   </div>
 
   <div class="panel" id="sp-contact"><div class="card">
     <label class="fl">Số điện thoại<input type="tel" id="cPhone" placeholder="+84901234567"></label>
     <div class="grid g2"><label class="fl">Tên<input type="text" id="cFirst"></label><label class="fl">Họ<input type="text" id="cLast"></label></div>
-    <button class="btn p w" onclick="run(this,sendContact)">Gửi liên hệ ➤</button></div></div>
+    <button class="btn p w" onclick="run(this,sendContact)">Gửi liên hệ</button></div></div>
 
-  <div class="panel" id="sp-dice"><div class="card"><p class="mu" style="margin-bottom:10px">Chạm biểu tượng để gửi ngay.</p>
+  <div class="panel" id="sp-dice"><div class="card"><p class="mu" style="margin-bottom:10px">Chạm biểu tượng để gửi ngay (giá trị emoji là bắt buộc theo Bot API của Telegram cho tính năng Dice).</p>
     <div class="grid g3" id="diceGrid"></div><h3 style="margin-top:16px">Trạng thái chat</h3>
     <div class="row wrap" id="actGrid"></div></div></div>
+
+  <div class="panel" id="sp-user">
+    <div class="card">
+      <h3>Gửi theo @username</h3>
+      <label class="fl">Username (có hoặc không có @)<input type="text" id="uName" placeholder="nminhiosvn" autocapitalize="off"></label>
+      <div class="row"><button class="btn p grow" onclick="run(this,resolveUsername)">Dò tìm chat</button></div>
+      <div id="uResOut" style="margin-top:10px"></div>
+      <div class="errd" style="margin-top:12px">
+        <b>Giới hạn thật từ Telegram</b>
+        Bot KHÔNG thể tự nhắn tin cho một người chỉ bằng @username nếu người đó <b>chưa từng bấm Start / chưa từng nhắn tin cho bot</b> — đây là giới hạn chống spam của nền tảng Telegram, không phải lỗi của công cụ này. "Dò tìm" phía trên chỉ thành công nếu bot từng thấy người đó (họ đã nhắn/đã ở chung nhóm với bot); nếu không, Telegram sẽ trả lỗi <code>chat not found</code>.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cách thực tế để tiếp cận họ</h3>
+      <label class="fl">Username bot của bạn (không có @, lấy ở Cấu hình bot)<input type="text" id="uBotName" placeholder="ten_bot"></label>
+      <label class="fl">Payload /start (tuỳ chọn, để nhận diện nguồn)<input type="text" id="uPayload" placeholder="vd: promo1"></label>
+      <button class="btn w" onclick="buildDeepLink()">Tạo link mời bấm Start</button>
+      <div id="uLinkOut" style="margin-top:10px"></div>
+      <p class="mu" style="margin-top:8px">Gửi link này cho họ qua Telegram/SMS/Zalo… Khi họ bấm vào và chạm Start, bot sẽ nhận được chat, lúc đó bạn có thể nhắn tin hoặc đưa họ vào danh sách Hàng loạt.</p>
+    </div>
+  </div>
 </section>
 
 <!-- INBOX -->
@@ -224,19 +294,19 @@ details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;bac
 
 <!-- BROADCAST -->
 <section class="view" id="v-bc">
-  <div class="card"><h3>👥 Người nhận <span class="sp"></span><span class="tag" id="bcSelN">0</span></h3>
-    <div class="seg" id="bcSeg"><button class="on" onclick="bcFilter('all')">Tất cả</button><button onclick="bcFilter('private')">Người dùng</button><button onclick="bcFilter('group')">Nhóm</button></div>
-    <input class="inp" id="bcSearch" placeholder="🔍 Tìm theo tên / ID" oninput="renderBc()" style="margin-bottom:8px">
-    <div class="row wrap" style="margin-bottom:6px"><button class="btn sm" onclick="bcAll(true)">Chọn hết</button><button class="btn sm" onclick="bcAll(false)">Bỏ chọn</button><button class="btn sm" onclick="collectSubs()">📥 Thu thập</button><button class="btn sm" onclick="addSubDlg()">+ ID</button></div>
+  <div class="card"><h3>Người nhận <span class="sp"></span><span class="tag" id="bcSelN">0</span></h3>
+    <div class="seg" id="bcSeg"><button class="on" onclick="bcFilter('all')">Tất cả</button><button onclick="bcFilter('private')">Người dùng</button><button onclick="bcFilter('group')">Nhóm</button><button onclick="bcFilter('fav')">Yêu thích</button></div>
+    <input class="inp" id="bcSearch" placeholder="Tìm theo tên / ID" oninput="renderBc()" style="margin-bottom:8px">
+    <div class="row wrap" style="margin-bottom:6px"><button class="btn sm" onclick="bcAll(true)">Chọn hết</button><button class="btn sm" onclick="bcAll(false)">Bỏ chọn</button><button class="btn sm" onclick="collectSubs()">Thu thập</button><button class="btn sm" onclick="addSubDlg()">+ ID</button><button class="btn sm" onclick="exportSubsCsv()">Xuất CSV</button></div>
     <div id="bcList" style="max-height:260px;overflow:auto"></div></div>
-  <div class="card"><h3>✉️ Nội dung</h3>
+  <div class="card"><h3>Nội dung</h3>
     <textarea class="inp" id="bcMsg" style="margin:0 0 8px" placeholder="Xin chào {first}! …"></textarea>
-    <div class="row wrap" style="margin-bottom:10px"><button class="btn sm" onclick="openEmoji('bcMsg')">😊</button><button class="btn sm" onclick="openVars('bcMsg')">{ } Biến</button><button class="btn sm" onclick="openTpls('bcMsg')">📋 Mẫu</button></div>
+    <div class="row wrap" style="margin-bottom:10px"><button class="btn sm" onclick="openEmoji('bcMsg')">Emoji</button><button class="btn sm" onclick="openVars('bcMsg')">{ } Biến</button><button class="btn sm" onclick="openTpls('bcMsg')">Mẫu</button></div>
     <label class="fl">Ảnh đính kèm (URL, tùy chọn)<input type="url" id="bcImg" placeholder="https://…"></label>
     <div class="grid g2"><label class="fl">Parse mode<select id="bcParse"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><label class="fl">Nghỉ giữa tin (ms)<input type="number" id="bcDelay" value="60" min="30"></label></div>
-    <div class="row wrap"><label class="tg"><input type="checkbox" id="bcSil"><span>🔇 Im lặng</span></label><label class="tg"><input type="checkbox" id="bcPro"><span>🔒 Chặn forward</span></label><label class="tg"><input type="checkbox" id="bcClean" checked><span>🧹 Xóa người đã chặn bot</span></label></div></div>
-  <div class="card" id="bcRun" style="display:none"><h3>📡 Tiến độ</h3><div class="bar"><i id="bcFill"></i></div><div class="mu" id="bcStat"></div><div id="bcFail"></div></div>
-  <div class="dock"><button class="btn d" id="bcStop" style="display:none" onclick="bcAbort=true">⏹ Dừng</button><button class="btn p" id="bcGo" onclick="startBc()">📢 Bắt đầu gửi</button></div>
+    <div class="row wrap"><label class="tg"><input type="checkbox" id="bcSil"><span>Im lặng</span></label><label class="tg"><input type="checkbox" id="bcPro"><span>Chặn forward</span></label><label class="tg"><input type="checkbox" id="bcClean" checked><span>Xóa người đã chặn bot</span></label></div></div>
+  <div class="card" id="bcRun" style="display:none"><h3>Tiến độ</h3><div class="bar"><i id="bcFill"></i></div><div class="mu" id="bcStat"></div><div id="bcFail"></div></div>
+  <div class="dock"><button class="btn d" id="bcStop" style="display:none" onclick="bcAbort=true">Dừng</button><button class="btn p" id="bcGo" onclick="startBc()">Bắt đầu gửi</button></div>
 </section>
 
 <!-- TOOLS -->
@@ -244,96 +314,99 @@ details.acc{border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;bac
 </main>
 
 <nav class="nav" id="nav">
-  <button class="on" data-v="home" onclick="go('home')"><i>🏠</i>Tổng quan</button>
-  <button data-v="send" onclick="go('send')"><i>✍️</i>Soạn tin</button>
-  <button data-v="inbox" onclick="go('inbox')"><i>💬</i>Hộp thư<em class="bdg" id="nbInbox">0</em></button>
-  <button data-v="bc" onclick="go('bc')"><i>📢</i>Hàng loạt</button>
-  <button data-v="tools" onclick="go('tools')"><i>🧰</i>Công cụ</button>
+  <button class="on" data-v="home" onclick="go('home')"><i><svg viewBox="0 0 24 24" class="icn"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 9.5V20h5v-6h2v6h5V9.5"/></svg></i>Tổng quan</button>
+  <button data-v="send" onclick="go('send')"><i><svg viewBox="0 0 24 24" class="icn"><path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-2.8L17.3 5.5a2 2 0 0 0-2.8 0L4 16v4Z"/></svg></i>Soạn tin</button>
+  <button data-v="inbox" onclick="go('inbox')"><i><svg viewBox="0 0 24 24" class="icn"><path d="M4 5h16v11H8l-4 4V5Z"/></svg></i>Hộp thư<em class="bdg" id="nbInbox">0</em></button>
+  <button data-v="bc" onclick="go('bc')"><i><svg viewBox="0 0 24 24" class="icn"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="7.6" y1="7.4" x2="10.6" y2="16.2"/><line x1="16.4" y1="7.4" x2="13.4" y2="16.2"/></svg></i>Hàng loạt</button>
+  <button data-v="tools" onclick="go('tools')"><i><svg viewBox="0 0 24 24" class="icn"><rect x="3" y="3" width="8" height="8" rx="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.6"/><rect x="13" y="13" width="8" height="8" rx="1.6"/></svg></i>Công cụ</button>
 </nav>
 
 <!-- ============ PAGES ============ -->
-<div class="page" id="pg-thread"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2 id="thTitle">Chat</h2><button class="btn sm" onclick="thPick()">Chọn gửi</button></div><div class="pb"><div class="thr" id="thBody"></div></div><div class="comp"><input id="thIn" placeholder="Nhắn tin…" onkeydown="if(event.key==='Enter')thSend()"><button class="btn p" onclick="thSend()">➤</button></div></div>
+<div class="page" id="pg-thread"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2 id="thTitle">Chat</h2><button class="btn sm" onclick="exportThread()" title="Xuất file"><svg viewBox="0 0 24 24" class="icn" style="margin:0"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 19h16"/></svg></button><button class="btn sm" onclick="thPick()">Chọn gửi</button></div><div class="pb"><div class="chips" id="quickReplies" style="padding-bottom:8px"></div><div class="thr" id="thBody"></div></div><div class="comp"><input id="thIn" placeholder="Nhắn tin…" onkeydown="if(event.key==='Enter')thSend()"><button class="btn p" onclick="thSend()">➤</button></div></div>
 
-<div class="page" id="pg-rules"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🤖 Tự động trả lời</h2><button class="btn p sm" onclick="editRule()">+ Luật</button></div><div class="pb">
+<div class="page" id="pg-rules"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Tự động trả lời</h2><button class="btn p sm" onclick="editRule()">+ Luật</button></div><div class="pb">
   <div class="card"><div class="row"><div class="grow"><b>Nhận tin realtime</b><div class="mu">Luật chỉ chạy khi trang mở và đang nhận tin.</div></div><label class="sw"><input type="checkbox" id="pollSw2" onchange="togglePoll(this.checked)"><span></span></label></div></div>
   <div id="rulesBody"></div></div></div>
 
-<div class="page" id="pg-sched"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>⏰ Hẹn giờ gửi</h2><button class="btn p sm" onclick="schedDlg()">+ Hẹn</button></div><div class="pb"><p class="mu" style="margin-bottom:10px">Tin hẹn giờ gửi khi trang này đang mở. Soạn tin ở tab “Soạn tin” rồi bấm ⏰.</p><div id="schedBody"></div></div></div>
+<div class="page" id="pg-sched"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Hẹn giờ gửi</h2><button class="btn p sm" onclick="schedDlg()">+ Hẹn</button></div><div class="pb"><p class="mu" style="margin-bottom:10px">Tin hẹn giờ gửi khi trang này đang mở. Soạn tin ở tab “Soạn tin” rồi bấm nút hẹn giờ.</p><div id="schedBody"></div></div></div>
 
-<div class="page" id="pg-tpls"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>📋 Tin mẫu</h2><button class="btn p sm" onclick="newTpl()">+ Mẫu</button></div><div class="pb"><div id="tplBody"></div></div></div>
+<div class="page" id="pg-tpls"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Tin mẫu</h2><button class="btn p sm" onclick="newTpl()">+ Mẫu</button></div><div class="pb"><div id="tplBody"></div></div></div>
 
-<div class="page" id="pg-manage"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🛠 Quản lý tin nhắn</h2></div><div class="pb">
-  <div class="card"><h3>✏️ Sửa tin</h3><label class="fl">ID tin nhắn<input id="edId" inputmode="numeric"></label><label class="fl">Nội dung mới<textarea id="edTx"></textarea></label><label class="fl">Parse mode<select id="edPm"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><button class="btn p w" onclick="run(this,editMsg)">Lưu chỉnh sửa</button></div>
-  <div class="card"><h3>🗑 Xóa tin</h3><label class="fl">ID tin nhắn (nhiều ID cách nhau dấu phẩy)<input id="delId"></label><button class="btn d w" onclick="run(this,delMsg)">Xóa</button></div>
-  <div class="card"><h3>➡️ Chuyển tiếp / Sao chép</h3><label class="fl">Từ Chat ID<input id="fwFrom"></label><label class="fl">ID tin nhắn<input id="fwId" inputmode="numeric"></label><div class="row"><button class="btn grow" onclick="run(this,fwdMsg)">Forward</button><button class="btn grow" onclick="run(this,copyMsg)">Copy</button></div></div>
-  <div class="card"><h3>📌 Ghim</h3><label class="fl">ID tin nhắn<input id="pinId" inputmode="numeric"></label><div class="row wrap"><button class="btn grow" onclick="run(this,pinMsg)">Ghim</button><button class="btn grow" onclick="run(this,unpinMsg)">Bỏ ghim</button><button class="btn d grow" onclick="run(this,unpinAll)">Bỏ tất cả</button></div></div>
-  <div class="card"><h3>📁 Thông tin tệp</h3><label class="fl">file_id<input id="fileId"></label><button class="btn w" onclick="run(this,getFileInfo)">Lấy link tải</button><div id="fileOut"></div></div>
+<div class="page" id="pg-manage"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Quản lý tin nhắn</h2></div><div class="pb">
+  <div class="card"><h3>Sửa tin</h3><label class="fl">ID tin nhắn<input id="edId" inputmode="numeric"></label><label class="fl">Nội dung mới<textarea id="edTx"></textarea></label><label class="fl">Parse mode<select id="edPm"><option value="HTML">HTML</option><option value="Markdown">Markdown</option><option value="">Thường</option></select></label><button class="btn p w" onclick="run(this,editMsg)">Lưu chỉnh sửa</button></div>
+  <div class="card"><h3>Xóa tin</h3><label class="fl">ID tin nhắn (nhiều ID cách nhau dấu phẩy)<input id="delId"></label><button class="btn d w" onclick="run(this,delMsg)">Xóa</button></div>
+  <div class="card"><h3>Chuyển tiếp / Sao chép</h3><label class="fl">Từ Chat ID<input id="fwFrom"></label><label class="fl">ID tin nhắn<input id="fwId" inputmode="numeric"></label><div class="row"><button class="btn grow" onclick="run(this,fwdMsg)">Forward</button><button class="btn grow" onclick="run(this,copyMsg)">Copy</button></div></div>
+  <div class="card"><h3>Ghim</h3><label class="fl">ID tin nhắn<input id="pinId" inputmode="numeric"></label><div class="row wrap"><button class="btn grow" onclick="run(this,pinMsg)">Ghim</button><button class="btn grow" onclick="run(this,unpinMsg)">Bỏ ghim</button><button class="btn d grow" onclick="run(this,unpinAll)">Bỏ tất cả</button></div></div>
+  <div class="card"><h3>Thông tin tệp</h3><label class="fl">file_id<input id="fileId"></label><button class="btn w" onclick="run(this,getFileInfo)">Lấy link tải</button><div id="fileOut"></div></div>
 </div></div>
 
-<div class="page" id="pg-admin"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>👑 Quản trị nhóm</h2></div><div class="pb">
+<div class="page" id="pg-admin"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Quản trị nhóm</h2></div><div class="pb">
   <p class="mu" style="margin-bottom:10px">Bot cần là admin trong nhóm đang chọn.</p>
-  <div class="card"><h3>ℹ️ Thông tin nhóm</h3><div class="grid g2"><button class="btn" onclick="run(this,chatInfo)">💬 Chi tiết</button><button class="btn" onclick="run(this,memberCount)">👥 Số thành viên</button><button class="btn" onclick="run(this,listAdmins)">👑 Danh sách admin</button><button class="btn" onclick="run(this,inviteLink)">🔗 Link mời</button></div><div id="admOut" style="margin-top:10px"></div></div>
-  <div class="card"><h3>👤 Thành viên</h3><label class="fl">User ID<input id="uid" inputmode="numeric"></label>
+  <div class="card"><h3>Thông tin nhóm</h3><div class="grid g2"><button class="btn" onclick="run(this,chatInfo)">Chi tiết</button><button class="btn" onclick="run(this,memberCount)">Số thành viên</button><button class="btn" onclick="run(this,listAdmins)">Danh sách admin</button><button class="btn" onclick="run(this,inviteLink)">Link mời</button></div><div id="admOut" style="margin-top:10px"></div></div>
+  <div class="card"><h3>Thành viên</h3><label class="fl">User ID<input id="uid" inputmode="numeric"></label>
     <label class="fl">Thời gian (Ban/Mute)<select id="uDur"><option value="0">Vĩnh viễn</option><option value="3600">1 giờ</option><option value="86400">1 ngày</option><option value="604800">7 ngày</option></select></label>
-    <div class="grid g2"><button class="btn d" onclick="run(this,()=>member('ban'))">🚫 Ban</button><button class="btn ok" onclick="run(this,()=>member('unban'))">✅ Unban</button><button class="btn" onclick="run(this,()=>member('mute'))">🔇 Mute</button><button class="btn" onclick="run(this,()=>member('unmute'))">🔊 Unmute</button><button class="btn" onclick="run(this,()=>member('promote'))">⬆️ Lên admin</button><button class="btn" onclick="run(this,()=>member('demote'))">⬇️ Hạ admin</button></div>
-    <button class="btn w" style="margin-top:8px" onclick="run(this,memberInfo)">🔎 Xem trạng thái</button></div>
-  <div class="card"><h3>✏️ Cài đặt nhóm</h3><label class="fl">Tên nhóm<input id="cTitle"></label><button class="btn w" onclick="run(this,setTitle)" style="margin-bottom:10px">Đổi tên</button><label class="fl">Mô tả<textarea id="cDesc" style="min-height:60px"></textarea></label><button class="btn w" onclick="run(this,setDesc)">Đổi mô tả</button></div>
-  <div class="card"><button class="btn d w" onclick="run(this,leaveChat)">🚪 Cho bot rời nhóm</button></div>
+    <div class="grid g2"><button class="btn d" onclick="run(this,()=>member('ban'))">Ban</button><button class="btn ok" onclick="run(this,()=>member('unban'))">Unban</button><button class="btn" onclick="run(this,()=>member('mute'))">Mute</button><button class="btn" onclick="run(this,()=>member('unmute'))">Unmute</button><button class="btn" onclick="run(this,()=>member('promote'))">Lên admin</button><button class="btn" onclick="run(this,()=>member('demote'))">Hạ admin</button></div>
+    <button class="btn w" style="margin-top:8px" onclick="run(this,memberInfo)">Xem trạng thái</button></div>
+  <div class="card"><h3>Cài đặt nhóm</h3><label class="fl">Tên nhóm<input id="cTitle"></label><button class="btn w" onclick="run(this,setTitle)" style="margin-bottom:10px">Đổi tên</button><label class="fl">Mô tả<textarea id="cDesc" style="min-height:60px"></textarea></label><button class="btn w" onclick="run(this,setDesc)">Đổi mô tả</button></div>
+  <div class="card"><button class="btn d w" onclick="run(this,leaveChat)">Cho bot rời nhóm</button></div>
 </div></div>
 
-<div class="page" id="pg-botset"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🧩 Hồ sơ & lệnh bot</h2></div><div class="pb">
-  <div class="card"><h3>Lệnh /menu</h3><div id="cmdList"></div><div class="row wrap"><button class="btn sm" onclick="cmdAdd()">+ Lệnh</button><button class="btn sm" onclick="run(this,cmdLoad)">⬇ Lấy hiện tại</button><button class="btn sm p" onclick="run(this,cmdSave)">💾 Lưu lên bot</button><button class="btn sm d" onclick="run(this,cmdClear)">Xóa hết</button></div></div>
+<div class="page" id="pg-botset"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Hồ sơ & lệnh bot</h2></div><div class="pb">
+  <div class="card"><h3>Lệnh /menu</h3><div id="cmdList"></div><div class="row wrap"><button class="btn sm" onclick="cmdAdd()">+ Lệnh</button><button class="btn sm" onclick="run(this,cmdLoad)">Lấy hiện tại</button><button class="btn sm p" onclick="run(this,cmdSave)">Lưu lên bot</button><button class="btn sm d" onclick="run(this,cmdClear)">Xóa hết</button></div></div>
   <div class="card"><h3>Tên & mô tả</h3><label class="fl">Tên hiển thị<input id="bsName" maxlength="64"></label><button class="btn w" style="margin-bottom:10px" onclick="run(this,()=>setProf('setMyName','name','bsName'))">Đổi tên</button>
     <label class="fl">Mô tả (hiện khi mở chat)<textarea id="bsDesc" maxlength="512"></textarea></label><button class="btn w" style="margin-bottom:10px" onclick="run(this,()=>setProf('setMyDescription','description','bsDesc'))">Đổi mô tả</button>
     <label class="fl">Mô tả ngắn (trang hồ sơ)<input id="bsShort" maxlength="120"></label><button class="btn w" onclick="run(this,()=>setProf('setMyShortDescription','short_description','bsShort'))">Đổi mô tả ngắn</button></div>
 </div></div>
 
-<div class="page" id="pg-webhook"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🔗 Webhook</h2></div><div class="pb">
-  <div class="card"><button class="btn w" onclick="run(this,getWebhook)">🔍 Kiểm tra webhook</button><div id="whBox" style="margin-top:10px"></div></div>
+<div class="page" id="pg-webhook"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Webhook</h2></div><div class="pb">
+  <div class="card"><button class="btn w" onclick="run(this,getWebhook)">Kiểm tra webhook</button><div id="whBox" style="margin-top:10px"></div></div>
   <div class="card"><label class="fl">URL webhook (HTTPS)<input type="url" id="whUrl" placeholder="https://…"></label><button class="btn p w" onclick="run(this,setWebhook)">Đặt webhook</button></div>
   <div class="card"><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="whDrop"><span>Xóa luôn tin chờ xử lý</span></label><button class="btn d w" onclick="run(this,delWebhook)">Xóa webhook (để nhận tin trong app)</button></div>
 </div></div>
 
-<div class="page" id="pg-lab"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>🧪 API Lab</h2></div><div class="pb">
+<div class="page" id="pg-lab"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>API Lab</h2></div><div class="pb">
   <div class="chips" id="labChips"></div>
   <div class="card"><label class="fl">Phương thức<input id="apiM" value="getMe" autocapitalize="off"></label><label class="fl">Tham số JSON <span class="mu">(dùng {chat} cho Chat ID hiện tại)</span><textarea id="apiP" spellcheck="false" style="font-family:ui-monospace,monospace;font-size:14px;min-height:110px">{}</textarea></label>
-    <div class="row"><button class="btn p grow" onclick="run(this,runApi)">▶ Chạy</button><button class="btn grow" onclick="copyOut()">📋 Sao chép</button></div><pre class="out" id="apiOut">Chưa chạy.</pre></div>
+    <div class="row"><button class="btn p grow" onclick="run(this,runApi)">Chạy</button><button class="btn grow" onclick="copyOut()">Sao chép</button></div><pre class="out" id="apiOut">Chưa chạy.</pre></div>
 </div></div>
 
-<div class="page" id="pg-hist"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>📜 Lịch sử gửi</h2><button class="btn d sm" onclick="clearHist()">Xóa</button></div><div class="pb"><div id="histBody"></div></div></div>
+<div class="page" id="pg-hist"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Lịch sử gửi</h2><button class="btn d sm" onclick="clearHist()">Xóa</button><button class="btn sm" onclick="histSelMode=!histSelMode;renderHist()" id="histSelBtn">Chọn</button></div><div class="pb"><div id="histBulkBar" style="display:none;margin-bottom:10px"><button class="btn sm d" onclick="histBulkDelete()">Xóa mục đã chọn</button></div><div id="histBody"></div></div></div>
 
-<div class="page" id="pg-set"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>⚙️ Cài đặt & sao lưu</h2></div><div class="pb">
+<div class="page" id="pg-set"><div class="ph"><button class="ib" onclick="closeOv()">‹</button><h2>Cài đặt & sao lưu</h2></div><div class="pb">
   <div class="card"><h3>Giao diện</h3><div class="seg" id="themeSeg"><button data-th="auto" onclick="setTheme('auto')">Tự động</button><button data-th="light" onclick="setTheme('light')">Sáng</button><button data-th="dark" onclick="setTheme('dark')">Tối</button></div>
     <div class="row" style="margin-bottom:12px"><div class="grow"><b>Rung phản hồi</b><div class="mu">Rung nhẹ khi gửi thành công</div></div><label class="sw"><input type="checkbox" id="stHap" onchange="setOpt('haptic',this.checked)"><span></span></label></div>
     <div class="row" style="margin-bottom:12px"><div class="grow"><b>Tự thu thập người dùng</b><div class="mu">Lưu chat khi có người nhắn bot</div></div><label class="sw"><input type="checkbox" id="stCol" onchange="setOpt('autoCollect',this.checked)"><span></span></label></div>
-    <div class="row"><div class="grow"><b>Tự trả lời nút bấm</b><div class="mu">Gửi answerCallbackQuery khi bấm nút</div></div><label class="sw"><input type="checkbox" id="stCb" onchange="setOpt('answerCb',this.checked)"><span></span></label></div></div>
-  <div class="card"><h3>Sao lưu</h3><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="bkTok"><span>Kèm Token bot (nhạy cảm!)</span></label><div class="grid g2"><button class="btn" onclick="exportAll()">💾 Xuất file</button><button class="btn" onclick="importAll()">📥 Khôi phục</button></div></div>
-  <div class="card"><button class="btn d w" onclick="resetAll()">🗑 Xóa toàn bộ dữ liệu</button><p class="mu" style="margin-top:8px">Token chỉ lưu trong trình duyệt của bạn và chỉ gửi tới api.telegram.org.</p></div>
+    <div class="row" style="margin-bottom:12px"><div class="grow"><b>Tự trả lời nút bấm</b><div class="mu">Gửi answerCallbackQuery khi bấm nút</div></div><label class="sw"><input type="checkbox" id="stCb" onchange="setOpt('answerCb',this.checked)"><span></span></label></div>
+    <div class="row" style="margin-bottom:12px"><div class="grow"><b>Âm báo tin nhắn mới</b><div class="mu">Phát âm ngắn khi có tin nhắn đến lúc đang nhận realtime</div></div><label class="sw"><input type="checkbox" id="stSnd" onchange="setOpt('sound',this.checked)"><span></span></label></div>
+    <div class="row"><div class="grow"><b>Giao diện gọn</b><div class="mu">Giảm khoảng đệm để xem được nhiều hơn trên màn hình</div></div><label class="sw"><input type="checkbox" id="stCompact" onchange="setOpt('compact',this.checked);applyTheme()"><span></span></label></div></div>
+  <div class="card"><h3>Sao lưu</h3><label class="tg" style="margin-bottom:10px"><input type="checkbox" id="bkTok"><span>Kèm Token bot (nhạy cảm!)</span></label><div class="grid g2"><button class="btn" onclick="exportAll()">Xuất file</button><button class="btn" onclick="importAll()">Khôi phục</button></div></div>
+  <div class="card"><button class="btn d w" onclick="resetAll()">Xóa toàn bộ dữ liệu</button><p class="mu" style="margin-top:8px">Token chỉ lưu trong trình duyệt của bạn và chỉ gửi tới api.telegram.org.</p></div>
 </div></div>
 
 <!-- ============ SHEETS ============ -->
 <div class="bd" id="bd" onclick="closeOv()"></div>
 
-<div class="sheet" id="sh-bot"><div class="grab"></div><div class="sh"><h2>🤖 Cấu hình bot</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
+<div class="sheet" id="sh-bot"><div class="grab"></div><div class="sh"><h2>Cấu hình bot</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
   <label class="fl">Hồ sơ bot<select id="profSel" onchange="switchProfile()"></select></label>
-  <div class="row" style="margin-bottom:12px"><button class="btn sm grow" onclick="addProfile()">+ Hồ sơ</button><button class="btn sm grow" onclick="renameProfile()">✏️ Đổi tên</button><button class="btn sm d grow" onclick="delProfile()">Xóa</button></div>
-  <label class="fl">Token (từ @BotFather)<div class="row"><input class="inp grow" style="margin:5px 0 0" type="password" id="botToken" placeholder="123456:ABC-DEF…" oninput="saveBot()" autocomplete="off"><button class="btn" style="margin-top:5px" onclick="const i=$('#botToken');i.type=i.type==='password'?'text':'password'">👁</button></div></label>
+  <div class="row" style="margin-bottom:12px"><button class="btn sm grow" onclick="addProfile()">+ Hồ sơ</button><button class="btn sm grow" onclick="renameProfile()">Đổi tên</button><button class="btn sm d grow" onclick="delProfile()">Xóa</button></div>
+  <label class="fl">Token (từ @BotFather)<div class="row"><input class="inp grow" style="margin:5px 0 0" type="password" id="botToken" placeholder="123456:ABC-DEF…" oninput="saveBot()" autocomplete="off"><button class="btn" style="margin-top:5px" onclick="const i=$('#botToken');i.type=i.type==='password'?'text':'password'"><svg viewBox="0 0 24 24" class="icn" style="margin:0"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div></label>
   <div class="grid g2"><label class="fl">Loại chat<select id="chatType" onchange="saveBot()"><option value="private">Cá nhân</option><option value="group">Nhóm / Kênh</option></select></label><label class="fl">Chat ID / @kênh<input id="chatId" oninput="saveBot()" placeholder="123456789"></label></div>
-  <div class="row"><button class="btn grow" onclick="openChats()">🔍 Tìm chat</button><button class="btn p grow" onclick="run(this,testBot)">⚡ Kiểm tra</button></div>
+  <div class="row"><button class="btn grow" onclick="openChats()">Tìm chat</button><button class="btn p grow" onclick="run(this,testBot)">Kiểm tra</button></div>
   <div id="botInfo" style="margin-top:12px"></div>
 </div></div>
 
-<div class="sheet" id="sh-chats"><div class="grab"></div><div class="sh"><h2>📨 Chọn người nhận</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
+<div class="sheet" id="sh-chats"><div class="grab"></div><div class="sh"><h2>Chọn người nhận</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
   <div class="row" style="margin-bottom:10px"><input class="inp grow" style="margin:0" id="chManual" placeholder="Nhập Chat ID hoặc @kênh"><button class="btn p" onclick="pickChat($('#chManual').value.trim())">Dùng</button></div>
-  <input class="inp" id="chSearch" placeholder="🔍 Tìm…" oninput="renderChats()" style="margin-bottom:8px">
+  <input class="inp" id="chSearch" placeholder="Tìm…" oninput="renderChats()" style="margin-bottom:8px">
   <div id="chList"></div>
-  <button class="btn w" style="margin-top:10px" onclick="run(this,findChats)">📥 Lấy chat mới từ bot (getUpdates)</button>
+  <button class="btn w" style="margin-top:10px" onclick="run(this,findChats)">Lấy chat mới từ bot (getUpdates)</button>
 </div></div>
 
-<div class="sheet" id="sh-emoji"><div class="grab"></div><div class="sh"><h2>😊 Emoji</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb"><div class="emo" id="emoGrid"></div></div></div>
+<div class="sheet" id="sh-emoji"><div class="grab"></div><div class="sh"><h2>Emoji</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb"><div class="emo" id="emoGrid"></div></div></div>
 <div class="sheet" id="sh-vars"><div class="grab"></div><div class="sh"><h2>{ } Biến tự điền</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="varsBody"></div></div>
-<div class="sheet" id="sh-tpl"><div class="grab"></div><div class="sh"><h2>📋 Chọn tin mẫu</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="tplPick"></div></div>
-<div class="sheet" id="sh-log"><div class="grab"></div><div class="sh"><h2>🧾 Nhật ký hoạt động</h2><button class="btn sm" onclick="LOG=[];renderLog()">Xóa</button></div><div class="sb" id="logBody"></div></div>
+<div class="sheet" id="sh-tpl"><div class="grab"></div><div class="sh"><h2>Chọn tin mẫu</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb" id="tplPick"></div></div>
+<div class="sheet" id="sh-log"><div class="grab"></div><div class="sh"><h2>Nhật ký hoạt động</h2><button class="btn sm" onclick="LOG=[];renderLog()">Xóa</button></div><div class="sb" id="logBody"></div></div>
+<div class="sheet" id="sh-gsearch"><div class="grab"></div><div class="sh"><h2>Tìm kiếm</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb"><input class="inp" id="gsInput" placeholder="Tìm trong hội thoại, lịch sử, tin mẫu…" oninput="renderGlobalSearch()" style="margin-bottom:8px"><div id="gsBody"></div></div></div>
 
 <div class="sheet" id="sh-rule"><div class="grab"></div><div class="sh"><h2 id="ruleTitle">Luật mới</h2><button class="ib" onclick="closeOv()">✕</button></div><div class="sb">
   <label class="fl">Tên luật<input id="rName" placeholder="VD: Chào mừng"></label>
@@ -354,6 +427,58 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const hm=(t=Date.now())=>new Date(t).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
+/* ---------- icon set (no emoji — clean inline SVG, consistent stroke style) ---------- */
+const SVG={
+home:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 9.5V20h5v-6h2v6h5V9.5"/></svg>',
+compose:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-2.8L17.3 5.5a2 2 0 0 0-2.8 0L4 16v4Z"/></svg>',
+inbox:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>',
+broadcast:'<svg viewBox="0 0 24 24" class="icn"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="7.6" y1="7.4" x2="10.6" y2="16.2"/><line x1="16.4" y1="7.4" x2="13.4" y2="16.2"/></svg>',
+grid:'<svg viewBox="0 0 24 24" class="icn"><rect x="3" y="3" width="8" height="8" rx="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.6"/><rect x="3" y="13" width="8" height="8" rx="1.6"/><rect x="13" y="13" width="8" height="8" rx="1.6"/></svg>',
+search:'<svg viewBox="0 0 24 24" class="icn"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+bell:'<svg viewBox="0 0 24 24" class="icn"><path d="M12 3a1 1 0 0 1 1 1v.3a6 6 0 0 1 4 5.7v3l1.5 3h-13L7 13v-3a6 6 0 0 1 4-5.7V4a1 1 0 0 1 1-1Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>',
+bot:'<svg viewBox="0 0 24 24" class="icn"><rect x="4" y="8" width="16" height="11" rx="3"/><circle cx="9" cy="13.5" r="1.3"/><circle cx="15" cy="13.5" r="1.3"/><line x1="12" y1="8" x2="12" y2="4"/><circle cx="12" cy="3" r="1"/></svg>',
+clock:'<svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="12" r="9"/><line x1="12" y1="12" x2="12" y2="7"/><line x1="12" y1="12" x2="16" y2="14"/></svg>',
+sliders:'<svg viewBox="0 0 24 24" class="icn"><line x1="3" y1="6" x2="21" y2="6"/><circle cx="8" cy="6" r="2"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="16" cy="12" r="2"/><line x1="3" y1="18" x2="21" y2="18"/><circle cx="10" cy="18" r="2"/></svg>',
+trash:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>',
+pin:'<svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="9" r="4"/><line x1="12" y1="13" x2="12" y2="21"/></svg>',
+link:'<svg viewBox="0 0 24 24" class="icn"><path d="M8.5 15.5 15.5 8.5"/><path d="M10 6l1.2-1.2a4 4 0 1 1 5.5 5.7L15.5 11.6"/><path d="M14 18l-1.2 1.2a4 4 0 1 1-5.5-5.7L8.5 12.4"/></svg>',
+flask:'<svg viewBox="0 0 24 24" class="icn"><path d="M9 2h6"/><path d="M10 2v6.5l-5.3 9.2A2 2 0 0 0 6.4 21h11.2a2 2 0 0 0 1.7-3.3L14 8.5V2"/></svg>',
+crown:'<svg viewBox="0 0 24 24" class="icn"><path d="M3 18h18l-1.3-8.4-4.2 3.4L12 6l-3.5 7-4.2-3.4L3 18Z"/></svg>',
+image:'<svg viewBox="0 0 24 24" class="icn"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="M21 15l-5-5L5 21"/></svg>',
+chart:'<svg viewBox="0 0 24 24" class="icn"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="14" width="4" height="6" rx="1"/></svg>',
+mappin:'<svg viewBox="0 0 24 24" class="icn"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>',
+phone:'<svg viewBox="0 0 24 24" class="icn"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.2c1.1.4 2.3.6 3.6.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1c0 1.3.2 2.5.6 3.6a1 1 0 0 1-.2 1l-2.2 2.2Z"/></svg>',
+dice:'<svg viewBox="0 0 24 24" class="icn"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="12" cy="12" r="1.3"/></svg>',
+user:'<svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>',
+users:'<svg viewBox="0 0 24 24" class="icn"><circle cx="9" cy="8" r="3.4"/><path d="M2.5 20c0-3.8 2.9-6 6.5-6s6.5 2.2 6.5 6"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.2c2.7.4 4.5 2.2 5 5.8"/></svg>',
+send:'<svg viewBox="0 0 24 24" class="icn"><path d="M3 11 21 3l-8 18-2-7-8-3Z"/></svg>',
+save:'<svg viewBox="0 0 24 24" class="icn"><path d="M5 4h11l3 3v13H5V4Z"/><path d="M8 4v5h7V4"/><rect x="8" y="13" width="8" height="6"/></svg>',
+check:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 12l5 5L20 6"/></svg>',
+close:'<svg viewBox="0 0 24 24" class="icn"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>',
+warning:'<svg viewBox="0 0 24 24" class="icn"><path d="M12 3 2 20h20L12 3Z"/><line x1="12" y1="9" x2="12" y2="14"/><circle cx="12" cy="17" r="1"/></svg>',
+doc:'<svg viewBox="0 0 24 24" class="icn"><path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>',
+download:'<svg viewBox="0 0 24 24" class="icn"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 19h16"/></svg>',
+upload:'<svg viewBox="0 0 24 24" class="icn"><path d="M12 21V9"/><path d="M7 13l5-5 5 5"/><path d="M4 19h16"/></svg>',
+refresh:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 12a8 8 0 0 1 14-5.3"/><path d="M20 12a8 8 0 0 1-14 5.3"/><path d="M16 4v4h-4"/><path d="M8 20v-4h4"/></svg>',
+star:'<svg viewBox="0 0 24 24" class="icn"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 16.9 5.8 20.3l1.6-6.8L2.2 8.9l6.9-.6L12 2Z"/></svg>',
+starFill:'<svg viewBox="0 0 24 24" class="icn" fill="currentColor" stroke="none"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 16.9 5.8 20.3l1.6-6.8L2.2 8.9l6.9-.6L12 2Z"/></svg>',
+plus:'<svg viewBox="0 0 24 24" class="icn"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+eye:'<svg viewBox="0 0 24 24" class="icn"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+moon:'<svg viewBox="0 0 24 24" class="icn"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>',
+sun:'<svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>',
+auto:'<svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg>',
+mic:'<svg viewBox="0 0 24 24" class="icn"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="9" y1="21" x2="15" y2="21"/></svg>',
+video:'<svg viewBox="0 0 24 24" class="icn"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3Z"/></svg>',
+face:'<svg viewBox="0 0 24 24" class="icn"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M8 14a4 4 0 0 0 8 0"/></svg>',
+lock:'<svg viewBox="0 0 24 24" class="icn"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+mute:'<svg viewBox="0 0 24 24" class="icn"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="16" y1="9" x2="21" y2="14"/><line x1="21" y1="9" x2="16" y2="14"/></svg>',
+noPreview:'<svg viewBox="0 0 24 24" class="icn"><path d="M2 12s4-7 10-7c1.6 0 3 .3 4.3.9"/><path d="M22 12s-1.4 2.5-3.8 4.4"/><path d="M12 19c-6 0-10-7-10-7"/><line x1="3" y1="3" x2="21" y2="21"/></svg>',
+reply:'<svg viewBox="0 0 24 24" class="icn"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v3"/></svg>',
+copy:'<svg viewBox="0 0 24 24" class="icn"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+party:'<svg viewBox="0 0 24 24" class="icn"><path d="M4 20 15 6"/><path d="M8 20l9-14"/><circle cx="18" cy="5" r="1"/><circle cx="20" cy="9" r="1"/><circle cx="16" cy="3" r="1"/></svg>',
+file:'<svg viewBox="0 0 24 24" class="icn"><path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4"/></svg>',
+};
+const ic=n=>SVG[n]||'';
 const KEY='tgs2',DKEY='tgs2_draft';
 const newProf=n=>({name:n,token:'',chatId:'',chatType:'private',subs:[],inbox:{},offset:0,me:null});
 let S={profiles:[newProf('Bot chính')],cur:0,tpls:[],hist:[],rules:[],sched:[],set:{theme:'auto',haptic:true,autoCollect:true,answerCb:true}};
@@ -383,6 +508,9 @@ function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setIt
 let toastT;
 function toast(m,t=''){const e=$('#toast');e.textContent=m;e.className='toast on '+t;clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2600)}
 function vib(n=12){if(S.set.haptic&&navigator.vibrate)try{navigator.vibrate(n)}catch(e){}}
+/* ripple feedback on tappable elements */
+document.addEventListener('pointerdown',e=>{const el=e.target.closest('.btn,.tile,.chip,.ci,.lrow,.tb button,.nav button');if(!el||el.disabled)return;const r=document.createElement('span');r.className='ripple';const rc=el.getBoundingClientRect(),d=Math.max(rc.width,rc.height);r.style.width=r.style.height=d+'px';r.style.left=(e.clientX-rc.left-d/2)+'px';r.style.top=(e.clientY-rc.top-d/2)+'px';el.appendChild(r);setTimeout(()=>r.remove(),520)});
+function confetti(n=24){const w=document.createElement('div');w.className='conf-wrap';const colors=['#2aabee','#6c63ff','#16a34a','#f59e0b','#e11d48'];for(let i=0;i<n;i++){const c=document.createElement('i');c.className='conf';c.style.left=Math.random()*100+'%';c.style.background=colors[i%colors.length];c.style.animationDelay=(Math.random()*.3)+'s';c.style.animationDuration=(.8+Math.random()*.6)+'s';w.appendChild(c)}document.body.appendChild(w);setTimeout(()=>w.remove(),1600)}
 function lg(m,t=''){LOG.unshift({t:Date.now(),m,k:t});if(LOG.length>120)LOG.pop();if($('#sh-log').classList.contains('on'))renderLog()}
 function renderLog(){$('#logBody').innerHTML=LOG.length?LOG.map(l=>`<div class="log ${l.k}"><time>${hm(l.t)}</time><span>${esc(l.m)}</span></div>`).join(''):'<div class="empty"><i>🧾</i>Chưa có hoạt động</div>'}
 async function run(b,f){if(b&&b.disabled)return;if(b){b.disabled=true;b.classList.add('ld')}try{await f()}catch(e){toast('Lỗi: '+e.message,'err');lg('Lỗi: '+e.message,'err')}finally{if(b){b.disabled=false;b.classList.remove('ld')}}}
@@ -405,7 +533,7 @@ function go(v){$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));$$
 function refreshPage(id){({'pg-rules':renderRules,'pg-sched':renderSched,'pg-tpls':renderTpls,'pg-hist':renderHist,'pg-set':renderSet,'pg-botset':()=>{},'pg-lab':renderLab}[id]||(()=>{}))()}
 
 /* ---------- theme ---------- */
-function applyTheme(){const t=S.set.theme;const dark=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.dataset.t=dark?'dark':'light';$('#metaTheme').content=dark?'#0b121b':'#2aabee';$('#hTheme').textContent=t==='auto'?'🌓':dark?'🌙':'☀️';$$('#themeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.th===t))}
+function applyTheme(){const t=S.set.theme;const dark=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.dataset.t=dark?'dark':'light';$('#metaTheme').content=dark?'#0b121b':'#2aabee';$('#hTheme').innerHTML=t==='auto'?ic('auto'):dark?ic('moon'):ic('sun');$$('#themeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.th===t));document.body.classList.toggle('compact',!!S.set.compact)}
 function setTheme(t){S.set.theme=t;save();applyTheme()}
 function cycleTheme(){setTheme({auto:'light',light:'dark',dark:'auto'}[S.set.theme]);toast('Giao diện: '+{auto:'Tự động',light:'Sáng',dark:'Tối'}[S.set.theme])}
 function setOpt(k,v){S.set[k]=v;save()}
@@ -418,9 +546,31 @@ async function api(method,body,isForm,o={}){
   catch(e){if(e.name==='AbortError')return{ok:false,aborted:true};return{ok:false,description:'Lỗi kết nối: '+e.message}}
 }
 function addHist(id,act,chat,text){S.hist.unshift({id,act,chat:String(chat||''),text:(text||'').slice(0,90),t:Date.now()});if(S.hist.length>100)S.hist.pop();save()}
+/* map các mã lỗi Telegram phổ biến sang gợi ý dễ hiểu bằng tiếng Việt */
+function errHint(code,desc){
+  const d=(desc||'').toLowerCase();
+  if(code===401||/unauthorized/.test(d))return'Token bot sai hoặc đã bị thu hồi. Vào @BotFather kiểm tra lại token.';
+  if(code===404)return'Không tìm thấy phương thức hoặc bot không tồn tại. Kiểm tra lại tên method.';
+  if(/chat not found/.test(d))return'Chat ID/@username sai, hoặc bot chưa từng được người này/nhóm này nhắn tới.';
+  if(/bot was blocked by the user/.test(d))return'Người dùng đã chặn bot — không thể gửi tin cho họ nữa cho đến khi họ bỏ chặn.';
+  if(/user is deactivated/.test(d))return'Tài khoản Telegram này đã bị vô hiệu hoá/xoá.';
+  if(/not enough rights|have no rights|can_/.test(d))return'Bot thiếu quyền admin cần thiết trong nhóm này.';
+  if(/message to delete not found|message to edit not found|message can.t be deleted/.test(d))return'Tin nhắn không tồn tại, đã bị xoá, hoặc quá cũ (Telegram giới hạn 48 giờ để xoá tin của người khác).';
+  if(code===429||/too many requests|retry after/.test(d))return'Bị giới hạn tốc độ (rate limit) từ Telegram — hãy tăng thời gian nghỉ giữa các tin.';
+  if(/can.t parse entities|parse/.test(d))return'Nội dung định dạng (HTML/Markdown) bị lỗi cú pháp — kiểm tra lại thẻ chưa đóng.';
+  if(/webhook/.test(d))return'Bot đang dùng Webhook nên không thể nhận tin qua getUpdates — vào Công cụ ▸ Webhook để xoá.';
+  if(/wrong file identifier|wrong remote file|file is too big/.test(d))return'file_id/URL tệp không hợp lệ, hoặc tệp vượt quá giới hạn dung lượng của Telegram.';
+  return'';
+}
 function done(r,act,txt){
   if(r&&r.ok){const mid=r.result?.message_id??(Array.isArray(r.result)?r.result[0]?.message_id:'');toast(`✅ ${act}${mid?' · #'+mid:''}`,'ok');lg(act+' thành công','ok');vib();if(mid)addHist(mid,act,P().chatId,txt);return true}
-  if(r&&!r.aborted){toast('❌ '+(r.description||'Lỗi'),'err');lg(act+': '+(r.description||'lỗi'),'err');vib(40)}return false}
+  if(r&&!r.aborted){
+    const code=r.error_code||'',desc=r.description||'Lỗi không xác định',hint=errHint(code,desc);
+    toast('❌ '+(code?('['+code+'] '):'')+desc,'err');
+    lg(act+' thất bại'+(code?' (mã '+code+')':'')+': '+desc+(hint?' — '+hint:''),'err');
+    vib(40);
+  }
+  return false}
 function chatId(){const c=P().chatId;if(!c){toast('Hãy chọn người nhận trước','err');openChats();return null}return c}
 function fdAppend(fd,o){for(const[k,v]of Object.entries(o)){if(v==null)continue;fd.append(k,typeof v==='object'?JSON.stringify(v):String(v))}return fd}
 function extra(){const o={};if($('#oSil').checked)o.disable_notification=true;if($('#oPro').checked)o.protect_content=true;const r=parseInt($('#oRep').value);if(r)o.reply_parameters={message_id:r};const t=parseInt($('#oThr').value);if(t)o.message_thread_id=t;return o}
@@ -507,6 +657,28 @@ async function sendContact(){const c=chatId();if(!c)return;const ph=$('#cPhone')
 async function sendDice(e){const c=chatId();if(!c)return;done(await api('sendDice',{chat_id:c,emoji:e,...extra()}),'Gửi '+e)}
 async function sendAct(a){const c=chatId();if(!c)return;const r=await api('sendChatAction',{chat_id:c,action:a});toast(r?.ok?'Đã gửi trạng thái “'+a+'”':'❌ '+(r?.description||''),r?.ok?'ok':'err')}
 
+/* ---------- send by @username (best-effort, with honest fallback) ---------- */
+async function resolveUsername(){
+  let u=$('#uName').value.trim().replace(/^@/,'');if(!u)return toast('Nhập username','err');
+  const out=$('#uResOut');out.innerHTML='<div class="skel" style="height:54px"></div>';
+  const r=await api('getChat',{chat_id:'@'+u});
+  if(r?.ok){
+    const x=r.result;addSub(x);save();
+    out.innerHTML=`<div class="ci" style="border:0"><span class="av">${esc((x.first_name||x.title||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(x.first_name||x.title||u)}</b><small>ID ${x.id} · đã có trong danh sách chat</small></span></div><button class="btn p w" onclick="pickChat('${x.id}');sendPanel('text')">Chọn làm người nhận</button>`;
+    toast('✅ Tìm thấy — bot đã từng thấy người/kênh này','ok');
+  }else{
+    const code=r?.error_code,desc=r?.description||'';
+    out.innerHTML=`<div class="errd"><b>❌ Không tìm được${code?' (mã '+code+')':''}</b>${esc(desc||'chat not found')}<br>Lý do gần như chắc chắn: người này <b>chưa từng bắt đầu chat với bot</b>. Hãy dùng phần "Tạo link mời" bên dưới để chủ động mời họ bấm Start trước.</div>`;
+    lg('Dò @'+u+' thất bại: '+desc,'err');
+  }
+}
+function buildDeepLink(){
+  const bot=$('#uBotName').value.trim().replace(/^@/,'');if(!bot)return toast('Nhập username của bot','err');
+  const pl=$('#uPayload').value.trim().replace(/[^A-Za-z0-9_-]/g,'');
+  const link='https://t.me/'+bot+(pl?'?start='+pl:'');
+  $('#uLinkOut').innerHTML=`<div class="row"><input class="inp grow" style="margin:0" readonly value="${esc(link)}"><button class="btn" onclick="copy('${esc(link)}')">📋</button></div>`;
+}
+
 /* ---------- poller / inbox ---------- */
 function togglePoll(on){on?startPoll():stopPoll();$$('#pollSw,#pollSw2').forEach(x=>x&&(x.checked=poll.on))}
 function startPoll(){if(poll.on)return;if(!P().token){toast('Nhập token trước','err');openSheet('sh-bot');togglePollUI();return}poll.on=true;lg('Bắt đầu nhận tin','ok');renderHeader();togglePollUI();pollLoop()}
@@ -528,12 +700,18 @@ function ingest(u,p){
 function pushMsg(p,c,msg){const k=String(c.id);let b=p.inbox[k];if(!b)b=p.inbox[k]={chat:chatInfo2(c),msgs:[],unread:0,last:0};b.chat=chatInfo2(c);if(!msg.out&&!(threadId===k&&$('#pg-thread').classList.contains('on')))b.unread++;b.msgs.push(msg);if(b.msgs.length>60)b.msgs.shift();b.last=msg.date||Date.now();
   const ks=Object.keys(p.inbox);if(ks.length>60){ks.sort((a,b)=>p.inbox[a].last-p.inbox[b].last);delete p.inbox[ks[0]]}}
 function renderUnread(){const n=Object.values(P().inbox).reduce((a,b)=>a+(b.unread||0),0),e=$('#nbInbox');e.textContent=n>99?'99+':n;e.classList.toggle('on',n>0);document.title=(n?`(${n}) `:'')+'Bot Studio'}
-function renderInbox(){const l=Object.values(P().inbox).sort((a,b)=>b.last-a.last);
+let inboxQ='';
+function renderInbox(){const q=inboxQ.toLowerCase();const l=Object.values(P().inbox).filter(b=>!q||(b.chat.name+b.chat.username+b.chat.id).toLowerCase().includes(q)).sort((a,b)=>b.last-a.last);
   $('#inboxBody').innerHTML=`<div class="card"><div class="row"><div class="grow"><b>Nhận tin realtime</b><div class="mu">Xem tin nhắn gửi tới bot và trả lời ngay.</div></div><label class="sw"><input type="checkbox" id="pollSw" onchange="togglePoll(this.checked)" ${poll.on?'checked':''}><span></span></label></div></div>`+
-  (l.length?`<div class="card" style="padding:4px 12px">${l.map(b=>`<button class="ci" onclick="openThread('${esc(b.chat.id)}')"><span class="av ${b.chat.type==='private'?'':'g'}">${esc((b.chat.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(b.chat.name)}</b><small>${esc((b.msgs[b.msgs.length-1]?.out?'Bạn: ':'')+(b.msgs[b.msgs.length-1]?.text||''))}</small></span><span class="r"><span>${hm(b.last)}</span>${b.unread?`<span class="ub">${b.unread}</span>`:''}</span></button>`).join('')}</div><button class="btn d w" onclick="clearInbox()">🧹 Xóa hộp thư</button>`:'<div class="empty card"><i>💬</i>Chưa có tin nhắn.<br>Bật “Nhận tin realtime” rồi nhắn thử cho bot.</div>')}
+  (Object.keys(P().inbox).length?`<input class="inp" id="inboxSearch" placeholder="🔍 Tìm cuộc trò chuyện…" value="${esc(inboxQ)}" oninput="inboxQ=this.value;renderInbox()" style="margin-bottom:10px">`:'')+
+  (l.length?`<div class="card" style="padding:4px 12px">${l.map(b=>`<button class="ci" onclick="openThread('${esc(b.chat.id)}')"><span class="av ${b.chat.type==='private'?'':'g'}">${esc((b.chat.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(b.chat.name)}</b><small>${esc((b.msgs[b.msgs.length-1]?.out?'Bạn: ':'')+(b.msgs[b.msgs.length-1]?.text||''))}</small></span><span class="r"><span>${hm(b.last)}</span>${b.unread?`<span class="ub">${b.unread}</span>`:''}</span></button>`).join('')}</div><button class="btn d w" onclick="clearInbox()">🧹 Xóa hộp thư</button>`:`<div class="empty card"><i>💬</i>${q?'Không khớp kết quả nào.':'Chưa có tin nhắn.<br>Bật “Nhận tin realtime” rồi nhắn thử cho bot.'}</div>`)}
 async function clearInbox(){if(!await dlg({title:'Xóa hộp thư?',msg:'Chỉ xóa bản lưu trong app.',danger:true,ok:'Xóa'}))return;P().inbox={};save();renderInbox();renderUnread()}
-function openThread(id){threadId=String(id);const b=P().inbox[threadId];if(b)b.unread=0;save();renderUnread();$('#thTitle').textContent=b?.chat.name||id;renderThread();openPage('pg-thread');setTimeout(()=>scrollTo(0,document.body.scrollHeight),50)}
+const QUICK_REPLIES=['Cảm ơn bạn! 🙏','Vui lòng đợi trong giây lát…','Đã nhận, mình sẽ phản hồi sớm nhất','Bạn có thể nói rõ hơn không?'];
+function openThread(id){threadId=String(id);const b=P().inbox[threadId];if(b)b.unread=0;save();renderUnread();$('#thTitle').textContent=b?.chat.name||id;renderThread();$('#quickReplies').innerHTML=QUICK_REPLIES.map(q=>`<button class="chip" onclick="$('#thIn').value='${esc(q).replace(/'/g,"\\'")}';$('#thIn').focus()">${esc(q)}</button>`).join('');openPage('pg-thread');setTimeout(()=>scrollTo(0,document.body.scrollHeight),50)}
 function renderThread(){const b=P().inbox[threadId];if(!b)return;b.unread=0;$('#thBody').innerHTML=b.msgs.map(m=>`<div class="msg ${m.out?'o':''}">${!m.out&&b.chat.type!=='private'?`<span class="fr">${esc(m.from)}</span>`:''}${esc(m.text).replace(/\n/g,'<br>')}<small>${hm(m.date)} · #${m.id}</small></div>`).join('');$('#pg-thread').scrollTo({top:99999})}
+function exportThread(){const b=P().inbox[threadId];if(!b)return toast('Không có nội dung','err');
+  const txt=b.msgs.map(m=>`[${new Date(m.date).toLocaleString('vi-VN')}] ${m.out?'Bot':m.from}: ${m.text}`).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.download='chat-'+(b.chat.name||threadId).replace(/[^\w-]+/g,'_')+'.txt';a.click();toast('Đã xuất hội thoại','ok')}
 function thPick(){pickChatSilent(threadId)}
 function pickChatSilent(id){const p=P(),k=chatCtx(id);p.chatId=String(id);p.chatType=k&&k.type!=='private'?'group':'private';save();renderRcpt();toast('Đã chọn làm người nhận','ok')}
 async function thSend(){const t=$('#thIn').value.trim();if(!t||!threadId)return;$('#thIn').value='';const r=await api('sendMessage',{chat_id:threadId,text:t});if(r?.ok){pushMsg(P(),P().inbox[threadId].chat,{id:r.result.message_id,from:'Bot',text:t,date:Date.now(),out:true});save();renderThread();vib()}else toast('❌ '+(r?.description||'Lỗi'),'err')}
@@ -565,9 +743,14 @@ function useTplGo(i){const t=S.tpls[i];$('#message').value=t.text;$('#parseMode'
 async function newTpl(){const r=await dlg({title:'Mẫu mới',fields:[{label:'Tên'},{label:'Nội dung',area:true}],ok:'Lưu'});if(!r||!r[0].trim()||!r[1].trim())return;S.tpls.push({name:r[0].trim(),text:r[1].trim(),pm:'HTML'});save();renderTpls()}
 
 /* ---------- broadcast ---------- */
-function bcFilter(t){bcType=t;$$('#bcSeg button').forEach((b,i)=>b.classList.toggle('on',['all','private','group'][i]===t));renderBc()}
-function bcList(){const q=($('#bcSearch')?.value||'').toLowerCase();return P().subs.filter(s=>(bcType==='all'||(bcType==='private'?s.type==='private':s.type!=='private'))&&(!q||(s.name+s.username+s.id).toLowerCase().includes(q)))}
-function renderBc(){const l=bcList();$('#bcList').innerHTML=l.length?l.map(s=>`<label class="ci"><span class="av ${s.type==='private'?'':'g'}">${esc((s.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(s.name||s.id)}</b><small>${s.username?'@'+esc(s.username)+' · ':''}${esc(s.id)}</small></span><span class="sw"><input type="checkbox" ${bcSel.has(s.id)?'checked':''} onchange="bcTog('${esc(s.id)}',this.checked)"><span></span></span></label>`).join(''):'<div class="empty"><i>👥</i>Chưa có người nhận.<br>Bấm “Thu thập” sau khi họ /start bot.</div>';$('#bcSelN').textContent=[...bcSel].filter(id=>P().subs.some(s=>s.id===id)).length+' / '+P().subs.length}
+function bcFilter(t){bcType=t;$$('#bcSeg button').forEach((b,i)=>b.classList.toggle('on',['all','private','group','fav'][i]===t));renderBc()}
+function bcList(){const q=($('#bcSearch')?.value||'').toLowerCase();return P().subs.filter(s=>(bcType==='all'||(bcType==='private'?s.type==='private':bcType==='group'?s.type!=='private':!!s.fav))&&(!q||(s.name+s.username+s.id).toLowerCase().includes(q)))}
+function toggleFav(id){const s=P().subs.find(x=>x.id===id);if(!s)return;s.fav=!s.fav;save();renderBc()}
+function renderBc(){const l=bcList();$('#bcList').innerHTML=l.length?l.map(s=>`<label class="ci"><button class="star-btn${s.fav?' on':''}" onclick="event.preventDefault();toggleFav('${esc(s.id)}')" style="margin-right:2px">${s.fav?ic('starFill'):ic('star')}</button><span class="av ${s.type==='private'?'':'g'}">${esc((s.name||'?')[0].toUpperCase())}</span><span class="m"><b>${esc(s.name||s.id)}</b><small>${s.username?'@'+esc(s.username)+' · ':''}${esc(s.id)}</small></span><span class="sw"><input type="checkbox" ${bcSel.has(s.id)?'checked':''} onchange="bcTog('${esc(s.id)}',this.checked)"><span></span></span></label>`).join(''):`<div class="empty">${ic('users')}Chưa có người nhận.<br>Bấm “Thu thập” sau khi họ /start bot.</div>`;$('#bcSelN').textContent=[...bcSel].filter(id=>P().subs.some(s=>s.id===id)).length+' / '+P().subs.length}
+function exportSubsCsv(){const l=P().subs;if(!l.length)return toast('Chưa có người nhận','err');
+  const rows=[['id','name','username','type','fav'],...l.map(s=>[s.id,s.name||'',s.username||'',s.type,s.fav?'1':'0'])];
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='subscribers.csv';a.click();toast('Đã xuất CSV','ok')}
 function bcTog(id,on){on?bcSel.add(id):bcSel.delete(id);$('#bcSelN').textContent=[...bcSel].filter(i=>P().subs.some(s=>s.id===i)).length+' / '+P().subs.length}
 function bcAll(on){bcList().forEach(s=>on?bcSel.add(s.id):bcSel.delete(s.id));renderBc()}
 async function collectSubs(){const r=await api('getUpdates',{limit:100,timeout:0});if(!r?.ok)return toast('❌ '+(r?.description||'Lỗi'),'err');let n=0;(r.result||[]).forEach(u=>{const c=(u.message||u.edited_message||u.channel_post||u.my_chat_member||u.callback_query?.message||{}).chat;if(c&&addSub(c))n++});save();renderBc();renderHome();toast(`Thêm ${n} · Tổng ${P().subs.length}`,'ok')}
@@ -581,7 +764,7 @@ async function startBc(){const text=$('#bcMsg').value.trim(),img=$('#bcImg').val
     let r=await api(m,d);if(!r.ok&&r.parameters?.retry_after){await sleep(r.parameters.retry_after*1000+200);r=await api(m,d)}
     if(r.ok)ok++;else{fail++;failed.push({s,e:r.description||''});if(clean&&/blocked|deactivated|chat not found/i.test(r.description||'')){const p=P();p.subs=p.subs.filter(x=>x.id!==s.id);bcSel.delete(s.id)}}
     $('#bcFill').style.width=Math.round((i+1)/list.length*100)+'%';$('#bcStat').textContent=`${i+1}/${list.length} · ✅ ${ok} · ❌ ${fail}`;if(i<list.length-1)await sleep(delay)}
-  save();$('#bcGo').style.display='';$('#bcStop').style.display='none';renderBc();renderHome();vib([30,50,30]);toast(`Xong: ✅ ${ok} · ❌ ${fail}`,fail?'':'ok');lg(`Broadcast ${ok} OK, ${fail} lỗi`,fail?'err':'ok');
+  save();$('#bcGo').style.display='';$('#bcStop').style.display='none';renderBc();renderHome();vib([30,50,30]);toast(`Xong: ✅ ${ok} · ❌ ${fail}`,fail?'':'ok');lg(`Broadcast ${ok} OK, ${fail} lỗi`,fail?'err':'ok');if(!fail&&ok)confetti();
   if(failed.length){$('#bcFail').innerHTML=`<details class="acc" style="margin-top:8px"><summary>Chi tiết ${failed.length} lỗi</summary><div>${failed.map(f=>`<div class="log err"><span>${esc(f.s.id)}: ${esc(f.e)}</span></div>`).join('')}</div></details>`}}
 
 /* ---------- manage / admin ---------- */
@@ -642,10 +825,17 @@ function importAll(){const i=document.createElement('input');i.type='file';i.acc
 async function resetAll(){if(!await dlg({title:'Xóa toàn bộ?',msg:'Mọi hồ sơ, token, mẫu, luật, lịch sử sẽ bị xóa.',danger:true,ok:'Xóa hết'}))return;stopPoll();localStorage.clear();location.reload()}
 
 /* ---------- home / tools ---------- */
+function weekChart(){
+  const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return d});
+  const counts=days.map(d=>S.hist.filter(h=>new Date(h.t).toDateString()===d.toDateString()).length);
+  const max=Math.max(1,...counts);
+  return `<div class="row" style="align-items:flex-end;gap:7px;height:90px">${counts.map((c,i)=>`<div class="grow" style="display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><div class="mu" style="font-size:10.5px">${c||''}</div><div style="width:100%;max-width:26px;height:${Math.round(c/max*58)+4}px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#2aabee,#6c63ff);transition:height .3s"></div><div class="mu" style="font-size:10px">${days[i].toLocaleDateString('vi-VN',{weekday:'short'})}</div></div>`).join('')}</div>`;
+}
 function renderHome(){const p=P(),m=p.me,today=new Date().toDateString(),sent=S.hist.filter(h=>new Date(h.t).toDateString()===today).length,priv=p.subs.filter(s=>s.type==='private').length,grp=p.subs.length-priv,pend=S.sched.filter(s=>!s.missed).length;
   const Q=[['✍️','Soạn tin',"go('send')"],['📢','Gửi hàng loạt',"go('bc')"],['🤖','Tự trả lời',"openPage('pg-rules')"],['📊','Bình chọn',"go('send');sendPanel('poll')"],['⏰','Hẹn giờ',"openPage('pg-sched')"],['🗂','Album',"go('send');sendPanel('album')"],['📍','Vị trí',"go('send');sendPanel('loc')"],['🧪','API Lab',"openPage('pg-lab')"]];
   $('#homeBody').innerHTML=`<div class="card hero"><h2>${m?esc(m.name):'Chào mừng 👋'}</h2><p>${m?'@'+esc(m.username)+' · ID '+m.id:'Nhập token từ @BotFather để bắt đầu.'}</p><div class="row"><button class="btn" onclick="openBot()">⚙️ ${m?'Cấu hình':'Kết nối bot'}</button>${p.token?'<button class="btn" onclick="run(this,testBot)">⚡ Kiểm tra</button>':''}</div></div>
   <div class="grid g4" style="margin-bottom:12px"><div class="stat"><b>${priv}</b><span>Người dùng</span></div><div class="stat"><b>${grp}</b><span>Nhóm</span></div><div class="stat"><b>${sent}</b><span>Gửi hôm nay</span></div><div class="stat"><b>${pend}</b><span>Hẹn giờ</span></div></div>
+  <div class="card"><h3>📈 Hoạt động 7 ngày qua</h3>${weekChart()}</div>
   <div class="card"><div class="row"><div class="grow"><b>📡 Nhận tin realtime</b><div class="mu">${poll.on?'Đang nhận tin từ bot…':'Bật để xem tin nhắn và chạy luật tự trả lời'}</div></div><label class="sw"><input type="checkbox" id="pollSw" onchange="togglePoll(this.checked)" ${poll.on?'checked':''}><span></span></label></div></div>
   <div class="card"><h3>⚡ Truy cập nhanh</h3><div class="grid g4">${Q.map(q=>`<button class="tile" onclick="${q[2]}"><i>${q[0]}</i>${q[1]}</button>`).join('')}</div></div>
   <div class="card"><h3>🕘 Gần đây <span class="sp"></span><button class="btn sm" onclick="openPage('pg-hist')">Tất cả</button></h3>${S.hist.slice(0,4).map(h=>`<div class="lrow" style="padding:8px 0"><span class="ic">${h.act.includes('Hẹn')?'⏰':'✉️'}</span><span style="min-width:0"><b>${esc(h.act)} · #${h.id}</b><small>${esc(h.text||h.chat)}</small></span></div>`).join('')||'<div class="mu">Chưa gửi tin nào.</div>'}</div>`}
