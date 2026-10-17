@@ -8,8 +8,8 @@
 :root{color-scheme:dark;--bg:#090d18;--panel:#111827;--panel2:#0d1422;--line:#26344b;--text:#edf3ff;--muted:#91a2bc;--blue:#7aa2ff;--cyan:#67e8f9;--green:#69f0ae;--red:#ff858f;--amber:#ffd166}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#14264a 0,transparent 38%),var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
 .wrap{max-width:1440px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#7aa2ff,#67e8f9);color:#07101e;font-weight:900;font-size:20px;box-shadow:0 8px 28px #67e8f925}h1{font-size:clamp(22px,3vw,32px);line-height:1.15;margin:0;letter-spacing:-.7px}.sub{color:var(--muted);margin:5px 0 0;font-size:13px}.tag{border:1px solid #24536b;background:#0c2634;color:var(--cyan);padding:7px 11px;border-radius:999px;font-size:12px;white-space:nowrap}
-.panel{background:linear-gradient(180deg,#131d2e,#101725);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 12px 35px #00000018}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panelhead h2{font-size:14px;margin:0;font-weight:750}.muted{color:var(--muted)}.uploads{display:grid;grid-template-columns:1fr 1fr;gap:14px}.drop{position:relative;border:1px dashed #40516e;background:#0c1422;border-radius:14px;padding:20px;min-height:142px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:.2s}.drop:hover,.drop.drag{border-color:var(--cyan);background:#102332}.drop.ready{border-color:#3a9d77}.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.drop .symbol{font-size:24px;margin-bottom:5px}.drop strong{font-size:14px}.filename{margin-top:7px;max-width:100%;overflow-wrap:anywhere;color:var(--cyan);font-size:12px}.filesize{font-size:12px;color:var(--muted);margin-top:3px}.actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.btn{border:1px solid #34445f;background:#1a2940;color:var(--text);border-radius:10px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;transition:.15s}.btn:hover{border-color:var(--blue);transform:translateY(-1px)}.btn.primary{background:linear-gradient(135deg,#8bb0ff,#67e8f9);border:0;color:#081323}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.btn.small{padding:7px 10px;font-size:12px}.options{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:12px;margin-top:16px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input,.field select{width:100%;background:#0a1120;border:1px solid #2a3a54;border-radius:9px;color:var(--text);padding:10px;font:inherit;min-width:0;outline:none}.field input:focus,.field select:focus{border-color:var(--blue)}.hint{font-size:12px;color:var(--muted);margin:12px 0 0}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.stat{background:#0b1321;border:1px solid #24324a;border-radius:12px;padding:13px}.stat .v{font-size:clamp(18px,2.3vw,26px);font-weight:800;letter-spacing:-.5px;overflow-wrap:anywhere}.stat .k{font-size:11px;color:var(--muted);margin-top:3px}.blue{color:var(--blue)}.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}.status{margin-top:12px;padding:11px 13px;border-radius:10px;background:#0c1728;color:var(--muted);border:1px solid #25364f;font-size:12px}.status.good{color:var(--green)}.status.bad{color:var(--amber)}.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab{padding:8px 12px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font:inherit}.tab.active{background:#1c2c45;color:var(--text);border-color:#344a6c}.resultbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.resulttools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tablewrap{overflow:auto;border:1px solid #26344b;border-radius:12px;max-height:62vh;margin-top:13px}table{border-collapse:collapse;width:100%;min-width:720px;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}thead{position:sticky;top:0;z-index:2;background:#172338}th{text-align:left;padding:11px 12px;color:#9eb0cc;font:700 11px/1.3 system-ui;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #34445f}td{padding:9px 12px;border-bottom:1px solid #202d42;white-space:nowrap}tbody tr:hover td{background:#172338}.offset{color:#b5a1ff}.old{color:var(--red);background:#ff858f0c}.new{color:var(--green);background:#69f0ae0c;font-weight:800}.ascii{color:var(--muted)}.empty{text-align:center;padding:38px;color:var(--muted);font:13px system-ui}.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;color:var(--muted);font-size:12px}.pager .btn{padding:7px 10px}.hide{display:none!important}.hashgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.hash{background:#0b1321;border:1px solid #25344b;border-radius:10px;padding:12px;overflow-wrap:anywhere}.hash b{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}.hash code{font-size:12px;color:var(--cyan)}.footer{color:#71829c;font-size:11px;text-align:center;padding:12px}.progress{height:3px;background:#1c2b42;border-radius:4px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .2s}
-@media(max-width:760px){.wrap{padding:14px}.top{align-items:flex-start}.tag{display:none}.uploads{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:last-child{grid-column:span 2}.panel{padding:14px}.hashgrid{grid-template-columns:1fr}.tablewrap{max-height:60vh}}
+.panel{background:linear-gradient(180deg,#131d2e,#101725);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 12px 35px #00000018}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panelhead h2{font-size:14px;margin:0;font-weight:750}.muted{color:var(--muted)}.uploads{display:grid;grid-template-columns:1fr 1fr;gap:14px}.drop{position:relative;border:1px dashed #40516e;background:#0c1422;border-radius:14px;padding:20px;min-height:142px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:.2s}.drop:hover,.drop.drag{border-color:var(--cyan);background:#102332}.drop.ready{border-color:#3a9d77}.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.drop .symbol{font-size:24px;margin-bottom:5px}.drop strong{font-size:14px}.filename{margin-top:7px;max-width:100%;overflow-wrap:anywhere;color:var(--cyan);font-size:12px}.filesize{font-size:12px;color:var(--muted);margin-top:3px}.actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.btn{border:1px solid #34445f;background:#1a2940;color:var(--text);border-radius:10px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;transition:.15s}.btn:hover{border-color:var(--blue);transform:translateY(-1px)}.btn.primary{background:linear-gradient(135deg,#8bb0ff,#67e8f9);border:0;color:#081323}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.btn.small{padding:7px 10px;font-size:12px}.options{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:12px;margin-top:16px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input,.field select{width:100%;background:#0a1120;border:1px solid #2a3a54;border-radius:9px;color:var(--text);padding:10px;font:inherit;min-width:0;outline:none}.field input:focus,.field select:focus{border-color:var(--blue)}.hint{font-size:12px;color:var(--muted);margin:12px 0 0}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.stat{background:#0b1321;border:1px solid #24324a;border-radius:12px;padding:13px}.stat .v{font-size:clamp(18px,2.3vw,26px);font-weight:800;letter-spacing:-.5px;overflow-wrap:anywhere}.stat .k{font-size:11px;color:var(--muted);margin-top:3px}.blue{color:var(--blue)}.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}.status{margin-top:12px;padding:11px 13px;border-radius:10px;background:#0c1728;color:var(--muted);border:1px solid #25364f;font-size:12px}.status.good{color:var(--green)}.status.bad{color:var(--amber)}.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab{padding:8px 12px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font:inherit}.tab.active{background:#1c2c45;color:var(--text);border-color:#344a6c}.resultbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.resulttools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tablewrap{overflow:auto;border:1px solid #26344b;border-radius:12px;max-height:62vh;margin-top:13px}table{border-collapse:collapse;width:100%;min-width:720px;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}thead{position:sticky;top:0;z-index:2;background:#172338}th{text-align:left;padding:11px 12px;color:#9eb0cc;font:700 11px/1.3 system-ui;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #34445f}td{padding:9px 12px;border-bottom:1px solid #202d42;white-space:nowrap}tbody tr:hover td{background:#172338}.offset{color:#b5a1ff}.old{color:var(--red);background:#ff858f0c}.new{color:var(--green);background:#69f0ae0c;font-weight:800}.ascii{color:var(--muted)}.empty{text-align:center;padding:38px;color:var(--muted);font:13px system-ui}.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;color:var(--muted);font-size:12px}.pager .btn{padding:7px 10px}.hide{display:none!important}.hashgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.hash{background:#0b1321;border:1px solid #25344b;border-radius:10px;padding:12px;overflow-wrap:anywhere}.hash b{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}.hash code{font-size:12px;color:var(--cyan)}.footer{color:#71829c;font-size:11px;text-align:center;padding:12px}.patchgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field textarea{width:100%;min-height:170px;resize:vertical;background:#0a1120;border:1px solid #2a3a54;border-radius:9px;color:var(--text);padding:11px;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;outline:none}.field textarea:focus{border-color:var(--blue)}.progress{height:3px;background:#1c2b42;border-radius:4px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .2s}
+@media(max-width:760px){.patchgrid{grid-template-columns:1fr}.wrap{padding:14px}.top{align-items:flex-start}.tag{display:none}.uploads{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:last-child{grid-column:span 2}.panel{padding:14px}.hashgrid{grid-template-columns:1fr}.tablewrap{max-height:60vh}}
 @media(max-width:420px){.options{grid-template-columns:1fr}.actions .btn{flex:1}.top h1{font-size:22px}}
 </style>
 </head>
@@ -27,8 +27,47 @@
 <div class="field"><label for="offsetTo">Offset kết thúc</label><input id="offsetTo" placeholder="Không giới hạn"></div>
 <div class="field"><label for="pageSize">Số dòng mỗi trang</label><select id="pageSize"><option>50</option><option selected>100</option><option>200</option><option>500</option><option>1000</option></select></div>
 </div><p class="hint">Byte dùng hệ hex (00–FF). Offset nhận số thập phân hoặc tiền tố <code>0x</code> để nhập hex. Dấu gạch ngang tạo khoảng, ví dụ <code>00-0F, A0-AF</code>. Nếu file khác kích thước, vùng thiếu được đánh dấu <b>EOF</b>.</p>
-<div class="actions" style="margin-top:15px"><button class="btn primary" id="btnCompare" disabled>⚡ So sánh toàn bộ</button><button class="btn" id="btnClear">Làm mới</button><button class="btn" id="btnExportCsv" disabled>Xuất CSV</button><button class="btn" id="btnExportJson" disabled>Xuất JSON</button></div>
+<div class="actions" style="margin-top:15px"><button class="btn primary" id="btnCompare" disabled>⚡ So sánh toàn bộ</button><button class="btn" id="btnClear">Làm mới</button><button class="btn" id="btnExportCsv" disabled>Xuất CSV</button><button class="btn" id="btnExportJson" disabled>Xuất JSON</button><button class="btn" id="btnCopyChanged" disabled>⧉ Sao chép chỗ đã thay đổi</button><button class="btn" id="btnCopyOriginal" disabled>⧉ Sao chép byte gốc</button></div>
 </section>
+
+
+
+<section class="panel" id="patchPanel">
+  <div class="panelhead">
+    <h2>02 / Tìm HEX gốc trong file và thay bằng HEX mới</h2>
+    <span class="muted" style="font-size:12px">Dán hai chuỗi HEX để công cụ tự tìm vị trí</span>
+  </div>
+  <p class="hint">Quy trình đúng như bạn mô tả: ở mục 01, bạn sao chép chuỗi HEX gốc và chuỗi HEX đã thay đổi; dán từng chuỗi vào ô tương ứng bên dưới, chọn file gốc cần sửa rồi nhấn nút. Công cụ sẽ tìm chuỗi HEX gốc trong file và thay bằng chuỗi HEX mới. Không cần nhập offset.</p>
+  <div class="uploads">
+    <label class="drop" id="zonePatchBase">
+      <input id="patchBaseFile" type="file">
+      <span class="symbol">🧱</span><strong>FILE GỐC CẦN ÁP DỤNG</strong>
+      <span class="muted" style="font-size:12px">Chọn file mà công cụ sẽ tìm HEX gốc bên trong</span>
+      <span class="filename" id="patchBaseName">Chưa chọn file</span>
+      <span class="filesize" id="patchBaseSize"></span>
+    </label>
+    <div class="field">
+      <label for="patchOriginalHex">HEX GỐC — chuỗi cần tìm trong file</label>
+      <textarea id="patchOriginalHex" spellcheck="false" placeholder="Dán HEX gốc đã sao chép ở mục 01, ví dụ: DE AD BE EF"></textarea>
+      <div class="actions" style="margin-top:8px">
+        <button class="btn" id="btnCopyOriginalHex" disabled>Sao chép HEX gốc</button>
+      </div>
+    </div>
+  </div>
+  <div class="field" style="margin-top:12px">
+    <label for="patchInstructions">HEX ĐÃ THAY ĐỔI — nội dung thay thế</label>
+    <textarea id="patchInstructions" spellcheck="false" placeholder="Dán HEX đã thay đổi đã sao chép ở mục 01, ví dụ: 11 22 33 44"></textarea>
+    <div class="actions" style="margin-top:8px">
+      <button class="btn" id="btnCopyPatchHex">Sao chép HEX đã thay đổi</button>
+    </div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn primary" id="btnApplyPatches">🔎 Phân tích và áp dụng HEX đã thay đổi vào file gốc</button>
+    <button class="btn" id="btnClearPatches">Xóa hai ô HEX</button>
+  </div>
+  <div class="status" id="patchStatus">Chọn file gốc, dán HEX gốc cần tìm và HEX mới muốn thay thế, sau đó nhấn “Phân tích và áp dụng”.</div>
+</section>
+
 <section class="panel hide" id="statsCard"><div class="panelhead"><h2>02 / Tổng quan kết quả</h2><span class="muted" id="timeTaken"></span></div><div class="stats">
 <div class="stat"><div class="v blue" id="statTotalDiff">0</div><div class="k">Byte khác nhau / thêm / thiếu</div></div>
 <div class="stat"><div class="v amber" id="statFiltered">0</div><div class="k">Kết quả sau bộ lọc</div></div>
@@ -57,7 +96,7 @@ for(const [id,isOrig] of [['fileOrig',true],['fileChanged',false]])$(id).addEven
 for(const [id,isOrig] of [['zoneOrig',true],['zoneChanged',false]]){const z=$(id);z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag')});z.addEventListener('dragleave',()=>z.classList.remove('drag'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');if(e.dataTransfer.files[0])load(e.dataTransfer.files[0],isOrig)})}
 async function digest(bytes){if(!crypto.subtle)return 'Web Crypto không khả dụng (hãy mở qua HTTPS hoặc localhost)';const hash=await crypto.subtle.digest('SHA-256',bytes);return [...new Uint8Array(hash)].map(n=>hex(n)).join('').toLowerCase()}
 function buildRanges(list){const out=[];for(const d of list){let r=out[out.length-1];if(!r||d.offset!==r.end+1){r={start:d.offset,end:d.offset,count:0,old:[],next:[]};out.push(r)}r.end=d.offset;r.count++;r.old.push(d.orig===null?'EOF':hex(d.orig));r.next.push(d.changed===null?'EOF':hex(d.changed))}return out}
-async function compare(){if(!original||!changed)return;const started=performance.now();$('progress').style.width='15%';status('Đang so sánh từng byte…');await new Promise(r=>setTimeout(r,20));diffs=[];const max=Math.max(original.length,changed.length);for(let i=0;i<max;i++){const a=i<original.length?original[i]:null,b=i<changed.length?changed[i]:null;if(a!==b)diffs.push({offset:i,orig:a,changed:b})}ranges=buildRanges(diffs);$('progress').style.width='70%';$('statsCard').classList.remove('hide');$('statTotalDiff').textContent=diffs.length.toLocaleString();$('statSizeOrig').textContent=fmtSize(original.length);$('statSizeChanged').textContent=fmtSize(changed.length);$('statStatus').textContent=diffs.length?'CÓ KHÁC BIỆT':'GIỐNG HỆT';$('statStatus').className='v '+(diffs.length?'amber':'green');$('hashOrig').textContent='Đang tính…';$('hashChanged').textContent='Đang tính…';try{const [a,b]=await Promise.all([digest(original),digest(changed)]);$('hashOrig').textContent=a;$('hashChanged').textContent=b}catch(e){$('hashOrig').textContent='Không tính được';$('hashChanged').textContent='Không tính được'}lastRun=performance.now()-started;$('timeTaken').textContent=`Hoàn tất · ${lastRun.toFixed(0)} ms`; $('progress').style.width='100%';$('btnExportCsv').disabled=$('btnExportJson').disabled=false;applyFilter();status(diffs.length?`Đối chiếu xong: phát hiện ${diffs.length.toLocaleString()} offset khác trên tổng ${max.toLocaleString()} offset được kiểm tra.`:'Hai file giống nhau từng byte và có cùng kích thước.','good');}
+async function compare(){if(!original||!changed)return;const started=performance.now();$('progress').style.width='15%';status('Đang so sánh từng byte…');await new Promise(r=>setTimeout(r,20));diffs=[];const max=Math.max(original.length,changed.length);for(let i=0;i<max;i++){const a=i<original.length?original[i]:null,b=i<changed.length?changed[i]:null;if(a!==b)diffs.push({offset:i,orig:a,changed:b})}ranges=buildRanges(diffs);$('progress').style.width='70%';$('statsCard').classList.remove('hide');$('statTotalDiff').textContent=diffs.length.toLocaleString();$('statSizeOrig').textContent=fmtSize(original.length);$('statSizeChanged').textContent=fmtSize(changed.length);$('statStatus').textContent=diffs.length?'CÓ KHÁC BIỆT':'GIỐNG HỆT';$('statStatus').className='v '+(diffs.length?'amber':'green');$('hashOrig').textContent='Đang tính…';$('hashChanged').textContent='Đang tính…';try{const [a,b]=await Promise.all([digest(original),digest(changed)]);$('hashOrig').textContent=a;$('hashChanged').textContent=b}catch(e){$('hashOrig').textContent='Không tính được';$('hashChanged').textContent='Không tính được'}lastRun=performance.now()-started;$('timeTaken').textContent=`Hoàn tất · ${lastRun.toFixed(0)} ms`; $('progress').style.width='100%';$('btnExportCsv').disabled=$('btnExportJson').disabled=false;$('btnCopyChanged').disabled=$('btnCopyOriginal').disabled=false;applyFilter();status(diffs.length?`Đối chiếu xong: phát hiện ${diffs.length.toLocaleString()} offset khác trên tổng ${max.toLocaleString()} offset được kiểm tra.`:'Hai file giống nhau từng byte và có cùng kích thước.','good');}
 function applyFilter(){try{const set=parseByteFilter($('filterBytes').value),from=offset($('offsetFrom').value),to=offset($('offsetTo').value);if($('offsetFrom').value.trim()&&from===null)throw Error('Offset bắt đầu không hợp lệ.');if($('offsetTo').value.trim()&&to===null)throw Error('Offset kết thúc không hợp lệ.');if(from!==null&&to!==null&&from>to)throw Error('Offset bắt đầu phải nhỏ hơn hoặc bằng offset kết thúc.');filtered=diffs.filter(d=>(set===null||(d.changed!==null&&set.has(d.changed)))&&(from===null||d.offset>=from)&&(to===null||d.offset<=to));filteredRanges=buildRanges(filtered);$('statFiltered').textContent=filtered.length.toLocaleString();$('resultCaption').textContent=`Hiển thị ${filtered.length.toLocaleString()} byte khác biệt · ${filteredRanges.length.toLocaleString()} vùng liên tiếp`;page=1;render();}catch(e){status(e.message,'bad')}}
 function render(){const list=view==='bytes'?filtered:filteredRanges;const size=+$('pageSize').value,total=Math.max(1,Math.ceil(list.length/size));page=Math.min(page,total);const start=(page-1)*size,items=list.slice(start,start+size),body=$('diffBody');$('tableHead').innerHTML=view==='bytes'?'<tr><th>#</th><th>Offset (HEX)</th><th>Offset (DEC)</th><th>Byte gốc</th><th>Byte mới</th><th>ASCII gốc → mới</th></tr>':'<tr><th>#</th><th>Offset bắt đầu</th><th>Offset kết thúc</th><th>Số byte</th><th>Dữ liệu gốc (hex)</th><th>Dữ liệu mới (hex)</th></tr>';if(!items.length){body.innerHTML=`<tr><td colspan="6" class="empty">${diffs.length?'Không có kết quả khớp bộ lọc.':'Hai file giống hệt nhau (không có offset khác).'}</td></tr>`;$('pagination').style.display='none';return}
 body.innerHTML=items.map((d,i)=>view==='bytes'?`<tr><td>${start+i+1}</td><td class="offset">0x${hex(d.offset,8)}</td><td>${d.offset.toLocaleString()}</td><td class="old">${d.orig===null?'EOF':hex(d.orig)}</td><td class="new">${d.changed===null?'EOF':hex(d.changed)}</td><td class="ascii">${d.orig===null?'EOF':escapeHtml(ascii(d.orig))} → ${d.changed===null?'EOF':escapeHtml(ascii(d.changed))}</td></tr>`:`<tr><td>${start+i+1}</td><td class="offset">0x${hex(d.start,8)}</td><td class="offset">0x${hex(d.end,8)}</td><td>${d.count.toLocaleString()}</td><td class="old">${d.old.slice(0,24).join(' ')}${d.count>24?' …':''}</td><td class="new">${d.next.slice(0,24).join(' ')}${d.count>24?' …':''}</td></tr>`).join('');
@@ -68,5 +107,123 @@ document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',(
 function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 $('btnExportCsv').addEventListener('click',()=>{const rows=[['offset_hex','offset_dec','original_hex','changed_hex','original_ascii','changed_ascii'],...filtered.map(d=>[`0x${hex(d.offset,8)}`,d.offset,d.orig===null?'EOF':hex(d.orig),d.changed===null?'EOF':hex(d.changed),ascii(d.orig),ascii(d.changed)])];download('file-diff.csv','\ufeff'+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n'),'text/csv;charset=utf-8')});
 $('btnExportJson').addEventListener('click',()=>download('file-diff.json',JSON.stringify({original:originalName,changed:changedName,originalSize:original.length,changedSize:changed.length,totalDifferences:diffs.length,filteredDifferences:filtered.length,differences:filtered.map(d=>({offset:d.offset,offsetHex:'0x'+hex(d.offset,8),original:d.orig,changed:d.changed,originalHex:d.orig===null?null:hex(d.orig),changedHex:d.changed===null?null:hex(d.changed)}))},null,2),'application/json'));
-$('btnClear').addEventListener('click',()=>{original=changed=null;diffs=filtered=ranges=filteredRanges=[];page=1;view='bytes';$('fileOrig').value=$('fileChanged').value='';$('nameOrig').textContent=$('nameChanged').textContent='Chưa chọn file';$('sizeOrig').textContent=$('sizeChanged').textContent='';$('zoneOrig').classList.remove('ready');$('zoneChanged').classList.remove('ready');$('filterBytes').value=$('offsetFrom').value=$('offsetTo').value='';$('statsCard').classList.add('hide');$('progress').style.width='0';$('diffBody').innerHTML='<tr><td colspan="6" class="empty">Chọn hai file rồi nhấn “So sánh toàn bộ”.</td></tr>';$('pagination').style.display='none';$('btnExportCsv').disabled=$('btnExportJson').disabled=true;$('resultCaption').textContent='Kết quả sẽ hiện ở đây sau khi so sánh.';document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view==='bytes'));$('tableHead').innerHTML='<tr><th>#</th><th>Offset (HEX)</th><th>Offset (DEC)</th><th>Byte gốc</th><th>Byte mới</th><th>ASCII gốc → mới</th></tr>';updateReady();status('Đã làm mới. Chọn đủ hai file để bắt đầu.')});
+function copyText(text){
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();const ok=document.execCommand('copy');ta.remove();if(!ok)throw Error('Trình duyệt không cho phép sao chép.');};
+  if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);
+  fallback();return Promise.resolve();
+}
+$('btnCopyChanged').addEventListener('click',async()=>{
+  try{
+    const text=filtered.map(d=>`Offset 0x${hex(d.offset,8)} (${d.offset}) | Gốc: ${d.orig===null?'EOF':hex(d.orig)} | Đã đổi: ${d.changed===null?'EOF':hex(d.changed)}`).join('\\n');
+    if(!text){status('Không có chỗ thay đổi nào trong kết quả lọc để sao chép.','bad');return;}
+    await copyText(text);status(`Đã sao chép ${filtered.length.toLocaleString()} vị trí khác biệt (theo bộ lọc hiện tại).`,'good');
+  }catch(e){status('Sao chép thất bại: '+e.message,'bad');}
+});
+$('btnCopyOriginal').addEventListener('click',async()=>{
+  try{
+    const text=filtered.map(d=>`Offset 0x${hex(d.offset,8)} (${d.offset}) | Byte gốc: ${d.orig===null?'EOF':hex(d.orig)}`).join('\\n');
+    if(!text){status('Không có vị trí nào trong kết quả lọc để sao chép.','bad');return;}
+    await copyText(text);status(`Đã sao chép byte gốc của ${filtered.length.toLocaleString()} vị trí (theo bộ lọc hiện tại).`,'good');
+  }catch(e){status('Sao chép thất bại: '+e.message,'bad');}
+});
+
+
+
+let patchBaseBytes = null, patchBaseName = '';
+const patchStatus = (msg, kind='') => {
+  const el = $('patchStatus'); el.textContent = msg; el.className = 'status' + (kind ? ' ' + kind : '');
+};
+async function copyHexArea(id, label) {
+  try {
+    const value = $(id).value.trim();
+    if (!value) throw Error('Ô này chưa có HEX để sao chép.');
+    await navigator.clipboard.writeText(value);
+    patchStatus(`Đã sao chép ${label}.`, 'good');
+  } catch(e) { patchStatus('Không sao chép được: ' + e.message, 'bad'); }
+}
+$('btnCopyOriginalHex').addEventListener('click',()=>copyHexArea('patchOriginalHex','HEX gốc'));
+$('btnCopyPatchHex').addEventListener('click',()=>copyHexArea('patchInstructions','HEX đã thay đổi'));
+$('patchBaseFile').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  try {
+    patchBaseBytes = new Uint8Array(await f.arrayBuffer());
+    patchBaseName = f.name;
+    $('patchBaseName').textContent = f.name;
+    $('patchBaseSize').textContent = fmtSize(f.size);
+    $('zonePatchBase').classList.add('ready');
+    patchStatus(`Đã nạp "${f.name}" (${fmtSize(f.size)}). File gốc sẽ không bị ghi đè.`, 'good');
+  } catch (err) {
+    patchBaseBytes = null;
+    patchStatus('Không đọc được file: ' + err.message, 'bad');
+  }
+});
+$('zonePatchBase').addEventListener('dragover', e => { e.preventDefault(); $('zonePatchBase').classList.add('drag'); });
+$('zonePatchBase').addEventListener('dragleave', () => $('zonePatchBase').classList.remove('drag'));
+$('zonePatchBase').addEventListener('drop', async e => {
+  e.preventDefault(); $('zonePatchBase').classList.remove('drag');
+  const f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if (!f) return;
+  try {
+    patchBaseBytes = new Uint8Array(await f.arrayBuffer()); patchBaseName = f.name;
+    $('patchBaseFile').value = '';
+    $('patchBaseName').textContent = f.name; $('patchBaseSize').textContent = fmtSize(f.size);
+    $('zonePatchBase').classList.add('ready');
+    patchStatus(`Đã nạp "${f.name}" (${fmtSize(f.size)}).`, 'good');
+  } catch (err) { patchStatus('Không đọc được file: ' + err.message, 'bad'); }
+});
+function parseHexPattern(raw, label) {
+  const cleaned = raw.trim().replace(/[,;]+/g, ' ').replace(/\s+/g, ' ');
+  if (!cleaned) throw Error(`Hãy dán HEX ${label}.`);
+  const tokens = cleaned.split(' ');
+  if (tokens.some(t => !/^[0-9a-f]{2}$/i.test(t))) {
+    throw Error(`HEX ${label} không hợp lệ. Dùng byte hex 2 ký tự, ví dụ: DE AD BE EF.`);
+  }
+  return tokens.map(t => parseInt(t, 16));
+}
+function findPatternAll(haystack, pattern) {
+  const found = [];
+  if (pattern.length > haystack.length) return found;
+  for (let i = 0; i <= haystack.length - pattern.length; i++) {
+    let match = true;
+    for (let j = 0; j < pattern.length; j++) {
+      if (haystack[i + j] !== pattern[j]) { match = false; break; }
+    }
+    if (match) found.push(i);
+  }
+  return found;
+}
+$('btnApplyPatches').addEventListener('click', () => {
+  try {
+    if (!patchBaseBytes) throw Error('Hãy chọn file gốc cần sửa trước.');
+    const oldHex = parseHexPattern($('patchOriginalHex').value, 'gốc');
+    const newHex = parseHexPattern($('patchInstructions').value, 'đã thay đổi');
+    if (oldHex.length !== newHex.length) {
+      throw Error(`HEX gốc có ${oldHex.length} byte nhưng HEX mới có ${newHex.length} byte. Hiện chỉ hỗ trợ thay thế cùng độ dài để không làm lệch cấu trúc file.`);
+    }
+    const matches = findPatternAll(patchBaseBytes, oldHex);
+    if (!matches.length) {
+      throw Error('Không tìm thấy chuỗi HEX gốc trong file đã chọn. Hãy kiểm tra bạn đã chọn đúng file và dán đúng chuỗi HEX liên tiếp.');
+    }
+    if (matches.length > 1) {
+      const preview = matches.slice(0, 8).map(n => '0x' + hex(n, 8)).join(', ');
+      throw Error(`Tìm thấy ${matches.length} vị trí khớp (${preview}${matches.length > 8 ? ', …' : ''}). Để tránh sửa nhầm, công cụ chưa áp dụng. Hãy dán chuỗi HEX gốc dài hơn để chỉ khớp một vị trí.`);
+    }
+    const offset = matches[0];
+    const result = new Uint8Array(patchBaseBytes);
+    result.set(newHex, offset);
+    const outName = patchBaseName.replace(/(\.[^./\\]+)?$/, '_patched$1');
+    download(outName, result, 'application/octet-stream');
+    patchStatus(`Thành công: đã tìm thấy HEX gốc tại vị trí 0x${hex(offset, 8)} và thay ${oldHex.length} byte bằng HEX mới. Đã tải "${outName}". File gốc không bị ghi đè.`, 'good');
+  } catch (err) {
+    patchStatus(err.message || String(err), 'bad');
+  }
+});
+$('btnClearPatches').addEventListener('click', () => {
+  $('patchOriginalHex').value = '';
+  $('patchInstructions').value = '';
+  patchStatus('Đã xóa hai ô HEX. File gốc đang chọn vẫn được giữ nguyên.', 'good');
+});
+
+$('btnClear').addEventListener('click',()=>{original=changed=null;diffs=filtered=ranges=filteredRanges=[];page=1;view='bytes';$('fileOrig').value=$('fileChanged').value='';$('nameOrig').textContent=$('nameChanged').textContent='Chưa chọn file';$('sizeOrig').textContent=$('sizeChanged').textContent='';$('zoneOrig').classList.remove('ready');$('zoneChanged').classList.remove('ready');$('filterBytes').value=$('offsetFrom').value=$('offsetTo').value='';$('statsCard').classList.add('hide');$('progress').style.width='0';$('diffBody').innerHTML='<tr><td colspan="6" class="empty">Chọn hai file rồi nhấn “So sánh toàn bộ”.</td></tr>';$('pagination').style.display='none';$('btnExportCsv').disabled=$('btnExportJson').disabled=$('btnCopyChanged').disabled=$('btnCopyOriginal').disabled=true;$('resultCaption').textContent='Kết quả sẽ hiện ở đây sau khi so sánh.';document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view==='bytes'));$('tableHead').innerHTML='<tr><th>#</th><th>Offset (HEX)</th><th>Offset (DEC)</th><th>Byte gốc</th><th>Byte mới</th><th>ASCII gốc → mới</th></tr>';updateReady();status('Đã làm mới. Chọn đủ hai file để bắt đầu.')});
 </script></body></html>
